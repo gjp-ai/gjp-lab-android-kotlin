@@ -20,7 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.ganjianping.lab.ak.common.theme.GJPLabTheme
 
 enum class FeatureAction {
     DeviceInfo,
@@ -89,5 +91,25 @@ private fun FeatureCard(feature: Feature, onClick: (() -> Unit)?) {
                 }
             }
         }
+    }
+}
+
+@Preview(name = "Main screen - light", showBackground = true)
+@Composable
+private fun MainScreenPreview() {
+    GJPLabTheme {
+        MainScreen(onFeatureSelected = {})
+    }
+}
+
+@Preview(
+    name = "Main screen - dark",
+    showBackground = true,
+    uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun MainScreenDarkPreview() {
+    GJPLabTheme {
+        MainScreen(onFeatureSelected = {})
     }
 }

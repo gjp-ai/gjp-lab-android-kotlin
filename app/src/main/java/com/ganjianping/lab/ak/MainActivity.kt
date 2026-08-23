@@ -17,17 +17,15 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     private val firebaseIntegration: FirebaseIntegration by inject()
-    private var remoteConfigLoaded by mutableStateOf(false)
     private var maintenanceEnabled by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        loadRemoteConfig()
+        maintenanceEnabled = intent.getBooleanExtra(EXTRA_MAINTENANCE_ENABLED, false)
         setContent {
             GJPLabTheme {
                 when {
-                    !remoteConfigLoaded -> SplashScreen()
                     maintenanceEnabled -> MaintenanceScreen(onRetry = ::loadRemoteConfig)
                     else -> MainScreen(
                         onFeatureSelected = { action ->
@@ -45,10 +43,13 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun loadRemoteConfig() {
-        remoteConfigLoaded = false
         firebaseIntegration.fetchMaintenanceMode { enabled ->
             maintenanceEnabled = enabled
-            remoteConfigLoaded = true
         }
+    }
+
+    companion object {
+        const val EXTRA_MAINTENANCE_ENABLED =
+            "com.ganjianping.lab.ak.extra.MAINTENANCE_ENABLED"
     }
 }

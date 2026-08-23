@@ -74,7 +74,8 @@ The screen starts with a sample endpoint, but any endpoint must be reachable fro
 │       │   │   ├── features/deviceinfo/   # Device information feature
 │       │   │   ├── features/httpurlconnection/
 │       │   │   ├── MainActivity.kt        # Dashboard host
-│       │   │   └── SplashActivity.kt      # Launcher and splash flow
+│       │   │   ├── SplashActivity.kt      # Launcher and startup loading
+│       │   │   └── MainActivity.kt        # Dashboard and feature navigation
 │       │   └── res/                       # Manifest, strings, theme, security, icons
 │       ├── test/                          # Local JVM tests
 │       └── androidTest/                   # On-device/instrumented tests

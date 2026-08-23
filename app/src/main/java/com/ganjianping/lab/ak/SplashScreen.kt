@@ -18,8 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ganjianping.lab.ak.common.theme.GJPLabTheme
 
 @Composable
 fun SplashScreen() {
@@ -33,7 +35,6 @@ fun SplashScreen() {
             BrandMark()
             Spacer(Modifier.height(20.dp))
             Text("GJP Lab", color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.Bold, letterSpacing = 4.sp)
-            Text("Android feature lab", color = Color.White.copy(alpha = 0.7f), style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
@@ -43,11 +44,19 @@ private fun BrandMark() {
     Box(
         modifier = Modifier
             .size(112.dp)
-            .clip(RoundedCornerShape(30.dp))
+            .clip(RoundedCornerShape(60.dp))
             .background(Brush.linearGradient(listOf(Color(0xFF171A4A), Color(0xFF4432A8)))),
         contentAlignment = Alignment.Center
     ) {
         Text("K", color = Color(0xFF12D9F2), fontSize = 72.sp, fontWeight = FontWeight.Black)
-        Text("›", modifier = Modifier.padding(start = 68.dp, bottom = 58.dp), color = Color(0xFFF8895B), fontSize = 30.sp, fontWeight = FontWeight.Bold)
+    }
+}
+
+
+@Preview(showBackground = true, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_NO)
+@Composable
+fun SplashScreenDarkPreview() {
+    GJPLabTheme {
+        SplashScreen()
     }
 }

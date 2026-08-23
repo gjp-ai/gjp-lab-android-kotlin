@@ -26,7 +26,7 @@ Use Android Studio, an emulator or Android 11+ device, and the Gradle wrapper in
 
 | Area | Entry point | Teaching focus |
 |---|---|---|
-| App launch | `app/src/main/java/com/ganjianping/lab/ak/SplashActivity.kt` | Activity lifecycle and navigation start |
+| App launch | `app/src/main/java/com/ganjianping/lab/ak/SplashActivity.kt` | Activity lifecycle, startup loading, and navigation start |
 | Dashboard | `MainActivity.kt`, `MainScreen.kt` | Compose, lists, callbacks, Material 3 |
 | Device feature | `features/deviceinfo/` | Platform APIs, repository boundary, rendering data |
 | HTTP feature | `features/httpurlconnection/` | Forms, coroutines, network I/O, failures |
