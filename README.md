@@ -8,7 +8,7 @@ The repository also includes a structured [documentation system](doc/README.md) 
 
 - A three-second Compose splash screen followed by a dashboard.
 - Activity-based navigation with explicit Intents.
-- Material 3 layouts, cards, grids, scrolling content, and system/dynamic colors.
+- Material 3 layouts, cards, grids, scrolling content, and a high-contrast Slate light/dark theme.
 - Device and Android OS information read through platform APIs.
 - Native `HttpURLConnection` requests for `GET`, `POST`, `PUT`, and `DELETE`.
 - Coroutine-based network I/O on `Dispatchers.IO`, 15-second connect/read timeouts, response headers, error bodies, and TLS error handling.

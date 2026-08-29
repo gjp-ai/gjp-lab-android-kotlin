@@ -7,6 +7,7 @@ This directory documents the Android lab as it exists today, the behavior it is 
 | Area | Canonical document | Purpose |
 | --- | --- | --- |
 | Application structure | [Application architecture](architecture/application.md) | Runtime flow, code boundaries, state ownership, and project constraints |
+| Visual system | [Slate design system](architecture/design-system.md) | Material 3 color roles, launcher icon, dark mode, and usage rules |
 | Splash behavior | [Splash requirements](requirements/splash-screen.md) | Product rules, acceptance criteria, and open decisions |
 | Splash implementation | [Splash technical design](features/splash-screen.md) | Current Android design, concurrency behavior, known gaps, and test strategy |
 | Firebase | [Firebase integration](integrations/firebase.md) | SDK wiring, service behavior, privacy notes, and verification |

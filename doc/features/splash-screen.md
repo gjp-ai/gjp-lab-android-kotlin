@@ -78,9 +78,9 @@ This behavior satisfies the simple lab fallback but does not fully express the r
 | First terminal result wins | Implemented within one Activity instance | `remoteConfigLoaded` rejects late callbacks |
 | Maintenance destination and retry | Implemented | Intent extra and `MainActivity.loadRemoteConfig()` |
 | Visible progress state | Planned | Current screen shows only the brand mark and title |
-| Material light/dark adaptation | Planned | Splash uses fixed gradient and text colors |
-| Correct light/dark previews | Partial | One preview is named dark but uses the day qualifier |
-| Accessibility semantics and text scaling | Planned | No progress semantics; fixed `sp` sizes and limited test coverage |
+| Material light/dark adaptation | Implemented | Splash uses semantic background, primary, and paired content roles from `GJPLabTheme` |
+| Correct light/dark previews | Implemented | Separate previews use day and night configurations |
+| Accessibility semantics and text scaling | Partial | Text scales with `sp`, but progress semantics and dedicated accessibility tests remain absent |
 | Reduced-motion behavior | Planned | No animation currently exists; requirement applies if animation is added |
 | Deterministic startup tests | Planned | Coordination remains coupled to Activity, Firebase callback, and real time |
 | Recreation continuity | Open | Activity recreation restarts timers and fetch; product requirement is undecided |

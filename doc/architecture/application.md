@@ -97,5 +97,6 @@ The connected test requires an emulator or device. Current checked-in tests are 
 
 Feature-specific behavior belongs in the linked documents rather than this overview:
 
+- [Slate design system](design-system.md)
 - [Splash technical design](../features/splash-screen.md)
 - [Firebase integration](../integrations/firebase.md)

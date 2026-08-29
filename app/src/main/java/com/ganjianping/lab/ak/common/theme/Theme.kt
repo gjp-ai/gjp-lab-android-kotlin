@@ -1,6 +1,5 @@
 package com.ganjianping.lab.ak.common.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,32 +11,88 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = SlateWhite,
+    onPrimary = SlateBlack,
+    primaryContainer = SlateDarkPrimaryContainer,
+    onPrimaryContainer = SlateWhite,
+    inversePrimary = SlateBlack,
+    secondary = SlateDarkSecondary,
+    onSecondary = SlateBlack,
+    secondaryContainer = SlateDarkSecondaryContainer,
+    onSecondaryContainer = SlateWhite,
+    tertiary = SlateDarkTertiary,
+    onTertiary = SlateBlack,
+    tertiaryContainer = SlateDarkTertiaryContainer,
+    onTertiaryContainer = SlateWhite,
+    background = SlateDarkBackground,
+    onBackground = SlateDarkOnSurface,
+    surface = SlateDarkSurface,
+    onSurface = SlateDarkOnSurface,
+    surfaceVariant = SlateDarkSurfaceContainerHigh,
+    onSurfaceVariant = SlateDarkOnSurfaceVariant,
+    surfaceTint = SlateWhite,
+    inverseSurface = SlateNeutral,
+    inverseOnSurface = SlateLightOnSurface,
+    error = SlateDarkError,
+    onError = SlateDarkOnError,
+    errorContainer = SlateDarkErrorContainer,
+    onErrorContainer = SlateDarkOnErrorContainer,
+    outline = SlateDarkOutline,
+    outlineVariant = SlateDarkOutlineVariant,
+    scrim = SlateBlack,
+    surfaceBright = SlateDarkSurfaceContainerHighest,
+    surfaceDim = SlateDarkSurfaceDim,
+    surfaceContainer = SlateDarkSurfaceContainer,
+    surfaceContainerHigh = SlateDarkSurfaceContainerHigh,
+    surfaceContainerHighest = SlateDarkSurfaceContainerHighest,
+    surfaceContainerLow = SlateDarkSurfaceContainerLow,
+    surfaceContainerLowest = SlateBlack
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = SlateBlack,
+    onPrimary = SlateWhite,
+    primaryContainer = SlateNeutral,
+    onPrimaryContainer = SlateBlack,
+    inversePrimary = SlateWhite,
+    secondary = SlateLightSecondary,
+    onSecondary = SlateWhite,
+    secondaryContainer = SlateNeutral,
+    onSecondaryContainer = SlateLightOnSecondaryContainer,
+    tertiary = SlateLightTertiary,
+    onTertiary = SlateWhite,
+    tertiaryContainer = SlateNeutral,
+    onTertiaryContainer = SlateBlack,
+    background = SlateWhite,
+    onBackground = SlateLightOnSurface,
+    surface = SlateLightSurface,
+    onSurface = SlateLightOnSurface,
+    surfaceVariant = SlateNeutral,
+    onSurfaceVariant = SlateLightOnSurfaceVariant,
+    surfaceTint = SlateBlack,
+    inverseSurface = SlateLightOnSurface,
+    inverseOnSurface = SlateWhite,
+    error = SlateError,
+    onError = SlateOnError,
+    errorContainer = SlateErrorContainer,
+    onErrorContainer = SlateOnErrorContainer,
+    outline = SlateLightOutline,
+    outlineVariant = SlateLightOutlineVariant,
+    scrim = SlateBlack,
+    surfaceBright = SlateWhite,
+    surfaceDim = SlateLightSurfaceDim,
+    surfaceContainer = SlateLightSurfaceContainer,
+    surfaceContainerHigh = SlateLightSurfaceContainerHigh,
+    surfaceContainerHighest = SlateLightSurfaceContainerHighest,
+    surfaceContainerLow = SlateLightSurfaceContainerLow,
+    surfaceContainerLowest = SlateWhite
 )
 
 @Composable
 fun GJPLabTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    // The brand palette is the default. Callers may opt into wallpaper-derived colors.
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

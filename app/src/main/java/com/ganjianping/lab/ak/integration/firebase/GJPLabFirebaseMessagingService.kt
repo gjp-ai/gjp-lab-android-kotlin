@@ -40,7 +40,7 @@ class GJPLabFirebaseMessagingService : FirebaseMessagingService() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         val notification = NotificationCompat.Builder(this, FirebaseConstants.MessagingNotificationChannelId)
-            .setSmallIcon(R.mipmap.ic_launcher_designed)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setContentText(body)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
