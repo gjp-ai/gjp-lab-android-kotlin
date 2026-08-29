@@ -2,7 +2,7 @@
 
 GJPLab is a small Kotlin Android app for learning modern Android fundamentals by reading, running, and extending working features. The UI is built with Jetpack Compose and Material 3; the app uses Activities for navigation and Koin for repository injection.
 
-The repository also includes a structured [Android development tuition guide](ANDROID_TUITION.md), with lessons and exercises that build on the code in this project.
+The repository also includes a structured [documentation system](doc/README.md) and a project-local Android skill library for practising repeatable AI-assisted engineering workflows.
 
 ## What the app demonstrates
 
@@ -69,18 +69,24 @@ The screen starts with a sample endpoint, but any endpoint must be reachable fro
 │   └── src/
 │       ├── main/
 │       │   ├── java/com/ganjianping/lab/ak/
+│       │   │   ├── common/config/         # Application behavior configuration
+│       │   │   ├── common/network/        # Reusable connectivity checks
 │       │   │   ├── common/theme/          # Compose theme, colors, typography
 │       │   │   ├── di/                    # Koin module
 │       │   │   ├── features/deviceinfo/   # Device information feature
 │       │   │   ├── features/httpurlconnection/
-│       │   │   ├── MainActivity.kt        # Dashboard host
 │       │   │   ├── SplashActivity.kt      # Launcher and startup loading
 │       │   │   └── MainActivity.kt        # Dashboard and feature navigation
 │       │   └── res/                       # Manifest, strings, theme, security, icons
 │       ├── test/                          # Local JVM tests
 │       └── androidTest/                   # On-device/instrumented tests
-├── doc/FIREBASE_INTEGRATION.md            # Firebase setup and usage notes
-├── ANDROID_TUITION.md                     # Lesson plan and exercises
+├── doc/README.md                          # Documentation index and maintenance contract
+├── doc/architecture/                      # Application-wide technical boundaries
+├── doc/features/                          # Implemented feature designs and gaps
+├── doc/integrations/                      # External service behavior and operations
+├── doc/practices/                         # Reusable engineering practice workflows
+├── doc/requirements/                      # Product behavior and acceptance criteria
+├── AGENTS.md                              # Project contract and agent-skill router
 └── gradle/libs.versions.toml              # Centralized dependency versions
 ```
 
@@ -106,7 +112,7 @@ Repositories are registered as Koin singletons in `di/AppModule.kt` and injected
 
 Firebase is configured with [`app/google-services.json`](app/google-services.json). This contains client-side project configuration, not server credentials. Restrict the associated API key to the Android package and signing certificates, and protect Firebase resources with Authentication, Security Rules, and App Check. Never commit service-account credentials, server keys, OAuth secrets, or App Check debug tokens.
 
-See [`doc/FIREBASE_INTEGRATION.md`](doc/FIREBASE_INTEGRATION.md) for the complete integration map, verification steps, and examples.
+Start at [`doc/README.md`](doc/README.md) for the documentation map. The [Firebase integration guide](doc/integrations/firebase.md) contains the current service contracts, verification steps, privacy notes, and known limitations.
 
 ## Verification
 
@@ -127,6 +133,6 @@ The checked-in tests are intentionally small starter tests: the JVM test verifie
 
 ## Learning path
 
-Start with [`ANDROID_TUITION.md`](ANDROID_TUITION.md). It maps lessons to source files and covers project setup, Kotlin, Compose, Activities and Intents, UI state, coroutines, repositories, testing, and a capstone feature.
+Start with the [documentation index](doc/README.md), then follow the application architecture into a feature or integration guide. To practise AI-assisted Android development, use the [Android agent skills workflow](doc/practices/android-agent-skills.md) with a real, bounded repository task and improve a portable skill only when the evidence generalizes beyond GJPLab.
 
-When using this project as a production starting point, the guide also identifies useful next refactors, including moving state into a `ViewModel`, introducing a navigation graph, modeling UI state explicitly, injecting replaceable test dependencies, and replacing `HttpURLConnection` with a maintained HTTP client.
+This lab intentionally keeps Activity navigation and state ownership simple. Treat larger architectural changes—such as ViewModels, a navigation graph, module splits, or a different HTTP stack—as requirement-driven migrations rather than automatic modernization.
