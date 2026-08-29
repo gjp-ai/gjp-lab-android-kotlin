@@ -15,6 +15,7 @@ The result should feel direct and technical: strong hierarchy, neutral surfaces,
 | `SlateBlack` | `#000000` | Light-theme primary actions and launcher background |
 | `SlateWhite` | `#FFFFFF` | Light surfaces, dark-theme primary actions, and icon mark |
 | `SlateNeutral` | `#E8E8E8` | Containers, grouping, and neutral emphasis |
+| `SlateWarmCanvas` | `#FFFCF8` | Light-theme application background |
 
 Supporting grays in [`Color.kt`](../../app/src/main/java/com/ganjianping/lab/ak/common/theme/Color.kt) create distinguishable surface elevations, outlines, and secondary content without introducing another hue.
 
@@ -39,6 +40,8 @@ Feature code should consume `MaterialTheme.colorScheme` pairs such as:
 - `surfaceContainer*` for tonal grouping and elevation;
 - `onSurfaceVariant` for supporting copy;
 - `error` / `onError` and `errorContainer` / `onErrorContainer` for failures.
+
+The dashboard uses white `surface` cards on the warm light background, with a black `primary` top rail and restrained Material elevation. Do not restore gray-filled category cards.
 
 Do not infer content colors manually. Always use the paired `on*` role. Do not use gray alone to communicate error, selection, disabled state, or progress.
 
@@ -72,6 +75,21 @@ Android status-bar notifications require a dedicated alpha-style small icon rath
 ## Splash alignment
 
 [`SplashScreen`](../../app/src/main/java/com/ganjianping/lab/ak/SplashScreen.kt) follows the active system mode: the surrounding screen uses semantic Material 3 background and text roles, and the brand tile inverts between black-on-light and white-on-dark. Both variants preserve the same flask mark. Light and dark previews verify the complete treatment.
+
+## Adaptive dashboard
+
+[`MainScreen`](../../app/src/main/java/com/ganjianping/lab/ak/MainScreen.kt) adapts to the available window width, so the same category dashboard works on a phone, a foldable's larger window, and a tablet without relying on a device-name check. A category opens the table-style [`FeatureCatalogScreen`](../../app/src/main/java/com/ganjianping/lab/ak/features/catalog/FeatureCatalogScreen.kt), which constrains its readable content width on larger displays.
+
+| Window width | Layout | Purpose |
+| --- | --- | --- |
+| Under `600dp` | Two-category grid below a concise header | Compact phones retain readable, tap-friendly cards. |
+| `600dp` to under `840dp` | Three-category grid with compact, top-aligned cards | Foldables and medium windows use added horizontal space without oversized card interiors. |
+| `840dp` to under `1100dp` | The same three-category grid as medium windows | Medium tablets retain the foldable layout and its compact, top-aligned cards. |
+| `1100dp` and above | Five-category grid in one row | Wide tablet windows use the available horizontal space without an empty grid cell. |
+
+The dashboard categories are Jetpack Compose, HTTP client, Security, Integration, and Others. Medium windows use a three-column compact-card layout. At `1100dp` and wider, the tablet layout places all five categories in one row, with descriptions limited to two lines for a balanced card height. Catalogue rows for implemented labs show an open affordance; unimplemented learning topics show a planned affordance and must not imply that a feature already exists. When changing the dashboard, maintain the phone, foldable, tablet, and dark-phone Compose previews; use width breakpoints rather than model-specific branches.
+
+The feature catalogue uses the same warm canvas, white elevated surface, 24dp corners, and 6dp primary accent rail as the dashboard. Its table structure remains intentionally denser because it presents component rows rather than top-level categories.
 
 ## Accessibility and review checklist
 

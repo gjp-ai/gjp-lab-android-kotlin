@@ -18,6 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GJPLab">
         <activity
+            android:name=".features.catalog.FeatureCatalogActivity"
+            android:exported="false"
+            android:label="Feature catalogue"
+            android:theme="@style/Theme.GJPLab" />
+        <activity
             android:name=".features.deviceinfo.DeviceInfoActivity"
             android:exported="false"
             android:label="OS &amp; hardware"

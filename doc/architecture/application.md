@@ -14,9 +14,10 @@ flowchart LR
     SplashActivity -->|maintenance extra| MainActivity
     MainActivity --> MainScreen
     MainActivity --> MaintenanceScreen
-    MainScreen --> DeviceInfoActivity
-    MainScreen --> HttpURLConnectionActivity
-    MainScreen --> FirebaseFeatureActivity
+    MainScreen --> FeatureCatalogActivity
+    FeatureCatalogActivity --> DeviceInfoActivity
+    FeatureCatalogActivity --> HttpURLConnectionActivity
+    FeatureCatalogActivity --> FirebaseFeatureActivity
     HttpURLConnectionActivity --> HttpResponseActivity
 ```
 
@@ -31,6 +32,7 @@ flowchart LR
 | `common/theme/` | Material 3 color, typography, and app theme |
 | `di/` | Application dependency graph |
 | `features/<feature>/` | Feature Activity, Compose screen, and feature-specific data code |
+| `features/catalog/` | Category catalogue Activity and its feature-list screen |
 | `integration/firebase/` | Firebase SDK construction, constants, operations, and messaging service |
 | Root package Activities/screens | Startup, dashboard, and maintenance flows shared by the application |
 
@@ -61,6 +63,7 @@ The project intentionally uses Activity fields and Compose `mutableStateOf` rath
 - Activity recreation resets transient fields unless they are reconstructed from the Intent or another source.
 - Long-running operations are owned by an Activity lifecycle or by an SDK callback.
 - Navigation is implemented with explicit Intents rather than a navigation graph.
+- The dashboard passes a `DashboardCategory` name to the catalogue Activity; the catalogue owns only the category-list UI and delegates implemented feature launches to explicit Intents.
 - Process-death restoration and multi-screen shared state are not general project guarantees.
 
 Do not introduce a ViewModel, navigation framework, domain layer, or module split as an incidental refactor. Introduce one only when a feature requirement demonstrates the need and include migration tests.

@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 val SlateBlack = Color(0xFF000000)
 val SlateWhite = Color(0xFFFFFFFF)
 val SlateNeutral = Color(0xFFE8E8E8)
+val SlateWarmCanvas = Color(0xFFFFFCF8)
 
 val SlateLightSecondary = Color(0xFF4A4A4A)
 val SlateLightOnSecondaryContainer = Color(0xFF1B1B1B)
