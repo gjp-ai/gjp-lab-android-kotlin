@@ -63,17 +63,16 @@ private enum class DashboardLayout {
 private data class Category(
     val title: String,
     val description: String,
-    val number: String,
     val icon: ImageVector,
     val destination: DashboardCategory
 )
 
 private val categories = listOf(
-    Category("Android UI", "Explore the modern Android UI toolkit.", "01", Icons.Outlined.Code, DashboardCategory.JetpackCompose),
-    Category("HTTP Client", "Compare native and library-based networking.", "02", Icons.Outlined.Http, DashboardCategory.HttpClient),
-    Category("Security", "Learn screen-capture protection patterns.", "03", Icons.Outlined.Security, DashboardCategory.Security),
-    Category("Integration", "Connect the app with external services.", "04", Icons.Outlined.Extension, DashboardCategory.Integration),
-    Category("Others", "Inspect Android platform and device details.", "05", Icons.Outlined.Tune, DashboardCategory.Others)
+    Category("Android UI", "Modern Android UI.", Icons.Outlined.Code, DashboardCategory.JetpackCompose),
+    Category("HTTP Client", "Native and library networking.", Icons.Outlined.Http, DashboardCategory.HttpClient),
+    Category("Security", "Screen-capture protection.", Icons.Outlined.Security, DashboardCategory.Security),
+    Category("Integration", "External SDKs and services.", Icons.Outlined.Extension, DashboardCategory.Integration),
+    Category("Others", "Platform and device details.", Icons.Outlined.Tune, DashboardCategory.Others)
 )
 
 @Composable
@@ -109,6 +108,7 @@ private fun CompactDashboard(padding: PaddingValues, onCategorySelected: (Dashbo
             columns = 2,
             modifier = Modifier.weight(1f),
             cardAspectRatio = 1.1f,
+            compactCards = true,
             onCategorySelected = onCategorySelected
         )
     }
@@ -128,7 +128,6 @@ private fun MediumDashboard(padding: PaddingValues, onCategorySelected: (Dashboa
             columns = 3,
             modifier = Modifier.weight(1f),
             cardAspectRatio = 1.45f,
-            denseCards = true,
             onCategorySelected = onCategorySelected
         )
     }
@@ -151,8 +150,6 @@ private fun TabletLandscapeDashboard(
             columns = 5,
             modifier = Modifier.weight(1f),
             cardAspectRatio = 1.45f,
-            denseCards = true,
-            descriptionMaxLines = 2,
             onCategorySelected = onCategorySelected
         )
     }
@@ -174,8 +171,7 @@ private fun CategoryGrid(
     columns: Int,
     modifier: Modifier,
     cardAspectRatio: Float,
-    denseCards: Boolean = false,
-    descriptionMaxLines: Int = 3,
+    compactCards: Boolean = false,
     onCategorySelected: (DashboardCategory) -> Unit
 ) {
     LazyVerticalGrid(
@@ -189,8 +185,7 @@ private fun CategoryGrid(
             CategoryCard(
                 category = category,
                 modifier = Modifier.aspectRatio(cardAspectRatio),
-                dense = denseCards,
-                descriptionMaxLines = descriptionMaxLines
+                compact = compactCards
             ) {
                 onCategorySelected(category.destination)
             }
@@ -202,8 +197,7 @@ private fun CategoryGrid(
 private fun CategoryCard(
     category: Category,
     modifier: Modifier = Modifier,
-    dense: Boolean = false,
-    descriptionMaxLines: Int = 3,
+    compact: Boolean = false,
     onClick: () -> Unit
 ) {
     Card(
@@ -223,7 +217,7 @@ private fun CategoryCard(
                     .height(6.dp)
                     .background(MaterialTheme.colorScheme.primary)
             )
-            StandardCategoryContent(category, dense, descriptionMaxLines)
+            StandardCategoryContent(category, Modifier.weight(1f), compact)
         }
     }
 }
@@ -231,37 +225,44 @@ private fun CategoryCard(
 @Composable
 private fun StandardCategoryContent(
     category: Category,
-    dense: Boolean,
-    descriptionMaxLines: Int
+    modifier: Modifier,
+    compact: Boolean
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = modifier
+            .fillMaxWidth()
             .padding(18.dp),
-        verticalArrangement = if (dense) Arrangement.Top else Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.Center
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(category.icon, null, Modifier.size(28.dp), tint = MaterialTheme.colorScheme.primary)
-            Text(category.number, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.Bold)
-        }
-        if (dense) {
-            Spacer(Modifier.height(14.dp))
-        }
-        Column {
-            Text(category.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Icon(
+                category.icon,
+                null,
+                Modifier.size(if (compact) 20.dp else 24.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
             Text(
-                category.description,
-                modifier = Modifier.padding(top = 6.dp),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = descriptionMaxLines,
+                category.title,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = if (compact) 8.dp else 10.dp),
+                style = if (compact) MaterialTheme.typography.titleSmall else MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
+        Text(
+            category.description,
+            modifier = Modifier.padding(top = 8.dp),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 2,
+            overflow = TextOverflow.Clip
+        )
     }
 }
 
