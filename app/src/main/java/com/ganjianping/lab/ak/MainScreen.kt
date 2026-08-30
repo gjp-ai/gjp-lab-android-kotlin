@@ -39,20 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-
-enum class FeatureAction {
-    DeviceInfo,
-    HttpURLConnection,
-    Firebase
-}
-
-enum class DashboardCategory {
-    JetpackCompose,
-    HttpClient,
-    Security,
-    Integration,
-    Others
-}
+import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
 
 private enum class DashboardLayout {
     Compact,

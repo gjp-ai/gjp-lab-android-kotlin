@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.features.deviceinfo
+package com.ganjianping.lab.ak.features.others.deviceinfo
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ganjianping.lab.ak.features.deviceinfo.data.DeviceInfoRepository
+import com.ganjianping.lab.ak.features.others.deviceinfo.data.DeviceInfoRepository
+import com.ganjianping.lab.ak.features.others.deviceinfo.model.InfoRow
 
 @Composable
 fun DeviceInfoScreen(repository: DeviceInfoRepository, onBack: () -> Unit) {
@@ -55,18 +56,18 @@ fun DeviceInfoScreen(repository: DeviceInfoRepository, onBack: () -> Unit) {
 }
 
 @Composable
-private fun InfoSection(title: String, entries: List<Pair<String, String>>) {
+private fun InfoSection(title: String, entries: List<InfoRow>) {
     Card {
         Column(modifier = Modifier.padding(horizontal = 18.dp, vertical = 8.dp)) {
             Text(title, modifier = Modifier.padding(vertical = 10.dp), fontWeight = FontWeight.Bold)
-            entries.forEachIndexed { index, (label, value) ->
+            entries.forEachIndexed { index, entry ->
                 if (index > 0) HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(label, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(value, modifier = Modifier.padding(start = 16.dp), textAlign = TextAlign.End, fontWeight = FontWeight.Medium)
+                    Text(entry.label, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(entry.value, modifier = Modifier.padding(start = 16.dp), textAlign = TextAlign.End, fontWeight = FontWeight.Medium)
                 }
             }
         }

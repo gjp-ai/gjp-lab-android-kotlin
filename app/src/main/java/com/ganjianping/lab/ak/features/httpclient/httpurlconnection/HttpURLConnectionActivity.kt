@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.features.httpurlconnection
+package com.ganjianping.lab.ak.features.httpclient.httpurlconnection
 
 import android.util.Log
 import android.os.Bundle

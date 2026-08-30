@@ -18,27 +18,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GJPLab">
         <activity
-            android:name=".features.catalog.FeatureCatalogActivity"
+            android:name=".navigation.catalog.FeatureCatalogActivity"
             android:exported="false"
             android:label="Feature catalogue"
             android:theme="@style/Theme.GJPLab" />
         <activity
-            android:name=".features.deviceinfo.DeviceInfoActivity"
+            android:name=".features.others.deviceinfo.DeviceInfoActivity"
             android:exported="false"
             android:label="OS &amp; hardware"
             android:theme="@style/Theme.GJPLab" />
         <activity
-            android:name=".features.httpurlconnection.HttpURLConnectionActivity"
+            android:name=".features.httpclient.httpurlconnection.HttpURLConnectionActivity"
             android:exported="false"
             android:label="HttpURLConnection"
             android:theme="@style/Theme.GJPLab" />
         <activity
-            android:name=".features.httpurlconnection.HttpResponseActivity"
+            android:name=".features.httpclient.httpurlconnection.HttpResponseActivity"
             android:exported="false"
             android:label="HTTP response"
             android:theme="@style/Theme.GJPLab" />
         <activity
-            android:name=".features.firebase.FirebaseFeatureActivity"
+            android:name=".features.integration.firebase.FirebaseFeatureActivity"
             android:exported="false"
             android:label="Firebase"
             android:theme="@style/Theme.GJPLab" />

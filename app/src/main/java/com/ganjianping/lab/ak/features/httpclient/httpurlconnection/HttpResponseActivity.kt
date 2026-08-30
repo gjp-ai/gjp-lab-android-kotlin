@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.features.httpurlconnection
+package com.ganjianping.lab.ak.features.httpclient.httpurlconnection
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
+import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.model.HttpResponse
 
 class HttpResponseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

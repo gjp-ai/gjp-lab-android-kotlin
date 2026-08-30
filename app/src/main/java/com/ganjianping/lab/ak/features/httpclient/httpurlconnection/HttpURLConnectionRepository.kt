@@ -1,6 +1,8 @@
-package com.ganjianping.lab.ak.features.httpurlconnection
+package com.ganjianping.lab.ak.features.httpclient.httpurlconnection
 
 import android.util.Log
+import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.model.HttpMethod
+import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.model.HttpResponse
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -9,19 +11,6 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 import javax.net.ssl.SSLHandshakeException
-
-enum class HttpMethod(val supportsPayload: Boolean) {
-    GET(false),
-    POST(true),
-    PUT(true),
-    DELETE(false)
-}
-
-data class HttpResponse(
-    val statusCode: Int,
-    val body: String,
-    val headers: Map<String, String>
-)
 
 class HttpURLConnectionRepository {
     private val tag = "HttpURLConnection"

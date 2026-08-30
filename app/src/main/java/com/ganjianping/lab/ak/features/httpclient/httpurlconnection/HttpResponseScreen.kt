@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.features.httpurlconnection
+package com.ganjianping.lab.ak.features.httpclient.httpurlconnection
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column

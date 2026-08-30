@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.features.catalog
+package com.ganjianping.lab.ak.navigation.catalog
 
 import android.content.Context
 import android.content.Intent
@@ -6,12 +6,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.ganjianping.lab.ak.DashboardCategory
-import com.ganjianping.lab.ak.FeatureAction
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.features.deviceinfo.DeviceInfoActivity
-import com.ganjianping.lab.ak.features.firebase.FirebaseFeatureActivity
-import com.ganjianping.lab.ak.features.httpurlconnection.HttpURLConnectionActivity
+import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpURLConnectionActivity
+import com.ganjianping.lab.ak.features.integration.firebase.FirebaseFeatureActivity
+import com.ganjianping.lab.ak.features.others.deviceinfo.DeviceInfoActivity
+import com.ganjianping.lab.ak.navigation.FeatureRoute
+import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
 
 class FeatureCatalogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,11 +35,11 @@ class FeatureCatalogActivity : ComponentActivity() {
         }
     }
 
-    private fun openFeature(action: FeatureAction) {
-        val activity = when (action) {
-            FeatureAction.DeviceInfo -> DeviceInfoActivity::class.java
-            FeatureAction.HttpURLConnection -> HttpURLConnectionActivity::class.java
-            FeatureAction.Firebase -> FirebaseFeatureActivity::class.java
+    private fun openFeature(route: FeatureRoute) {
+        val activity = when (route) {
+            FeatureRoute.DeviceInfo -> DeviceInfoActivity::class.java
+            FeatureRoute.HttpURLConnection -> HttpURLConnectionActivity::class.java
+            FeatureRoute.Firebase -> FirebaseFeatureActivity::class.java
         }
         startActivity(Intent(this, activity))
     }

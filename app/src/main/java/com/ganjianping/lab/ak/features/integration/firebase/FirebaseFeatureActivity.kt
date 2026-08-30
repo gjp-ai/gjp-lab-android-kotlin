@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.features.firebase
+package com.ganjianping.lab.ak.features.integration.firebase
 
 import android.Manifest
 import android.content.ClipData

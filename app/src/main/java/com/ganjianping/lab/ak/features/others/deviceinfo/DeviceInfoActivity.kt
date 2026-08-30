@@ -1,11 +1,11 @@
-package com.ganjianping.lab.ak.features.deviceinfo
+package com.ganjianping.lab.ak.features.others.deviceinfo
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.features.deviceinfo.data.DeviceInfoRepository
+import com.ganjianping.lab.ak.features.others.deviceinfo.data.DeviceInfoRepository
 import org.koin.android.ext.android.inject
 
 class DeviceInfoActivity : ComponentActivity() {

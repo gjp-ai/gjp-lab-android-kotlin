@@ -1,5 +1,5 @@
 
-package com.ganjianping.lab.ak.features.catalog
+package com.ganjianping.lab.ak.navigation.catalog
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
@@ -35,21 +35,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.ganjianping.lab.ak.DashboardCategory
-import com.ganjianping.lab.ak.FeatureAction
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-
-private data class CatalogItem(
-    val title: String,
-    val description: String,
-    val action: FeatureAction? = null
-)
+import com.ganjianping.lab.ak.navigation.FeatureRoute
+import com.ganjianping.lab.ak.navigation.catalog.model.CatalogItem
+import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
 
 @Composable
 fun FeatureCatalogScreen(
     category: DashboardCategory,
     onBack: () -> Unit,
-    onFeatureSelected: (FeatureAction) -> Unit
+    onFeatureSelected: (FeatureRoute) -> Unit
 ) {
     val items = catalogItems(category)
     Scaffold(containerColor = MaterialTheme.colorScheme.background) { padding ->
@@ -84,7 +79,7 @@ fun FeatureCatalogScreen(
 }
 
 @Composable
-private fun CatalogTable(items: List<CatalogItem>, onFeatureSelected: (FeatureAction) -> Unit) {
+private fun CatalogTable(items: List<CatalogItem>, onFeatureSelected: (FeatureRoute) -> Unit) {
     Card(
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
@@ -122,11 +117,11 @@ private fun CatalogTable(items: List<CatalogItem>, onFeatureSelected: (FeatureAc
 }
 
 @Composable
-private fun CatalogTableRow(item: CatalogItem, onFeatureSelected: (FeatureAction) -> Unit) {
-    val rowModifier = if (item.action == null) {
+private fun CatalogTableRow(item: CatalogItem, onFeatureSelected: (FeatureRoute) -> Unit) {
+    val rowModifier = if (item.route == null) {
         Modifier
     } else {
-        Modifier.clickable { onFeatureSelected(item.action) }
+        Modifier.clickable { onFeatureSelected(item.route) }
     }
     Row(
         modifier = rowModifier
@@ -143,7 +138,7 @@ private fun CatalogTableRow(item: CatalogItem, onFeatureSelected: (FeatureAction
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        if (item.action == null) {
+        if (item.route == null) {
             Icon(
                 Icons.Outlined.Schedule,
                 contentDescription = "Planned",
@@ -192,7 +187,7 @@ private fun catalogItems(category: DashboardCategory): List<CatalogItem> = when 
     )
 
     DashboardCategory.HttpClient -> listOf(
-        CatalogItem("HttpsURLConnection", "Native HttpURLConnection request sample.", FeatureAction.HttpURLConnection),
+        CatalogItem("HttpsURLConnection", "Native HttpURLConnection request sample.", FeatureRoute.HttpURLConnection),
         CatalogItem("Retrofit", "Type-safe HTTP client integration.")
     )
 
@@ -203,11 +198,11 @@ private fun catalogItems(category: DashboardCategory): List<CatalogItem> = when 
     )
 
     DashboardCategory.Integration -> listOf(
-        CatalogItem("Firebase", "Analytics, Config, Crashlytics, Performance, and Messaging.", FeatureAction.Firebase)
+        CatalogItem("Firebase", "Analytics, Config, Crashlytics, Performance, and Messaging.", FeatureRoute.Firebase)
     )
 
     DashboardCategory.Others -> listOf(
-        CatalogItem("OS & Hardware", "Inspect the Android OS and current device hardware.", FeatureAction.DeviceInfo)
+        CatalogItem("OS & Hardware", "Inspect the Android OS and current device hardware.", FeatureRoute.DeviceInfo)
     )
 }
 

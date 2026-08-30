@@ -8,8 +8,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.features.catalog.FeatureCatalogActivity
 import com.ganjianping.lab.ak.integration.firebase.FirebaseIntegration
+import com.ganjianping.lab.ak.navigation.catalog.FeatureCatalogActivity
+import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
