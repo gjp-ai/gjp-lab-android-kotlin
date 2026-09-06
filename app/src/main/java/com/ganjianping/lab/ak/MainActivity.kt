@@ -8,6 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
 import com.ganjianping.lab.ak.integration.firebase.FirebaseIntegration
 import com.ganjianping.lab.ak.navigation.catalog.FeatureCatalogActivity
 import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
@@ -15,6 +17,7 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     private val firebaseIntegration: FirebaseIntegration by inject()
+    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
     private var maintenanceEnabled by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,14 +26,26 @@ class MainActivity : ComponentActivity() {
         maintenanceEnabled = intent.getBooleanExtra(EXTRA_MAINTENANCE_ENABLED, false)
         setContent {
             GJPLabTheme {
-                when {
-                    maintenanceEnabled -> MaintenanceScreen(onRetry = ::loadRemoteConfig)
-                    else -> MainScreen { category ->
-                        startActivity(FeatureCatalogActivity.createIntent(this, category))
+                CallBlockingHost(callBlockingCoordinator) {
+                    when {
+                        maintenanceEnabled -> MaintenanceScreen(onRetry = ::loadRemoteConfig)
+                        else -> MainScreen { category ->
+                            startActivity(FeatureCatalogActivity.createIntent(this, category))
+                        }
                     }
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        callBlockingCoordinator.startMonitoring()
+    }
+
+    override fun onPause() {
+        callBlockingCoordinator.stopMonitoring()
+        super.onPause()
     }
 
     private fun loadRemoteConfig() {

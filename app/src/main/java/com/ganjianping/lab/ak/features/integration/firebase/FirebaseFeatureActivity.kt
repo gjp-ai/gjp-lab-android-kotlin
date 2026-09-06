@@ -14,12 +14,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
 import com.ganjianping.lab.ak.integration.firebase.FirebaseConstants
 import com.ganjianping.lab.ak.integration.firebase.FirebaseIntegration
 import org.koin.android.ext.android.inject
 
 class FirebaseFeatureActivity : ComponentActivity() {
     private val firebaseIntegration: FirebaseIntegration by inject()
+    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -42,64 +45,76 @@ class FirebaseFeatureActivity : ComponentActivity() {
         requestNotificationPermissionIfNeeded()
         setContent {
             GJPLabTheme {
-                FirebaseFeatureScreen(
-                    analyticsStatus = analyticsStatus,
-                    crashlyticsStatus = crashlyticsStatus,
-                    remoteConfigStatus = remoteConfigStatus,
-                    performanceStatus = performanceStatus,
-                    messagingStatus = messagingStatus,
-                    messagingToken = messagingToken,
-                    tokenCopied = tokenCopied,
-                    onBack = ::finish,
-                    onLogAnalytics = {
-                        firebaseIntegration.logFirebaseFeatureOpened()
-                        analyticsStatus = "firebase_feature_opened sent"
-                    },
-                    onRecordCrashlytics = {
-                        firebaseIntegration.recordCrashlyticsDemo()
-                        crashlyticsStatus = "Non-fatal demo exception recorded"
-                    },
-                    onFetchRemoteConfig = {
-                        remoteConfigStatus = "Fetching maintenance flag..."
-                        firebaseIntegration.fetchMaintenanceMode { enabled ->
-                            remoteConfigStatus = "gjp_lab_maintenance_enabled = $enabled"
-                        }
-                    },
-                    onRunPerformance = {
-                        performanceStatus = "Running custom trace..."
-                        firebaseIntegration.runPerformanceDemo { durationMillis ->
-                            performanceStatus = "firebase_demo_trace completed in ${durationMillis} ms"
-                        }
-                    },
-                    onFetchMessagingToken = {
-                        messagingStatus = "Loading FCM token..."
-                        tokenCopied = false
-                        firebaseIntegration.fetchMessagingToken { token, error ->
-                            messagingToken = token
-                            messagingStatus = token?.let { "Full token loaded" }
-                                ?: "Token error: ${error?.message ?: "unknown error"}"
-                        }
-                    },
-                    onCopyToken = {
-                        messagingToken?.let { token ->
-                            val clipboard = getSystemService(ClipboardManager::class.java)
-                            clipboard.setPrimaryClip(ClipData.newPlainText("FCM registration token", token))
-                            tokenCopied = true
-                        }
-                    },
-                    onSubscribeToTopic = {
-                        messagingStatus = "Subscribing to ${FirebaseConstants.MessagingDemoTopic}..."
-                        firebaseIntegration.subscribeToMessagingDemoTopic { success ->
-                            messagingStatus = if (success) {
-                                "Subscribed to ${FirebaseConstants.MessagingDemoTopic}"
-                            } else {
-                                "Topic subscription failed"
+                CallBlockingHost(callBlockingCoordinator) {
+                    FirebaseFeatureScreen(
+                        analyticsStatus = analyticsStatus,
+                        crashlyticsStatus = crashlyticsStatus,
+                        remoteConfigStatus = remoteConfigStatus,
+                        performanceStatus = performanceStatus,
+                        messagingStatus = messagingStatus,
+                        messagingToken = messagingToken,
+                        tokenCopied = tokenCopied,
+                        onBack = ::finish,
+                        onLogAnalytics = {
+                            firebaseIntegration.logFirebaseFeatureOpened()
+                            analyticsStatus = "firebase_feature_opened sent"
+                        },
+                        onRecordCrashlytics = {
+                            firebaseIntegration.recordCrashlyticsDemo()
+                            crashlyticsStatus = "Non-fatal demo exception recorded"
+                        },
+                        onFetchRemoteConfig = {
+                            remoteConfigStatus = "Fetching maintenance flag..."
+                            firebaseIntegration.fetchMaintenanceMode { enabled ->
+                                remoteConfigStatus = "gjp_lab_maintenance_enabled = $enabled"
+                            }
+                        },
+                        onRunPerformance = {
+                            performanceStatus = "Running custom trace..."
+                            firebaseIntegration.runPerformanceDemo { durationMillis ->
+                                performanceStatus = "firebase_demo_trace completed in ${durationMillis} ms"
+                            }
+                        },
+                        onFetchMessagingToken = {
+                            messagingStatus = "Loading FCM token..."
+                            tokenCopied = false
+                            firebaseIntegration.fetchMessagingToken { token, error ->
+                                messagingToken = token
+                                messagingStatus = token?.let { "Full token loaded" }
+                                    ?: "Token error: ${error?.message ?: "unknown error"}"
+                            }
+                        },
+                        onCopyToken = {
+                            messagingToken?.let { token ->
+                                val clipboard = getSystemService(ClipboardManager::class.java)
+                                clipboard.setPrimaryClip(ClipData.newPlainText("FCM registration token", token))
+                                tokenCopied = true
+                            }
+                        },
+                        onSubscribeToTopic = {
+                            messagingStatus = "Subscribing to ${FirebaseConstants.MessagingDemoTopic}..."
+                            firebaseIntegration.subscribeToMessagingDemoTopic { success ->
+                                messagingStatus = if (success) {
+                                    "Subscribed to ${FirebaseConstants.MessagingDemoTopic}"
+                                } else {
+                                    "Topic subscription failed"
+                                }
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        callBlockingCoordinator.startMonitoring()
+    }
+
+    override fun onPause() {
+        callBlockingCoordinator.stopMonitoring()
+        super.onPause()
     }
 
     private fun requestNotificationPermissionIfNeeded() {

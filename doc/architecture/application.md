@@ -1,6 +1,6 @@
 # Application architecture
 
-Status: Implemented snapshot, 2026-08-29
+Status: Implemented snapshot, 2026-08-30
 
 ## Purpose
 
@@ -18,6 +18,7 @@ flowchart LR
     FeatureCatalogActivity --> DeviceInfoActivity
     FeatureCatalogActivity --> HttpURLConnectionActivity
     FeatureCatalogActivity --> FirebaseFeatureActivity
+    FeatureCatalogActivity --> BlockAppDuringCallsActivity
     HttpURLConnectionActivity --> HttpResponseActivity
 ```
 
@@ -70,7 +71,7 @@ Do not introduce a ViewModel, navigation framework, domain layer, or module spli
 
 ## Platform and security boundaries
 
-The manifest currently declares Internet, network-state, and notification permissions. Runtime notification permission is handled by the Firebase feature Activity on Android 13 and newer. Network traffic is constrained by [`network_security_config.xml`](../../app/src/main/res/xml/network_security_config.xml).
+The manifest currently declares Internet, network-state, notification, and phone-state permissions. Runtime notification permission is handled by the Firebase feature Activity on Android 13 and newer; `READ_PHONE_STATE` is requested only after the user enables Block App During Calls. Network traffic is constrained by [`network_security_config.xml`](../../app/src/main/res/xml/network_security_config.xml).
 
 Keep protected API checks and permission requests in Activities or dedicated platform adapters. Keep credentials and server authority outside the mobile application. Firebase client configuration is not a server credential, but service-account files, server keys, OAuth secrets, and App Check debug tokens must never be committed.
 
@@ -101,5 +102,6 @@ The connected test requires an emulator or device. Current checked-in tests are 
 Feature-specific behavior belongs in the linked documents rather than this overview:
 
 - [Slate design system](design-system.md)
-- [Splash technical design](../features/splash-screen.md)
+- [Splash detailed design](../detail-design/splash-screen.md)
+- [Block App During Calls detailed design](../detail-design/security/block_app_during_calls.md)
 - [Firebase integration](../integrations/firebase.md)

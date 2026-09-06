@@ -10,10 +10,15 @@ import com.ganjianping.lab.ak.common.theme.GJPLabTheme
 import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpURLConnectionActivity
 import com.ganjianping.lab.ak.features.integration.firebase.FirebaseFeatureActivity
 import com.ganjianping.lab.ak.features.others.deviceinfo.DeviceInfoActivity
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.BlockAppDuringCallsActivity
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
 import com.ganjianping.lab.ak.navigation.FeatureRoute
 import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
+import org.koin.android.ext.android.inject
 
 class FeatureCatalogActivity : ComponentActivity() {
+    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val category = intent.getStringExtra(EXTRA_CATEGORY)
@@ -26,13 +31,25 @@ class FeatureCatalogActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GJPLabTheme {
-                FeatureCatalogScreen(
-                    category = category,
-                    onBack = ::finish,
-                    onFeatureSelected = ::openFeature
-                )
+                CallBlockingHost(callBlockingCoordinator) {
+                    FeatureCatalogScreen(
+                        category = category,
+                        onBack = ::finish,
+                        onFeatureSelected = ::openFeature
+                    )
+                }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        callBlockingCoordinator.startMonitoring()
+    }
+
+    override fun onPause() {
+        callBlockingCoordinator.stopMonitoring()
+        super.onPause()
     }
 
     private fun openFeature(route: FeatureRoute) {
@@ -40,6 +57,7 @@ class FeatureCatalogActivity : ComponentActivity() {
             FeatureRoute.DeviceInfo -> DeviceInfoActivity::class.java
             FeatureRoute.HttpURLConnection -> HttpURLConnectionActivity::class.java
             FeatureRoute.Firebase -> FirebaseFeatureActivity::class.java
+            FeatureRoute.BlockAppDuringCalls -> BlockAppDuringCallsActivity::class.java
         }
         startActivity(Intent(this, activity))
     }

@@ -1,0 +1,57 @@
+# Feature: <Feature name>
+
+Status: Planned | Partial | Implemented
+
+## Goal
+
+Describe the user or product outcome in one or two sentences. State why the feature exists, not its implementation.
+
+## Scope
+
+### In scope
+
+- List the observable behavior this feature must provide.
+
+### Out of scope
+
+- List adjacent behavior that is intentionally excluded from this requirement.
+
+## Behavior
+
+- Describe the trigger, the resulting behavior, and how the feature ends or recovers.
+- State launch, foreground, background, offline, error, and restart behavior when relevant.
+- Name behavior that depends on system-provided information.
+
+## UI & navigation
+
+- Identify the catalogue/category entry point and destination Activity or screen.
+- List required controls, status content, empty/error states, and test-only affordances.
+- State accessibility, light/dark, text-scale, and back-stack expectations where material.
+
+## Rules & constraints
+
+- Record defaults, persistence, idempotency, privacy, and security rules.
+- State supported Android API levels and required public APIs.
+- Explicitly prohibit private APIs, unsupported workarounds, credentials, or sensitive logging where applicable.
+
+## Platform limitations
+
+- State capabilities Android cannot guarantee and the user-visible fallback.
+- Capture regional, permission, hardware, service, or OEM constraints.
+
+## Acceptance criteria
+
+| ID | Scenario | Expected result |
+| --- | --- | --- |
+| <PREFIX>-AC-01 | <Given/when scenario> | <Observable outcome> |
+
+## Technical implementation constraints
+
+- Name the required feature package and existing Activity, navigation, or lifecycle integration points.
+- State required separation of shared, platform, data, integration, and Compose UI concerns.
+- Forbid unrelated refactors and new dependencies unless the requirement approves them.
+
+## Related documents
+
+- Detailed design: `<relative link>`
+- Architecture or integration references: `<relative links>`

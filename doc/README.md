@@ -8,8 +8,11 @@ This directory documents the Android lab as it exists today, the behavior it is 
 | --- | --- | --- |
 | Application structure | [Application architecture](architecture/application.md) | Runtime flow, code boundaries, state ownership, and project constraints |
 | Visual system | [Slate design system](architecture/design-system.md) | Material 3 color roles, launcher icon, dark mode, and usage rules |
-| Splash behavior | [Splash requirements](requirements/splash-screen.md) | Product rules, acceptance criteria, and open decisions |
-| Splash implementation | [Splash technical design](features/splash-screen.md) | Current Android design, concurrency behavior, known gaps, and test strategy |
+| Requirement template | [Feature requirement template](requirements/FEATURE_REQUIREMENT_TEMPLATE.md) | Required structure for new feature requirements |
+| Splash behavior | [Splash requirements](requirements/splash-screen.md) | Product rules and acceptance criteria |
+| Splash implementation | [Splash detailed design](detail-design/splash-screen.md) | Current Android design, concurrency behavior, known gaps, and test strategy |
+| Call blocking behavior | [Block App During Calls requirements](requirements/security/block_app_during_calls.md) | Privacy-control behavior, Android limitations, and acceptance criteria |
+| Call blocking implementation | [Block App During Calls detailed design](detail-design/security/block_app_during_calls.md) | Source map, lifecycle, state, safeguards, and verification |
 | Firebase | [Firebase integration](integrations/firebase.md) | SDK wiring, service behavior, privacy notes, and verification |
 | AI-assisted Android practice | [Android agent skills](practices/android-agent-skills.md) | How this repository exercises and improves the portable skill library |
 
@@ -25,12 +28,12 @@ This directory documents the Android lab as it exists today, the behavior it is 
 Each fact has one owner:
 
 - Requirements describe observable behavior and avoid prescribing Android classes.
-- Feature designs explain how the current Android implementation satisfies—or does not yet satisfy—those requirements.
+- Detailed designs explain how the current Android implementation satisfies—or does not yet satisfy—requirements.
 - Architecture describes stable project-wide boundaries and links to feature details instead of duplicating them.
 - Integration guides document project-specific external-service behavior, configuration, and operational risks.
 - Practice guides describe repeatable learning workflows, not product requirements.
 
-Use repository-relative links for source files and other documents. Prefer short excerpts or symbols over copied implementations, because duplicated code examples become stale quickly.
+Use repository-relative links and short symbol references rather than copied implementations.
 
 ## Status language
 
@@ -45,13 +48,6 @@ Documents use these labels consistently:
 
 ## Maintenance
 
-Update documentation in the same change when any of these contracts changes:
+New feature requirements must start from the [feature requirement template](requirements/FEATURE_REQUIREMENT_TEMPLATE.md). Add a detailed design before or alongside implementation when a feature has lifecycle, persistence, integration, platform, or security behavior.
 
-- user-visible behavior or acceptance criteria;
-- activity, feature, integration, or dependency boundaries;
-- manifest permissions or exported components;
-- Remote Config keys, Analytics events, Crashlytics keys, traces, topics, or notification channels;
-- build, test, or release verification commands;
-- a known gap is resolved or a new material risk is discovered.
-
-Before handoff, verify local Markdown links, compare implementation claims with source, and report checks that could not run.
+Update this documentation in the same change when user-visible behavior, activity routes, state ownership, manifest permissions, Firebase contracts, build/test commands, or material limitations change. Before handoff, verify local Markdown links and report checks that could not run.

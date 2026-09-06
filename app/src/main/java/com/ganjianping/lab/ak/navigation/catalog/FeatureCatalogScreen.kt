@@ -192,6 +192,11 @@ private fun catalogItems(category: DashboardCategory): List<CatalogItem> = when 
     )
 
     DashboardCategory.Security -> listOf(
+        CatalogItem(
+            "Block App During Calls",
+            "Block access while Android reports a supported active call.",
+            FeatureRoute.BlockAppDuringCalls
+        ),
         CatalogItem("Screenshot Detection", "Detect screenshot events where supported."),
         CatalogItem("Screen Sharing Detection", "Detect active screen sharing where supported."),
         CatalogItem("Screen Recording Detection", "Detect active screen recording where supported.")

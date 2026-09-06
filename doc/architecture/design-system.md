@@ -78,7 +78,7 @@ Android status-bar notifications require a dedicated alpha-style small icon rath
 
 ## Adaptive dashboard
 
-[`MainScreen`](../../app/src/main/java/com/ganjianping/lab/ak/MainScreen.kt) adapts to the available window width, so the same category dashboard works on a phone, a foldable's larger window, and a tablet without relying on a device-name check. A category opens the table-style [`FeatureCatalogScreen`](../../app/src/main/java/com/ganjianping/lab/ak/features/catalog/FeatureCatalogScreen.kt), which constrains its readable content width on larger displays.
+[`MainScreen`](../../app/src/main/java/com/ganjianping/lab/ak/MainScreen.kt) adapts to the available window width, so the same category dashboard works on a phone, a foldable's larger window, and a tablet without relying on a device-name check. A category opens the table-style [`FeatureCatalogScreen`](../../app/src/main/java/com/ganjianping/lab/ak/navigation/catalog/FeatureCatalogScreen.kt), which constrains its readable content width on larger displays.
 
 | Window width | Layout | Purpose |
 | --- | --- | --- |

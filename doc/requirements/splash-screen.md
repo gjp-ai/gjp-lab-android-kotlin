@@ -1,12 +1,12 @@
-# Splash screen requirements
+# Feature: Splash Screen
 
 Status: Baseline behavior; Android implementation is partial
 
-## Objective
+## Goal
 
 Show a recognizable startup experience while resolving whether the user should enter the normal application or see maintenance. Startup must remain bounded when connectivity or Remote Config is unavailable.
 
-## Applicability
+## Platform considerations
 
 The observable startup rules target Android and iOS. Each platform should use its native lifecycle, connectivity, accessibility, and navigation conventions while preserving the same timing, fallback, race, and destination decisions. This repository implements and verifies only the Android side; an iOS project must maintain its own technical design and evidence.
 
@@ -31,7 +31,7 @@ Out of scope:
 - visual design of the dashboard or maintenance destination;
 - showing the feature splash during warm resume or ordinary navigation.
 
-## Product decisions
+## Rules & constraints
 
 | Decision | Value |
 | --- | --- |
@@ -117,9 +117,9 @@ The minimum-duration and maintenance-resolution timers are independent. Both gat
 | SPL-AC-08 | Light/dark mode and enlarged text | Approved content remains readable and unclipped. |
 | SPL-AC-09 | Reduced motion | Non-essential animation is reduced; progress remains understandable. |
 
-## Test controls
+## Technical implementation constraints
 
-Verification requires controllable inputs for connectivity, enabled/disabled maintenance, success, failure, delayed response, no response, callback races, appearance, text scale, and reduced motion. The Android implementation status and concrete test seams are tracked in [the technical design](../features/splash-screen.md).
+Verification requires controllable inputs for connectivity, enabled/disabled maintenance, success, failure, delayed response, no response, callback races, appearance, text scale, and reduced motion. The Android implementation status and concrete test seams are tracked in [the detailed design](../detail-design/splash-screen.md).
 
 ## Open decisions
 
@@ -128,3 +128,8 @@ Verification requires controllable inputs for connectivity, enabled/disabled mai
 - Whether the 3-second minimum should remain fixed after the learning exercise.
 - Required startup analytics events and permitted event fields.
 - Whether activity recreation must continue an in-progress startup or may restart it.
+
+## Related documents
+
+- [Detailed design](../detail-design/splash-screen.md)
+- [Application architecture](../architecture/application.md)

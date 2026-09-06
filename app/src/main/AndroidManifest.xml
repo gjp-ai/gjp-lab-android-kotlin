@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".GJPLabApplication"
@@ -41,6 +42,11 @@
             android:name=".features.integration.firebase.FirebaseFeatureActivity"
             android:exported="false"
             android:label="Firebase"
+            android:theme="@style/Theme.GJPLab" />
+        <activity
+            android:name=".features.security.blockappduringcalls.BlockAppDuringCallsActivity"
+            android:exported="false"
+            android:label="Block App During Calls"
             android:theme="@style/Theme.GJPLab" />
         <service
             android:name=".integration.firebase.GJPLabFirebaseMessagingService"

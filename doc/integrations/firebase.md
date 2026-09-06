@@ -66,7 +66,7 @@ Initialization sets:
 - minimum fetch interval: zero in debug, one hour in non-debug builds;
 - local default: `gjp_lab_maintenance_enabled = false`.
 
-`fetchMaintenanceMode` calls `fetchAndActivate()` and then reads the current Boolean. It does not distinguish successful fetch, activation of a previously fetched value, failed fetch with an active value, or fallback to the default. The startup flow provides its own five-second waiting limit. See [the splash technical design](../features/splash-screen.md) for the resulting state and timeout behavior.
+`fetchMaintenanceMode` calls `fetchAndActivate()` and then reads the current Boolean. It does not distinguish successful fetch, activation of a previously fetched value, failed fetch with an active value, or fallback to the default. The startup flow provides its own five-second waiting limit. See [the splash detailed design](../detail-design/splash-screen.md) for the resulting state and timeout behavior.
 
 ### Crashlytics
 
@@ -84,7 +84,7 @@ Keep custom trace names stable and bounded. Always stop traces on every completi
 
 The integration can retrieve the current registration token and subscribe to `gjp_lab_demo`. [`GJPLabFirebaseMessagingService`](../../app/src/main/java/com/ganjianping/lab/ak/integration/firebase/GJPLabFirebaseMessagingService.kt) handles token refresh and foreground messages, creates the notification channel, and opens `MainActivity` from an immutable `PendingIntent`.
 
-[`FirebaseFeatureActivity`](../../app/src/main/java/com/ganjianping/lab/ak/features/firebase/FirebaseFeatureActivity.kt) requests `POST_NOTIFICATIONS` on Android 13 and newer. Token retrieval remains available after denial, although notifications are not shown without permission.
+[`FirebaseFeatureActivity`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseFeatureActivity.kt) requests `POST_NOTIFICATIONS` on Android 13 and newer. Token retrieval remains available after denial, although notifications are not shown without permission.
 
 FCM sending credentials belong on a trusted server using Firebase Admin SDK or HTTP v1. Never place a service account or server key in the Android app.
 

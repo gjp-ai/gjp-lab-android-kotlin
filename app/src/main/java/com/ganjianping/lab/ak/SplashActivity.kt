@@ -9,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import com.ganjianping.lab.ak.common.config.AppConfig
 import com.ganjianping.lab.ak.common.network.NetworkConnectivity
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
 import com.ganjianping.lab.ak.integration.firebase.FirebaseIntegration
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -16,6 +18,7 @@ import org.koin.android.ext.android.inject
 
 class SplashActivity : ComponentActivity() {
     private val firebaseIntegration: FirebaseIntegration by inject()
+    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
     private var remoteConfigLoaded = false
     private var minimumSplashTimeElapsed = false
     private var maintenanceEnabled = false
@@ -26,7 +29,9 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             GJPLabTheme {
-                SplashScreen()
+                CallBlockingHost(callBlockingCoordinator) {
+                    SplashScreen()
+                }
             }
         }
 
@@ -36,6 +41,16 @@ class SplashActivity : ComponentActivity() {
             minimumSplashTimeElapsed = true
             openMainActivityIfReady()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        callBlockingCoordinator.startMonitoring()
+    }
+
+    override fun onPause() {
+        callBlockingCoordinator.stopMonitoring()
+        super.onPause()
     }
 
     private fun loadRemoteConfig() {
