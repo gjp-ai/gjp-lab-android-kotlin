@@ -12,16 +12,15 @@ Describe in one or two sentences how the implementation satisfies the requiremen
 
 | Source | Responsibility |
 | --- | --- |
-| [`<Feature>Activity.kt`](<relative link>) | Lifecycle, injected dependencies, permissions, and navigation |
-| [`<Feature>Screen.kt`](<relative link>) | Compose layout; receives state and callbacks |
+| [`<Feature>Screen.kt`](<relative link>) | Compose content for the feature pane; screen state and permission requests |
 | [`FeatureRoute.kt`](<relative link>) | `FeatureRoute.<Route>` case |
 | [`NavigationMenu.kt`](<relative link>) | Catalogue topic with `route = FeatureRoute.<Route>` |
-| [`FeatureCatalogActivity.kt`](<relative link>) | Opens `<Feature>Activity` for the route |
+| [`FeatureDestination.kt`](<relative link>) | Shows `<Feature>Screen` for the route, with its injected dependencies |
 
 ## Ownership and state
 
-- Who owns each piece of state (Activity field, `remember`, `StateFlow` in a Koin singleton, repository), and how long it lives.
-- How the screen is reached and what it opens next (explicit `Intent`s, extras).
+- Who owns each piece of state (`remember`, `rememberSaveable`, `StateFlow` in a Koin singleton, repository), and how long it lives.
+- How the screen is reached (`FeatureRoute`) and what it pushes (`DetailRoute`).
 - Lifecycle, cancellation, and threading (`lifecycleScope`, `Dispatchers.IO`, SDK callbacks) where relevant.
 
 ## <Feature-specific section>

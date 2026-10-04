@@ -6,57 +6,56 @@ Requirements: [Category catalogue](catalog_requirement.md)
 
 ## Implementation goal
 
-Render one category's topics as a table-style card, derive availability from whether a topic has a route, and let `FeatureCatalogActivity` open the matching feature Activity with an explicit `Intent`.
+Render a category's topics as a list of cards in the catalogue pane, derive availability from whether a topic has a route, and let `ContentView` show the selected feature through `FeatureDestination`.
 
 ## Source map
 
 | Source | Responsibility |
 | --- | --- |
-| [`FeatureCatalogActivity.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/FeatureCatalogActivity.kt) | Reads the category `id` extra, hosts the screen and call blocking, maps `FeatureRoute` to an Activity |
-| [`FeatureCatalogScreen.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/FeatureCatalogScreen.kt) | Header, `CatalogTable`, and `CatalogTableRow` |
+| [`FeatureCatalogScreen.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/FeatureCatalogScreen.kt) | Description row, topic cards, and `CatalogRow` |
+| [`LabListCard.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/common/theme/LabListCard.kt) | Bordered row card shared with the sidebar |
 | [`NavigationMenu.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/NavigationMenu.kt) | Every category and its topics, in display order; a topic with a `route` is available |
 | [`FeatureRoute.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/FeatureRoute.kt) | One case per implemented feature |
-| [`AndroidManifest.xml`](../../../../app/src/main/AndroidManifest.xml) | Non-exported catalogue and feature Activities |
+| [`ContentView.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/ContentView.kt) | Owns `selectedTopic` and places the catalogue pane |
+| [`FeatureDestination.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/FeatureDestination.kt) | Maps the selected `FeatureRoute` to its screen |
 
-## Ownership and navigation
+## Ownership and selection
 
-`FeatureCatalogActivity.createIntent(context, category)` puts `category.id` in `EXTRA_CATEGORY`. On create, the Activity looks the id up with `NavigationMenu.category(id)` and finishes if it is missing. The screen is stateless: it receives the `NavigationCategory` and reports taps through `onFeatureSelected(FeatureRoute)` and `onBack`. Only rows with a route get a `clickable` modifier, so planned rows cannot open anything.
+The screen receives a `NavigationCategory`, the currently selected `FeatureRoute?`, and `onFeatureSelected`. It is stateless. A row with a route gets a click handler; a planned row gets none, so it can never become the selection. The screen never builds a destination: `FeatureDestination` maps the selected route to its screen:
 
-`openFeature` is the only place that maps a route to an Activity:
-
-| `FeatureRoute` | Activity |
+| `FeatureRoute` | Screen |
 | --- | --- |
-| `DeviceInfo` | `DeviceInfoActivity` |
-| `HttpURLConnection` | `HttpURLConnectionActivity` |
-| `Firebase` | `FirebaseFeatureActivity` |
-| `BlockAppDuringCalls` | `BlockAppDuringCallsActivity` |
+| `DeviceInfo` | `DeviceInfoScreen` |
+| `HttpURLConnection` | `HttpURLConnectionScreen` (pushes `DetailRoute.Response` → `HttpResponseScreen`) |
+| `Firebase` | `FirebaseFeatureScreen` |
+| `BlockAppDuringCalls` | `BlockAppDuringCallsScreen` |
+
+See the [sidebar detailed design](sidebar_detail_design.md#navigation-model) for how the panes collapse on narrow windows.
 
 ## Current topics
 
 | Category | Available | Planned |
 | --- | --- | --- |
 | Jetpack Compose | — | Material 3, layouts, text and input, buttons, selection, lists and grids, navigation, animation, drawing, accessibility |
-| HTTP Client | HttpsURLConnection | Retrofit |
+| HTTP Client | HttpURLConnection | Retrofit |
 | Security | Block App During Calls | Screenshot, screen sharing, and screen recording detection |
 | Integration | Firebase | — |
 | Others | OS & Hardware | — |
 
 ## Accessibility
 
-The forward arrow's content description is "Open <title>" and the clock's is "Planned". Rows are not merged into a single semantics node, so TalkBack reads the title, description, and icon separately.
+The category description is a plain first item, so it scrolls with the list. Each topic card is one element (clickable rows merge their children; planned rows use `mergeDescendants`). The chevron is announced as "Open" and the clock as "Planned"; available rows have the click label "Open". Descriptions wrap at large text sizes.
 
 ## Known gaps
 
 | Gap | Effect | Suggested fix |
 | --- | --- | --- |
-| Back uses a text button ("‹  Dashboard") instead of a top app bar | Differs from Material navigation patterns | Use a `TopAppBar` with a navigation icon |
-| Rows are not merged for accessibility | TalkBack needs several swipes per row | `Modifier.semantics(mergeDescendants = true)` on each row |
+| Category copy is out of date | Security's description mentions only screen capture, though it also lists call blocking | Update the `description` in `NavigationMenu` |
 | Planned rows give no feedback when tapped | Users may think the tap failed | Accepted by the requirement (CAT-AC-03); revisit if confusing |
-| Topic title "HttpsURLConnection" differs from the API name `HttpURLConnection` | Inconsistent naming in the catalogue | Align the title with the API |
-| No UI test | Opening each topic is unguarded | Add a Compose UI test that opens each available topic |
+| No UI test | Topic selection is unguarded | Add a Compose UI test that opens each available topic |
 
 ## Verification
 
-- Previews in `FeatureCatalogScreen.kt`: HTTP client catalogue (light and dark) and Compose catalogue on a tablet.
-- Unit test: `NavigationMenuTest` (every `FeatureRoute` appears exactly once, category lookup by id).
-- Manual: CAT-AC-01 to CAT-AC-05 on a phone and a tablet emulator, with TalkBack and the largest font size.
+- Previews in `FeatureCatalogScreen.kt`: HTTP client catalogue (available and planned topics) and Compose catalogue (planned only), each in light and dark.
+- Unit tests: `NavigationMenuTest` (unique IDs and titles, every `FeatureRoute` exactly once, category and topic lookup).
+- Manual: CAT-AC-01 to CAT-AC-05 on a phone and at a large window width, with TalkBack and the largest font size.

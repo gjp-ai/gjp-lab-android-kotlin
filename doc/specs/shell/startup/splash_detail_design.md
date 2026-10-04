@@ -35,7 +35,7 @@ flowchart TD
 | [`AppConfig.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/common/config/AppConfig.kt) | 3-second minimum and 5-second timeout |
 | [`NetworkConnectivity.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/common/network/NetworkConnectivity.kt) | Requires Android `INTERNET` and `VALIDATED` capabilities |
 | [`FirebaseIntegration.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseIntegration.kt) | Fetches/activates Remote Config and returns the current maintenance value |
-| [`MainActivity.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/MainActivity.kt) | Selects dashboard or maintenance and owns maintenance retry |
+| [`MainActivity.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/MainActivity.kt) | Selects `ContentView` or maintenance and owns maintenance retry |
 | [`AndroidManifest.xml`](../../../../app/src/main/AndroidManifest.xml) | Declares network permissions and the launcher Activity |
 
 ## Coordination model

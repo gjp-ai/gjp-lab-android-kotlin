@@ -19,7 +19,7 @@ doc/
     │   ├── splash_requirement.md / splash_detail_design.md
     │   └── maintenance_requirement.md / maintenance_detail_design.md
     ├── shell/navigation/                 ↔ shell/navigation/
-    │   ├── sidebar_requirement.md / sidebar_detail_design.md   (dashboard, CategorySidebar)
+    │   ├── sidebar_requirement.md / sidebar_detail_design.md   (sidebar and pane layout)
     │   └── catalog_requirement.md / catalog_detail_design.md
     ├── common/theme/                     ↔ common/theme/
     │   └── theme_detail_design.md        (Slate design system)
@@ -29,7 +29,7 @@ doc/
             └── <feature>_detail_design.md
 ```
 
-The `shell/` root files (`GJPLabApplication`, `MainActivity`, `AppModule`) are documented in [application architecture](architecture/application.md). `common/config/` and `common/network/` hold small helpers and have no spec.
+`ContentView` and `FeatureDestination` are documented in the sidebar detailed design; the other `shell/` root files (`GJPLabApplication`, `MainActivity`, `AppModule`) are documented in [application architecture](architecture/application.md). `common/config/` and `common/network/` hold small helpers and have no spec.
 
 `<feature>` is the code folder name (for example `httpurlconnection`, `blockappduringcalls`). Every screen has both a requirement and a detail design; add them together, starting from [`templates/`](templates/). Shared code with no user-facing behavior, such as `common/theme/`, has a detail design only.
 
@@ -45,7 +45,7 @@ The folder structure and names follow the iOS lab (`gjp-lab-ios-swift`), with `s
 | Decisions | [Decision records](decisions/README.md): why the project is shaped the way it is | — |
 | Splash (startup) | [Splash requirement](specs/shell/startup/splash_requirement.md) | [Splash detailed design](specs/shell/startup/splash_detail_design.md) |
 | Maintenance (startup) | [Maintenance requirement](specs/shell/startup/maintenance_requirement.md) | [Maintenance detailed design](specs/shell/startup/maintenance_detail_design.md) |
-| Category dashboard | [Dashboard requirement](specs/shell/navigation/sidebar_requirement.md) | [Dashboard detailed design](specs/shell/navigation/sidebar_detail_design.md) |
+| Category sidebar and panes | [Sidebar requirement](specs/shell/navigation/sidebar_requirement.md) | [Sidebar detailed design](specs/shell/navigation/sidebar_detail_design.md) |
 | Category catalogue | [Catalogue requirement](specs/shell/navigation/catalog_requirement.md) | [Catalogue detailed design](specs/shell/navigation/catalog_detail_design.md) |
 | HTTP Client → HttpURLConnection | [Requirement](specs/features/httpclient/httpurlconnection/httpurlconnection_requirement.md) | [Detailed design](specs/features/httpclient/httpurlconnection/httpurlconnection_detail_design.md) |
 | Security → Block App During Calls | [Requirement](specs/features/security/blockappduringcalls/blockappduringcalls_requirement.md) | [Detailed design](specs/features/security/blockappduringcalls/blockappduringcalls_detail_design.md) |

@@ -30,11 +30,11 @@ Let a developer build and send an HTTP request with Android's native `HttpURLCon
 
 ## UI & navigation
 
-- Entry point: **HTTP Client** category → **HttpsURLConnection** catalogue item.
+- Entry point: **HTTP Client** category → **HttpURLConnection** catalogue item.
 - Request screen controls: method chips (`GET`, `POST`, `PUT`, `DELETE`), URL field, request payload field (only for `POST` and `PUT`), and **Send request** button.
 - The send button is disabled while a request is running or when the URL is blank.
 - Response screen: HTTP status (colored by success or failure and still readable as text), response body (pretty-printed when it is JSON), and headers. Body and headers are selectable and scroll horizontally.
-- Both screens support light and dark themes and enlarged text; Back returns from the response to the request.
+- Both screens support light and dark themes and enlarged text. The response opens on top of the request inside the feature pane; Back returns to the request with its input unchanged.
 
 ## Rules & constraints
 
@@ -65,8 +65,8 @@ Let a developer build and send an HTTP request with Android's native `HttpURLCon
 ## Technical implementation constraints
 
 - Feature folder: `features/httpclient/httpurlconnection/`.
-- Navigation goes through `FeatureRoute.HttpURLConnection`; the response opens `HttpResponseActivity` with Intent extras.
-- `HttpURLConnectionRepository` owns request construction, timeouts, formatting, and headers; it is injected through Koin.
+- Navigation goes through `FeatureRoute.HttpURLConnection` (topic) and `DetailRoute.Response` (pushed screen), drawn by `ContentView`.
+- `HttpURLConnectionRepository` owns request construction, timeouts, formatting, and headers; it is injected through Koin and passed to the screen.
 - No new dependencies.
 
 ## Related documents

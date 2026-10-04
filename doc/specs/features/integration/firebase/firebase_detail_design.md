@@ -21,7 +21,7 @@ flowchart TD
     FirebaseModule --> Messaging
     SplashActivity --> FirebaseIntegration
     MainActivity --> FirebaseIntegration
-    FirebaseFeatureActivity --> FirebaseIntegration
+    FirebaseFeatureScreen --> FirebaseIntegration
     MessagingService[GJPLabFirebaseMessagingService] --> Messaging
 ```
 
@@ -86,7 +86,7 @@ Keep custom trace names stable and bounded. Always stop traces on every completi
 
 The integration can retrieve the current registration token and subscribe to `gjp_lab_demo`. [`GJPLabFirebaseMessagingService`](../../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/GJPLabFirebaseMessagingService.kt) handles token refresh and foreground messages, creates the notification channel, and opens `MainActivity` from an immutable `PendingIntent`.
 
-[`FirebaseFeatureActivity`](../../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseFeatureActivity.kt) requests `POST_NOTIFICATIONS` on Android 13 and newer. Token retrieval remains available after denial, although notifications are not shown without permission.
+[`FirebaseFeatureScreen`](../../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseFeatureScreen.kt) requests `POST_NOTIFICATIONS` on Android 13 and newer, with `rememberLauncherForActivityResult` when the screen opens. Token retrieval remains available after denial, although notifications are not shown without permission.
 
 FCM sending credentials belong on a trusted server using Firebase Admin SDK or HTTP v1. Never place a service account or server key in the Android app.
 
@@ -147,7 +147,7 @@ When moving to another Firebase project or Android app:
 | Limitation | Impact |
 | --- | --- |
 | Remote Config callback exposes only a Boolean | Callers cannot distinguish fresh, cached, default, or failed outcomes |
-| Firebase SDK tasks are callback based | Activity timeout does not cancel the SDK operation |
+| Firebase SDK tasks are callback based | The startup timeout does not cancel the SDK operation; a callback that arrives after the screen closes updates discarded state |
 | Notification permission is requested when the Firebase feature opens | The request is not tied to an explicit notification action |
 | Notification tap opens `MainActivity` without maintenance context | Missing extra defaults to the dashboard |
 | No Firebase emulator-backed automated tests | Integration confidence depends on manual/device checks |

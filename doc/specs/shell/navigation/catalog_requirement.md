@@ -10,34 +10,34 @@ Show every topic in a category, make clear which ones can be opened today, and o
 
 ### In scope
 
-- The catalogue screen for one category.
+- The catalogue pane for the selected category.
 - A list of the category's topics with their availability.
-- Opening an available topic's feature screen.
+- Selecting an available topic to show its feature.
 
 ### Out of scope
 
-- The category dashboard (see the [dashboard requirement](sidebar_requirement.md)) and the feature screens.
+- The category sidebar (see the [sidebar requirement](sidebar_requirement.md)) and the feature screens.
 - Search, filtering, or sorting topics.
 - Hiding planned topics or showing release dates for them.
 
 ## Behavior
 
-- The catalogue opens when the user taps a category on the dashboard.
+- The catalogue appears when a category is selected: beside the sidebar on large windows, in place of it on smaller ones.
 - Topics appear in a fixed order defined per category.
-- Tapping an available topic opens its feature screen; Back returns to the catalogue.
-- A planned topic is shown for orientation but does nothing when tapped.
-- An unknown category closes the catalogue instead of showing an empty screen.
+- Selecting an available topic shows its feature: in the next pane on wide windows, in place of the catalogue on phones.
+- A planned topic is shown for orientation but cannot be selected.
 
 ## UI & navigation
 
-- A back action to the dashboard, the category title, and the category description above the topic list.
-- A table-style card with "Component" and "Status" headings and one row per topic showing its title and description.
-- Available rows end with a forward arrow announced as "Open <title>"; planned rows end with a clock announced as "Planned".
-- Content width is limited to 720dp on large screens; light and dark themes and enlarged text are supported; descriptions wrap.
+- Pane title with the category name (and a back arrow when the sidebar is not visible), then the category description above the topic list.
+- One card per topic showing its title and description.
+- Available rows end with a chevron announced as "Open"; planned rows end with a clock announced as "Planned".
+- The selected topic's card has a thicker `primary` border when the feature is shown beside the catalogue.
+- Light and dark themes and enlarged text are supported; descriptions wrap instead of truncating.
 
 ## Rules & constraints
 
-- Category titles, descriptions, topics, and routes come from one source (`NavigationMenu`); the screen does not hard-code them.
+- Category names, descriptions, topics, and routes come from one source (`NavigationMenu`); the screen does not hard-code them.
 - A topic is available only when it has a route; there is no separate "enabled" flag.
 - Topic titles are unique within a category, and routes are unique across the catalogue.
 
@@ -49,20 +49,20 @@ None.
 
 | ID | Scenario | Expected result |
 | --- | --- | --- |
-| CAT-AC-01 | Open the HTTP Client category | HttpsURLConnection shows an arrow; Retrofit shows a clock. |
-| CAT-AC-02 | Tap an available topic | Its feature opens; Back returns to the catalogue. |
+| CAT-AC-01 | Select the HTTP Client category | HttpURLConnection shows a chevron; Retrofit shows a clock. |
+| CAT-AC-02 | Select an available topic | Its feature is shown; on a phone, Back returns to the catalogue. |
 | CAT-AC-03 | Tap a planned topic | Nothing happens. |
-| CAT-AC-04 | TalkBack on a row | It reads the title, description, and availability. |
+| CAT-AC-04 | TalkBack on a row | It reads the title, description, and availability as one element. |
 | CAT-AC-05 | Dark theme and a large font size | Rows remain readable and descriptions wrap. |
 
 ## Technical implementation constraints
 
 - Source lives in `shell/navigation/`.
-- `FeatureCatalogActivity` receives the category `id` as an Intent extra and maps each `FeatureRoute` to a feature Activity.
+- The list reports selection to `ContentView`'s selected topic (`FeatureRoute?`); only available rows are clickable.
 - Each topic's optional `route` is a `FeatureRoute` case; `NavigationMenuTest` checks every route appears exactly once.
 
 ## Related documents
 
 - [Detailed design](catalog_detail_design.md)
-- [Dashboard requirement](sidebar_requirement.md)
+- [Sidebar requirement](sidebar_requirement.md)
 - [Slate design system](../../common/theme/theme_detail_design.md)

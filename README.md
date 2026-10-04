@@ -4,7 +4,7 @@ GJPLab is a small Jetpack Compose app for learning current Android fundamentals 
 
 ## Features
 
-The dashboard lists the categories; each category's catalogue marks topics as available (arrow) or planned (clock). The dashboard grid shows 2, 3, or 5 columns depending on the window width, so it works on phones, foldables, and tablets.
+A sidebar lists the categories; each category's catalogue marks topics as available (chevron) or planned (clock). On large windows (1200dp and wider) the sidebar, catalogue, and feature sit side by side; from 840dp two panes are shown; on phones they collapse into one stack with Back between levels.
 
 | Category | Available | Planned |
 | --- | --- | --- |
@@ -41,7 +41,8 @@ App-wide behavior: a branded splash screen, a Remote Config maintenance mode, an
 ```
 app/src/main/java/com/ganjianping/lab/ak/
 ├── shell/        application, MainActivity, Koin AppModule;
-│                 startup/ (splash, maintenance), navigation/ (NavigationMenu, dashboard, catalogue)
+│                 startup/ (splash, maintenance), navigation/ (NavigationMenu, panes, sidebar, catalogue);
+│                 ContentView (navigation state), FeatureDestination (route → screen)
 ├── features/     <category>/<feature>/, one flat folder per feature (Firebase in integration/firebase/)
 └── common/       config/, network/, and theme/ (GJPLabTheme)
 app/src/test/         JUnit unit tests

@@ -24,7 +24,7 @@ Describe the user or product outcome in one or two sentences. State why the feat
 
 ## UI & navigation
 
-- Identify the catalogue/category entry point and destination Activity or screen.
+- Identify the catalogue/category entry point and destination screen.
 - List required controls, status content, empty/error states, and test-only affordances.
 - State accessibility, light/dark, text-scale, and back-stack expectations where material.
 
@@ -47,7 +47,7 @@ Describe the user or product outcome in one or two sentences. State why the feat
 
 ## Technical implementation constraints
 
-- Name the feature folder (`features/<category>/<feature>/`) and the existing integration points: its `FeatureRoute` case, the topic in `shell/navigation/NavigationMenu.kt`, the Activity launch in `FeatureCatalogActivity`, and the manifest entry.
+- Name the feature folder (`features/<category>/<feature>/`) and the existing integration points: its `FeatureRoute` case, the topic in `shell/navigation/NavigationMenu.kt`, and its screen in `shell/FeatureDestination.kt`.
 - State required separation of shared, platform, data, integration, and Compose UI concerns.
 - Forbid unrelated refactors and new dependencies unless the requirement approves them.
 

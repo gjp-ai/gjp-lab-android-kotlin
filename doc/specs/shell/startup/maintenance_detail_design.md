@@ -19,14 +19,14 @@ Show a blocking maintenance message when the remote flag is enabled, and let the
 
 ## Ownership and flow
 
-`MaintenanceScreen` holds no state. `MainActivity` keeps `maintenanceEnabled` in a Compose `mutableStateOf` field and renders `MaintenanceScreen` instead of `CategorySidebar` while it is `true`. There is no Activity for maintenance, so Back simply leaves the app.
+`MaintenanceScreen` holds no state. `MainActivity` keeps `maintenanceEnabled` in a Compose `mutableStateOf` field and renders `MaintenanceScreen` instead of `ContentView` while it is `true`. There is no Activity for maintenance, so Back simply leaves the app.
 
 ```mermaid
 flowchart TD
     Extra[EXTRA_MAINTENANCE_ENABLED = true] --> Screen[MaintenanceScreen]
     Screen -->|Try again| Fetch[FirebaseIntegration.fetchMaintenanceMode]
     Fetch -->|true| Screen
-    Fetch -->|false, failure, or default| Dashboard[CategorySidebar]
+    Fetch -->|false, failure, or default| Dashboard[ContentView]
 ```
 
 Unlike startup, retry has no connectivity precheck and no 5-second timeout; it waits for the Firebase task to complete. A failed fetch reports the last activated value or the `false` default.

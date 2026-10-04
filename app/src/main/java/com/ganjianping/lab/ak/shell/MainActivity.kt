@@ -8,18 +8,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
+import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpURLConnectionRepository
 import com.ganjianping.lab.ak.features.integration.firebase.FirebaseIntegration
+import com.ganjianping.lab.ak.features.others.deviceinfo.DeviceInfoRepository
 import com.ganjianping.lab.ak.features.security.blockappduringcalls.BlockAppDuringCallsController
 import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
-import com.ganjianping.lab.ak.shell.navigation.CategorySidebar
-import com.ganjianping.lab.ak.shell.navigation.FeatureCatalogActivity
-import com.ganjianping.lab.ak.shell.navigation.NavigationCategory
 import com.ganjianping.lab.ak.shell.startup.MaintenanceScreen
 import org.koin.android.ext.android.inject
 
+/** The app's only navigation Activity: maintenance, or `ContentView` with every category, topic, and feature. */
 class MainActivity : ComponentActivity() {
     private val firebaseIntegration: FirebaseIntegration by inject()
     private val callBlocker: BlockAppDuringCallsController by inject()
+    private val deviceInfoRepository: DeviceInfoRepository by inject()
+    private val httpURLConnectionRepository: HttpURLConnectionRepository by inject()
+    private val featureDependencies by lazy {
+        FeatureDependencies(deviceInfoRepository, httpURLConnectionRepository, firebaseIntegration, callBlocker)
+    }
     private var maintenanceEnabled by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +36,8 @@ class MainActivity : ComponentActivity() {
                 CallBlockingHost(callBlocker) {
                     when {
                         maintenanceEnabled -> MaintenanceScreen(onRetry = ::loadRemoteConfig)
-                        else -> CategorySidebar { category ->
-                            startActivity(FeatureCatalogActivity.createIntent(this, category))
+                        else -> ContentView { route, onResponse ->
+                            FeatureDestination(route, featureDependencies, onResponse)
                         }
                     }
                 }

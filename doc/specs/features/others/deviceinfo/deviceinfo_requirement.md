@@ -27,8 +27,8 @@ Show a read-only snapshot of the Android version and hardware the app is running
 ## UI & navigation
 
 - Entry point: **Others** category → **OS & Hardware** catalogue item.
-- Title "OS & hardware", a one-line introduction, and two cards: **Android OS** and **Hardware**, each a list of label and value rows.
-- Light and dark themes and enlarged text are supported; Back returns to the catalogue.
+- Pane title "OS & Hardware" (the topic title), a one-line introduction, and two cards: **Android OS** and **Hardware**, each a list of label and value rows.
+- Light and dark themes and enlarged text are supported; on phones, Back returns to the catalogue.
 
 ## Rules & constraints
 
@@ -51,7 +51,7 @@ Show a read-only snapshot of the Android version and hardware the app is running
 ## Technical implementation constraints
 
 - Source lives in `features/others/deviceinfo/`.
-- Platform APIs are called only by `DeviceInfoRepository`, which is injected through Koin.
+- Platform APIs are called only by `DeviceInfoRepository`, which is injected through Koin and passed to the screen.
 - No new dependencies.
 
 ## Related documents

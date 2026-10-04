@@ -35,4 +35,12 @@ class NavigationMenuTest {
         assertEquals("HTTP Client", category!!.title)
         assertEquals(null, NavigationMenu.category("missing"))
     }
+
+    @Test
+    fun everyRouteHasATopicTitleForItsPane() {
+        FeatureRoute.entries.forEach { route ->
+            assertEquals(route, NavigationMenu.topic(route).route)
+        }
+        assertEquals("HttpURLConnection", NavigationMenu.topic(FeatureRoute.HttpURLConnection).title)
+    }
 }

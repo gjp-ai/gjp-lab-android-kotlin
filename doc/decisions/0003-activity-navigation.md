@@ -1,6 +1,6 @@
 # 0003: Activity-based navigation with explicit Intents
 
-Status: Accepted, 2026-10-04
+Status: Superseded by [0005](0005-adaptive-pane-navigation.md), 2026-10-04
 
 ## Context
 

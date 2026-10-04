@@ -40,7 +40,7 @@ object NavigationMenu {
             description = "Compare a native connection API with a popular HTTP client library.",
             icon = Icons.Outlined.Http,
             topics = listOf(
-                NavigationTopic("HttpsURLConnection", "Native HttpURLConnection request sample.", FeatureRoute.HttpURLConnection),
+                NavigationTopic("HttpURLConnection", "Native HttpURLConnection request sample.", FeatureRoute.HttpURLConnection),
                 NavigationTopic("Retrofit", "Type-safe HTTP client integration.")
             )
         ),
@@ -84,6 +84,9 @@ object NavigationMenu {
     )
 
     fun category(id: String): NavigationCategory? = categories.firstOrNull { it.id == id }
+
+    fun topic(route: FeatureRoute): NavigationTopic =
+        categories.flatMap { it.topics }.first { it.route == route }
 }
 
 /** A dashboard card and the catalogue it opens. */

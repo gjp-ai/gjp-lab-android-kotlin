@@ -1,5 +1,13 @@
 package com.ganjianping.lab.ak.features.integration.firebase
 
+import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,17 +26,106 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import com.ganjianping.lab.ak.common.theme.GJPLabTheme
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FirebaseFeatureScreen(
+fun FirebaseFeatureScreen(integration: FirebaseIntegration) {
+    val context = LocalContext.current
+    var analyticsStatus by rememberSaveable { mutableStateOf("No event sent yet") }
+    var crashlyticsStatus by rememberSaveable { mutableStateOf("No non-fatal exception recorded yet") }
+    var remoteConfigStatus by rememberSaveable { mutableStateOf("Not fetched yet") }
+    var performanceStatus by rememberSaveable { mutableStateOf("No custom trace completed yet") }
+    var messagingStatus by rememberSaveable { mutableStateOf("Token not loaded yet") }
+    var messagingToken by remember { mutableStateOf<String?>(null) }
+    var tokenCopied by remember { mutableStateOf(false) }
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (!granted) messagingStatus = "Notifications are disabled; FCM token is still available"
+    }
+
+    LaunchedEffect(Unit) {
+        integration.logFirebaseFeatureOpened()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    FirebaseFeatureContent(
+        analyticsStatus = analyticsStatus,
+        crashlyticsStatus = crashlyticsStatus,
+        remoteConfigStatus = remoteConfigStatus,
+        performanceStatus = performanceStatus,
+        messagingStatus = messagingStatus,
+        messagingToken = messagingToken,
+        tokenCopied = tokenCopied,
+        onLogAnalytics = {
+            integration.logFirebaseFeatureOpened()
+            analyticsStatus = "${FirebaseConstants.EventFirebaseFeatureOpened} sent"
+        },
+        onRecordCrashlytics = {
+            integration.recordCrashlyticsDemo()
+            crashlyticsStatus = "Non-fatal demo exception recorded"
+        },
+        onFetchRemoteConfig = {
+            remoteConfigStatus = "Fetching maintenance flag..."
+            integration.fetchMaintenanceMode { enabled ->
+                remoteConfigStatus = "${FirebaseConstants.RemoteConfigMaintenanceEnabled} = $enabled"
+            }
+        },
+        onRunPerformance = {
+            performanceStatus = "Running custom trace..."
+            integration.runPerformanceDemo { durationMillis ->
+                performanceStatus = "${FirebaseConstants.PerformanceDemoTrace} completed in $durationMillis ms"
+            }
+        },
+        onFetchMessagingToken = {
+            messagingStatus = "Loading FCM token..."
+            tokenCopied = false
+            integration.fetchMessagingToken { token, error ->
+                messagingToken = token
+                messagingStatus = token?.let { "Full token loaded" }
+                    ?: "Token error: ${error?.message ?: "unknown error"}"
+            }
+        },
+        onCopyToken = {
+            messagingToken?.let { token ->
+                val clipboard = context.getSystemService(ClipboardManager::class.java)
+                clipboard.setPrimaryClip(ClipData.newPlainText("FCM registration token", token))
+                tokenCopied = true
+            }
+        },
+        onSubscribeToTopic = {
+            messagingStatus = "Subscribing to ${FirebaseConstants.MessagingDemoTopic}..."
+            integration.subscribeToMessagingDemoTopic { success ->
+                messagingStatus = if (success) {
+                    "Subscribed to ${FirebaseConstants.MessagingDemoTopic}"
+                } else {
+                    "Topic subscription failed"
+                }
+            }
+        }
+    )
+}
+
+@Composable
+private fun FirebaseFeatureContent(
     analyticsStatus: String,
     crashlyticsStatus: String,
     remoteConfigStatus: String,
@@ -36,7 +133,6 @@ fun FirebaseFeatureScreen(
     messagingStatus: String,
     messagingToken: String?,
     tokenCopied: Boolean,
-    onBack: () -> Unit,
     onLogAnalytics: () -> Unit,
     onRecordCrashlytics: () -> Unit,
     onFetchRemoteConfig: () -> Unit,
@@ -45,79 +141,73 @@ fun FirebaseFeatureScreen(
     onCopyToken: () -> Unit,
     onSubscribeToTopic: () -> Unit
 ) {
-    Scaffold { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            TextButton(onClick = onBack, modifier = Modifier.padding(top = 8.dp)) {
-                Text("‹  Dashboard")
-            }
-            Text("Firebase", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-            Text(
-                "Run small, safe demonstrations of the Firebase services used by GJPLab.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(Modifier.height(4.dp))
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        Text(
+            "Run small, safe demonstrations of the Firebase services used by GJPLab.",
+            modifier = Modifier.padding(top = 4.dp),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(4.dp))
 
-            FirebaseActionCard(
-                title = "Analytics",
-                description = "Send a ${FirebaseConstants.EventFirebaseFeatureOpened} event.",
-                status = analyticsStatus,
-                actionLabel = "Log event",
-                onAction = onLogAnalytics
-            )
-            FirebaseActionCard(
-                title = "Crashlytics",
-                description = "Record a non-fatal demo exception without crashing the app.",
-                status = crashlyticsStatus,
-                actionLabel = "Record exception",
-                onAction = onRecordCrashlytics
-            )
-            FirebaseActionCard(
-                title = "Remote Config",
-                description = "Fetch the maintenance-mode flag from Firebase.",
-                status = remoteConfigStatus,
-                actionLabel = "Fetch flag",
-                onAction = onFetchRemoteConfig
-            )
-            FirebaseActionCard(
-                title = "Performance Monitoring",
-                description = "Run and complete a short custom performance trace.",
-                status = performanceStatus,
-                actionLabel = "Run trace",
-                onAction = onRunPerformance
-            )
-            FirebaseActionCard(
-                title = "Cloud Messaging",
-                description = "Retrieve the FCM token or subscribe to the demo topic.",
-                status = messagingStatus,
-                actionLabel = "Get token",
-                onAction = onFetchMessagingToken,
-                extraContent = messagingToken?.let { token ->
-                    {
-                        SelectionContainer {
-                            RowWithCopyButton(
-                                token = token,
-                                tokenCopied = tokenCopied,
-                                onCopyToken = onCopyToken
-                            )
-                        }
+        FirebaseActionCard(
+            title = "Analytics",
+            description = "Send a ${FirebaseConstants.EventFirebaseFeatureOpened} event.",
+            status = analyticsStatus,
+            actionLabel = "Log event",
+            onAction = onLogAnalytics
+        )
+        FirebaseActionCard(
+            title = "Crashlytics",
+            description = "Record a non-fatal demo exception without crashing the app.",
+            status = crashlyticsStatus,
+            actionLabel = "Record exception",
+            onAction = onRecordCrashlytics
+        )
+        FirebaseActionCard(
+            title = "Remote Config",
+            description = "Fetch the maintenance-mode flag from Firebase.",
+            status = remoteConfigStatus,
+            actionLabel = "Fetch flag",
+            onAction = onFetchRemoteConfig
+        )
+        FirebaseActionCard(
+            title = "Performance Monitoring",
+            description = "Run and complete a short custom performance trace.",
+            status = performanceStatus,
+            actionLabel = "Run trace",
+            onAction = onRunPerformance
+        )
+        FirebaseActionCard(
+            title = "Cloud Messaging",
+            description = "Retrieve the FCM token or subscribe to the demo topic.",
+            status = messagingStatus,
+            actionLabel = "Get token",
+            onAction = onFetchMessagingToken,
+            extraContent = messagingToken?.let { token ->
+                {
+                    SelectionContainer {
+                        RowWithCopyButton(
+                            token = token,
+                            tokenCopied = tokenCopied,
+                            onCopyToken = onCopyToken
+                        )
                     }
                 }
-            )
-            Button(
-                onClick = onSubscribeToTopic,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Subscribe to demo topic")
             }
-            Spacer(Modifier.height(10.dp))
+        )
+        Button(
+            onClick = onSubscribeToTopic,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Subscribe to demo topic")
         }
+        Spacer(Modifier.height(10.dp))
     }
 }
 
@@ -189,3 +279,43 @@ private fun RowWithCopyButton(
         )
     }
 }
+
+@Composable
+private fun FirebasePreview(token: String?) {
+    GJPLabTheme {
+        Column(Modifier.background(MaterialTheme.colorScheme.background)) {
+            FirebaseFeatureContent(
+                analyticsStatus = "${FirebaseConstants.EventFirebaseFeatureOpened} sent",
+                crashlyticsStatus = "No non-fatal exception recorded yet",
+                remoteConfigStatus = "${FirebaseConstants.RemoteConfigMaintenanceEnabled} = false",
+                performanceStatus = "No custom trace completed yet",
+                messagingStatus = if (token == null) "Token not loaded yet" else "Full token loaded",
+                messagingToken = token,
+                tokenCopied = false,
+                onLogAnalytics = {},
+                onRecordCrashlytics = {},
+                onFetchRemoteConfig = {},
+                onRunPerformance = {},
+                onFetchMessagingToken = {},
+                onCopyToken = {},
+                onSubscribeToTopic = {}
+            )
+        }
+    }
+}
+
+@Preview(name = "Firebase - light", showBackground = true, widthDp = 360, heightDp = 1400)
+@Composable
+private fun FirebaseFeaturePreview() = FirebasePreview(token = null)
+
+@Preview(name = "Firebase - dark", showBackground = true, widthDp = 360, heightDp = 1400, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun FirebaseFeatureDarkPreview() = FirebasePreview(token = null)
+
+@Preview(name = "Token loaded - light", showBackground = true, widthDp = 360, heightDp = 1400)
+@Composable
+private fun FirebaseTokenPreview() = FirebasePreview(token = "fcm-demo-token-0123456789")
+
+@Preview(name = "Token loaded - dark", showBackground = true, widthDp = 360, heightDp = 1400, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun FirebaseTokenDarkPreview() = FirebasePreview(token = "fcm-demo-token-0123456789")

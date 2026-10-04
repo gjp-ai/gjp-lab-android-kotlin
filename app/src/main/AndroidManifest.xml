@@ -18,36 +18,6 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/Theme.GJPLab">
-        <activity
-            android:name=".shell.navigation.FeatureCatalogActivity"
-            android:exported="false"
-            android:label="Feature catalogue"
-            android:theme="@style/Theme.GJPLab" />
-        <activity
-            android:name=".features.others.deviceinfo.DeviceInfoActivity"
-            android:exported="false"
-            android:label="OS &amp; hardware"
-            android:theme="@style/Theme.GJPLab" />
-        <activity
-            android:name=".features.httpclient.httpurlconnection.HttpURLConnectionActivity"
-            android:exported="false"
-            android:label="HttpURLConnection"
-            android:theme="@style/Theme.GJPLab" />
-        <activity
-            android:name=".features.httpclient.httpurlconnection.HttpResponseActivity"
-            android:exported="false"
-            android:label="HTTP response"
-            android:theme="@style/Theme.GJPLab" />
-        <activity
-            android:name=".features.integration.firebase.FirebaseFeatureActivity"
-            android:exported="false"
-            android:label="Firebase"
-            android:theme="@style/Theme.GJPLab" />
-        <activity
-            android:name=".features.security.blockappduringcalls.BlockAppDuringCallsActivity"
-            android:exported="false"
-            android:label="Block App During Calls"
-            android:theme="@style/Theme.GJPLab" />
         <service
             android:name=".features.integration.firebase.GJPLabFirebaseMessagingService"
             android:exported="false">

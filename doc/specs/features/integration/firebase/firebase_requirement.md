@@ -36,7 +36,7 @@ Let a developer trigger each Firebase service used by GJP Lab on demand and see 
 
 - Entry point: **Integration** category → **Firebase** catalogue item.
 - Title "Firebase", an introduction, one card per service (title, description, status, action button), the token row when loaded, and the subscribe button.
-- Light and dark themes and enlarged text are supported; Back returns to the catalogue.
+- Light and dark themes and enlarged text are supported; on phones, Back returns to the catalogue.
 
 ## Rules & constraints
 
@@ -64,8 +64,8 @@ Let a developer trigger each Firebase service used by GJP Lab on demand and see 
 
 ## Technical implementation constraints
 
-- All Firebase source lives in `features/integration/firebase/`; Activities call Firebase only through the Koin-provided `FirebaseIntegration`.
-- `FirebaseFeatureActivity` owns the status state and the notification-permission launcher.
+- All Firebase source lives in `features/integration/firebase/`; code calls Firebase only through the Koin-provided `FirebaseIntegration`.
+- `FirebaseFeatureScreen` receives `FirebaseIntegration` and owns the status state and the notification-permission launcher.
 - No new dependencies.
 
 ## Related documents

@@ -26,7 +26,7 @@ Offer an optional, best-effort privacy control that prevents interaction with GJ
 ## Behavior
 
 - The feature starts disabled. Selecting **Enable call blocking** explains the `READ_PHONE_STATE` purpose and starts Android's runtime-permission request; it must not request permission at app launch.
-- When enabled and permission is granted, the app reads aggregate call presence with `TelecomManager.isInCall()` whenever the process enters the foreground and when a feature Activity resumes. A true result blocks interaction with every currently supported GJPLab Activity.
+- When enabled and permission is granted, the app reads aggregate call presence with `TelecomManager.isInCall()` whenever the process enters the foreground and when the app's Activity resumes. A true result blocks interaction with every GJPLab screen.
 - `TelephonyCallback.CallStateListener` may update the overlay promptly for mobile telephony call-state changes on API 31 and above. It is not evidence of third-party VoIP/video call state.
 - The app removes the overlay after a subsequent supported check reports no active call, when the user disables the feature, or when the simulated call ends.
 - The app stores only the enabled preference. It must not collect, display, persist, log, or send phone numbers, call handles, contact data, call metadata, or provider names.
@@ -39,7 +39,7 @@ Offer an optional, best-effort privacy control that prevents interaction with GJ
 - Before requesting `READ_PHONE_STATE`, explain that the permission lets GJPLab determine whether Android reports an ongoing call; it does not give access to call content or contacts.
 - If the user denies or later revokes permission, show **Permission required**, provide a non-coercive route to app settings when appropriate, and leave the app usable. Do not repeatedly prompt.
 - The blocking overlay is app-owned, accessible, and shown above the destination content. It has no bypass for a real call; a simulated call exposes only a test-only **End simulated call** action. It says that access resumes when Android no longer reports a call or the feature is turned off, and it does not identify the call or its provider.
-- Follow the existing Material 3, Activity-navigation, dark-theme, text-scale, and Back-navigation patterns.
+- Follow the existing Material 3, pane navigation, dark-theme, text-scale, and Back-navigation patterns.
 
 ## Rules & constraints
 
@@ -80,20 +80,20 @@ Offer an optional, best-effort privacy control that prevents interaction with GJ
 
 | Area | Status | Evidence or gap |
 | --- | --- | --- |
-| Security catalogue, settings Activity, preference, and simulated-call path | Implemented | `FeatureRoute`, `FeatureCatalogScreen`, and `features/security/blockappduringcalls/` |
-| App-wide overlay for the current Activities | Implemented | Each current Activity hosts `CallBlockingHost` |
-| Explicit runtime permission | Implemented | Settings Activity requests `READ_PHONE_STATE` only after enable |
-| Foreground aggregate state refresh | Implemented | `TelecomManager.isInCall()` on Activity resume |
-| Prompt mobile call changes on API 31+ | Implemented | `TelephonyCallback.CallStateListener` while an Activity is foregrounded |
+| Security catalogue, settings screen, preference, and simulated-call path | Implemented | `FeatureRoute`, `FeatureCatalogScreen`, and `features/security/blockappduringcalls/` |
+| App-wide overlay | Implemented | `MainActivity` and `SplashActivity` host `CallBlockingHost` above all panes |
+| Explicit runtime permission | Implemented | The settings screen requests `READ_PHONE_STATE` only after enable |
+| Foreground aggregate state refresh | Implemented | `TelecomManager.isInCall()` when `MainActivity` resumes |
+| Prompt mobile call changes on API 31+ | Implemented | `TelephonyCallback.CallStateListener` while the app is in the foreground |
 | Real-call device verification | Planned | Requires a suitable physical device, granted permission, and system-exposed call |
 | VoIP/video provider coverage | Open | Android determines whether a provider exposes its call through Telecom |
 
 ## Technical implementation constraints
 
-- Add the Security catalogue route, a feature Activity/screen under `features/security/blockappduringcalls/`, and a small platform adapter; do not construct Android services in a composable.
+- Add the Security catalogue route, a feature screen under `features/security/blockappduringcalls/`, and a small platform adapter; do not construct Android services in a composable.
 - Keep the persisted preference and derived `isBlocking` state separate from Android API calls. Inject the adapter through Koin and make the simulated state controllable in tests.
-- The app-wide overlay must be integrated at every feature-Activity root or through an explicitly introduced shared host. A screen-local overlay does not satisfy the app-wide requirement.
-- Keep the runtime-permission launcher in the settings Activity. Declare `READ_PHONE_STATE` in the manifest only when the feature is implemented.
+- The app-wide overlay must be integrated at the root of every Activity (today `MainActivity` and `SplashActivity`). A screen-local overlay does not satisfy the app-wide requirement.
+- Request the runtime permission from the settings screen, only after the user enables the feature. Declare `READ_PHONE_STATE` in the manifest only when the feature is implemented.
 - Register callbacks only while an appropriate foreground lifecycle owner is active, unregister them deterministically, and handle `SecurityException` as unavailable rather than crashing or weakening the design.
 - Add deterministic JVM tests for derived blocking state and Compose/instrumented coverage for permission-denied, simulated-call, lifecycle-refresh, overlay, and preference behavior. Tests must not depend on a live call or a third-party app.
 - Do not add a dependency, default-dialer component, foreground service, or unrelated architecture migration solely for this feature.
