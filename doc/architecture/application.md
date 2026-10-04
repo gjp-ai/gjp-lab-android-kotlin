@@ -62,7 +62,8 @@ The project intentionally uses Activity fields and Compose `mutableStateOf` rath
 - Activity recreation resets transient fields unless they are reconstructed from the Intent or another source.
 - Long-running operations are owned by an Activity lifecycle or by an SDK callback.
 - Navigation is implemented with explicit Intents rather than a navigation graph.
-- The dashboard passes a `NavigationCategory` name to the catalogue Activity; the catalogue owns only the category-list UI and delegates implemented feature launches to explicit Intents.
+- Dashboard and catalogue content (categories, topics, and each topic's `FeatureRoute`) lives only in [`NavigationMenu`](../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/NavigationMenu.kt). A topic without a route is shown as planned; `NavigationMenuTest` fails if a route is missing or listed twice.
+- The dashboard passes the category `id` to the catalogue Activity; the catalogue renders that category's topics and opens implemented features with explicit Intents.
 - Process-death restoration and multi-screen shared state are not general project guarantees.
 
 Do not introduce a ViewModel, navigation framework, domain layer, or module split as an incidental refactor. Introduce one only when a feature requirement demonstrates the need and include migration tests.

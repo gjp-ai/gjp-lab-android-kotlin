@@ -33,7 +33,7 @@ class HttpURLConnectionActivity : ComponentActivity() {
                             onBack = ::finish,
                             onError = { message ->
                                 activityErrorMessage = message
-                                Log.e(TAG, "Request failed: $message")
+                                Log.e(TAG, "Request failed")
                             },
                             onResponse = { response ->
                                 activityErrorMessage = null

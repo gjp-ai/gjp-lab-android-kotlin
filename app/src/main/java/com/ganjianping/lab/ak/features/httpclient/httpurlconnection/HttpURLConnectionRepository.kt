@@ -14,7 +14,7 @@ class HttpURLConnectionRepository {
     private val tag = "HttpURLConnection"
 
     suspend fun execute(method: HttpMethod, urlText: String, payload: String): HttpResponse = withContext(Dispatchers.IO) {
-        Log.d(tag, "Starting ${method.name} request: ${urlText.trim()}")
+        Log.d(tag, "Starting ${method.name} request")
         val connection = (URL(urlText.trim()).openConnection() as HttpURLConnection).apply {
             requestMethod = method.name
             connectTimeout = 15_000
@@ -45,17 +45,17 @@ class HttpURLConnectionRepository {
                     .mapValues { it.value.joinToString() }
             )
         } catch (exception: SSLHandshakeException) {
-            Log.e(tag, "TLS certificate validation failed for ${urlText.trim()}", exception)
+            Log.e(tag, "TLS certificate validation failed")
             throw IOException(
                 "TLS certificate validation failed. The server must provide a trusted certificate chain.",
                 exception
             )
         } catch (exception: Exception) {
-            Log.e(tag, "${method.name} request failed: ${exception.message}", exception)
+            Log.e(tag, "${method.name} request failed: ${exception.javaClass.simpleName}")
             throw exception
         } finally {
             connection.disconnect()
-            Log.d(tag, "Connection closed: ${method.name} ${urlText.trim()}")
+            Log.d(tag, "Connection closed")
         }
     }
 

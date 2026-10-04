@@ -20,7 +20,7 @@ class FeatureCatalogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val category = intent.getStringExtra(EXTRA_CATEGORY)
-            ?.let { name -> NavigationCategory.entries.firstOrNull { it.name == name } }
+            ?.let(NavigationMenu::category)
             ?: run {
                 finish()
                 return
@@ -65,6 +65,6 @@ class FeatureCatalogActivity : ComponentActivity() {
 
         fun createIntent(context: Context, category: NavigationCategory): Intent =
             Intent(context, FeatureCatalogActivity::class.java)
-                .putExtra(EXTRA_CATEGORY, category.name)
+                .putExtra(EXTRA_CATEGORY, category.id)
     }
 }

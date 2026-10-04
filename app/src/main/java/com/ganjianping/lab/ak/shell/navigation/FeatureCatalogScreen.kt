@@ -43,7 +43,6 @@ fun FeatureCatalogScreen(
     onBack: () -> Unit,
     onFeatureSelected: (FeatureRoute) -> Unit
 ) {
-    val items = navigationTopics(category)
     Scaffold(containerColor = MaterialTheme.colorScheme.background) { padding ->
         Box(
             modifier = Modifier
@@ -62,14 +61,14 @@ fun FeatureCatalogScreen(
                 TextButton(onClick = onBack, modifier = Modifier.padding(top = 8.dp)) {
                     Text("‹  Dashboard")
                 }
-                Text(categoryTitle(category), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+                Text(category.title, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                 Text(
-                    categoryDescription(category),
+                    category.description,
                     modifier = Modifier.padding(top = 6.dp, bottom = 22.dp),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyLarge
                 )
-                CatalogTable(items, onFeatureSelected)
+                CatalogTable(category.topics, onFeatureSelected)
             }
         }
     }
@@ -153,66 +152,11 @@ private fun CatalogTableRow(item: NavigationTopic, onFeatureSelected: (FeatureRo
     }
 }
 
-private fun categoryTitle(category: NavigationCategory): String = when (category) {
-    NavigationCategory.JetpackCompose -> "Jetpack Compose"
-    NavigationCategory.HttpClient -> "HTTP client"
-    NavigationCategory.Security -> "Security"
-    NavigationCategory.Integration -> "Integration"
-    NavigationCategory.Others -> "Others"
-}
-
-private fun categoryDescription(category: NavigationCategory): String = when (category) {
-    NavigationCategory.JetpackCompose -> "A practical index of the Compose building blocks used in Android UI."
-    NavigationCategory.HttpClient -> "Compare a native connection API with a popular HTTP client library."
-    NavigationCategory.Security -> "Screen-capture detection topics for protecting sensitive content."
-    NavigationCategory.Integration -> "External SDKs and services connected to the Android app."
-    NavigationCategory.Others -> "Android platform information available on the current device."
-}
-
-private fun navigationTopics(category: NavigationCategory): List<NavigationTopic> = when (category) {
-    NavigationCategory.JetpackCompose -> listOf(
-        NavigationTopic("Material 3", "Theme roles, surfaces, and component styling."),
-        NavigationTopic("Layouts", "Rows, columns, boxes, and responsive arrangements."),
-        NavigationTopic("Text & input", "Text, text fields, and user-input patterns."),
-        NavigationTopic("Buttons & actions", "Buttons, FABs, and touch targets."),
-        NavigationTopic("Selection", "Chips, switches, checkboxes, and radio buttons."),
-        NavigationTopic("Lists & grids", "Lazy lists and grids for collections."),
-        NavigationTopic("Navigation", "Navigation surfaces and destination patterns."),
-        NavigationTopic("Animation", "State-driven transitions and motion."),
-        NavigationTopic("Drawing & graphics", "Canvas, images, and custom visuals."),
-        NavigationTopic("Accessibility & testing", "Semantics, scaling, and UI tests.")
-    )
-
-    NavigationCategory.HttpClient -> listOf(
-        NavigationTopic("HttpsURLConnection", "Native HttpURLConnection request sample.", FeatureRoute.HttpURLConnection),
-        NavigationTopic("Retrofit", "Type-safe HTTP client integration.")
-    )
-
-    NavigationCategory.Security -> listOf(
-        NavigationTopic(
-            "Block App During Calls",
-            "Block access while Android reports a supported active call.",
-            FeatureRoute.BlockAppDuringCalls
-        ),
-        NavigationTopic("Screenshot Detection", "Detect screenshot events where supported."),
-        NavigationTopic("Screen Sharing Detection", "Detect active screen sharing where supported."),
-        NavigationTopic("Screen Recording Detection", "Detect active screen recording where supported.")
-    )
-
-    NavigationCategory.Integration -> listOf(
-        NavigationTopic("Firebase", "Analytics, Config, Crashlytics, Performance, and Messaging.", FeatureRoute.Firebase)
-    )
-
-    NavigationCategory.Others -> listOf(
-        NavigationTopic("OS & Hardware", "Inspect the Android OS and current device hardware.", FeatureRoute.DeviceInfo)
-    )
-}
-
 @Preview(name = "HTTP client catalogue", showBackground = true, widthDp = 360)
 @Composable
 private fun HttpClientCatalogPreview() {
     GJPLabTheme {
-        FeatureCatalogScreen(NavigationCategory.HttpClient, onBack = {}, onFeatureSelected = {})
+        FeatureCatalogScreen(NavigationMenu.category("httpClient")!!, onBack = {}, onFeatureSelected = {})
     }
 }
 
@@ -220,7 +164,7 @@ private fun HttpClientCatalogPreview() {
 @Composable
 private fun ComposeCatalogTabletPreview() {
     GJPLabTheme {
-        FeatureCatalogScreen(NavigationCategory.JetpackCompose, onBack = {}, onFeatureSelected = {})
+        FeatureCatalogScreen(NavigationMenu.category("compose")!!, onBack = {}, onFeatureSelected = {})
     }
 }
 
@@ -233,6 +177,6 @@ private fun ComposeCatalogTabletPreview() {
 @Composable
 private fun HttpClientCatalogDarkPreview() {
     GJPLabTheme {
-        FeatureCatalogScreen(NavigationCategory.HttpClient, onBack = {}, onFeatureSelected = {})
+        FeatureCatalogScreen(NavigationMenu.category("httpClient")!!, onBack = {}, onFeatureSelected = {})
     }
 }

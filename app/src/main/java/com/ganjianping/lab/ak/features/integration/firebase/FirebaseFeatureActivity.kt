@@ -55,7 +55,7 @@ class FirebaseFeatureActivity : ComponentActivity() {
                         onBack = ::finish,
                         onLogAnalytics = {
                             firebaseIntegration.logFirebaseFeatureOpened()
-                            analyticsStatus = "firebase_feature_opened sent"
+                            analyticsStatus = "${FirebaseConstants.EventFirebaseFeatureOpened} sent"
                         },
                         onRecordCrashlytics = {
                             firebaseIntegration.recordCrashlyticsDemo()
@@ -64,13 +64,13 @@ class FirebaseFeatureActivity : ComponentActivity() {
                         onFetchRemoteConfig = {
                             remoteConfigStatus = "Fetching maintenance flag..."
                             firebaseIntegration.fetchMaintenanceMode { enabled ->
-                                remoteConfigStatus = "gjp_lab_maintenance_enabled = $enabled"
+                                remoteConfigStatus = "${FirebaseConstants.RemoteConfigMaintenanceEnabled} = $enabled"
                             }
                         },
                         onRunPerformance = {
                             performanceStatus = "Running custom trace..."
                             firebaseIntegration.runPerformanceDemo { durationMillis ->
-                                performanceStatus = "firebase_demo_trace completed in ${durationMillis} ms"
+                                performanceStatus = "${FirebaseConstants.PerformanceDemoTrace} completed in $durationMillis ms"
                             }
                         },
                         onFetchMessagingToken = {

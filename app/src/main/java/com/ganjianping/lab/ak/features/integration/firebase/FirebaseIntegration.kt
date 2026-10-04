@@ -66,7 +66,7 @@ class FirebaseIntegration(
     fun fetchMessagingToken(onComplete: (token: String?, error: Exception?) -> Unit) {
         messaging.token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.i(TAG, "FCM registration token: ${task.result}")
+                Log.i(TAG, "FCM registration token loaded (${task.result.length} characters)")
                 onComplete(task.result, null)
             } else {
                 onComplete(null, task.exception)
@@ -87,7 +87,7 @@ class FirebaseIntegration(
     private fun logMessagingToken() {
         messaging.token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.i(TAG, "FCM registration token at app launch: ${task.result}")
+                Log.i(TAG, "FCM registration token available at app launch (${task.result.length} characters)")
             } else {
                 Log.w(TAG, "Unable to retrieve FCM registration token at app launch", task.exception)
             }

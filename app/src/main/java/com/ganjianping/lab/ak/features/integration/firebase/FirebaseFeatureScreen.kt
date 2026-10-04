@@ -66,7 +66,7 @@ fun FirebaseFeatureScreen(
 
             FirebaseActionCard(
                 title = "Analytics",
-                description = "Send a firebase_feature_opened event.",
+                description = "Send a ${FirebaseConstants.EventFirebaseFeatureOpened} event.",
                 status = analyticsStatus,
                 actionLabel = "Log event",
                 onAction = onLogAnalytics

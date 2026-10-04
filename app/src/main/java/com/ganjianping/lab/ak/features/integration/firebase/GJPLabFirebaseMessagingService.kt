@@ -20,7 +20,7 @@ class GJPLabFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.i(TAG, "FCM token refreshed: $token")
+        Log.i(TAG, "FCM token refreshed (${token.length} characters)")
     }
 
     override fun onMessageReceived(message: RemoteMessage) {

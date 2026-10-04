@@ -33,7 +33,7 @@ Activate the smallest set of skills that fully covers the request:
 - Keep platform and network work out of composables. `HttpURLConnectionRepository.execute` runs on `Dispatchers.IO`, has 15-second timeouts, preserves error bodies, formats JSON, and always disconnects.
 - Route Firebase SDK calls through `FirebaseIntegration`; put stable event names, keys, trace names, and Remote Config keys in `FirebaseConstants`.
 - Keep runtime permission handling in the activity. Update the manifest only when a feature needs a permission, service, or activity declaration.
-- Do not commit or expose server credentials, OAuth secrets, or App Check debug tokens. Treat existing FCM-token logging as lab/demo behavior, not a production pattern to copy.
+- Do not commit or expose server credentials, OAuth secrets, or App Check debug tokens. Never log complete FCM tokens, request URLs, payloads, or response bodies; logs may contain the HTTP method, status code, and sizes.
 
 ## Verification
 

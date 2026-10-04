@@ -18,12 +18,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Code
-import androidx.compose.material.icons.outlined.Extension
-import androidx.compose.material.icons.outlined.Http
-import androidx.compose.material.icons.outlined.Security
-import androidx.compose.material.icons.outlined.Tune
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -33,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,21 +38,6 @@ private enum class DashboardLayout {
     Medium,
     TabletLandscape
 }
-
-private data class Category(
-    val title: String,
-    val description: String,
-    val icon: ImageVector,
-    val destination: NavigationCategory
-)
-
-private val categories = listOf(
-    Category("Android UI", "Modern Android UI.", Icons.Outlined.Code, NavigationCategory.JetpackCompose),
-    Category("HTTP Client", "Native and library networking.", Icons.Outlined.Http, NavigationCategory.HttpClient),
-    Category("Security", "Screen-capture protection.", Icons.Outlined.Security, NavigationCategory.Security),
-    Category("Integration", "External SDKs and services.", Icons.Outlined.Extension, NavigationCategory.Integration),
-    Category("Others", "Platform and device details.", Icons.Outlined.Tune, NavigationCategory.Others)
-)
 
 @Composable
 fun CategorySidebar(onCategorySelected: (NavigationCategory) -> Unit) {
@@ -167,13 +145,13 @@ private fun CategoryGrid(
         horizontalArrangement = Arrangement.spacedBy(14.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        items(categories) { category ->
+        items(NavigationMenu.categories) { category ->
             CategoryCard(
                 category = category,
                 modifier = Modifier.aspectRatio(cardAspectRatio),
                 compact = compactCards
             ) {
-                onCategorySelected(category.destination)
+                onCategorySelected(category)
             }
         }
     }
@@ -181,7 +159,7 @@ private fun CategoryGrid(
 
 @Composable
 private fun CategoryCard(
-    category: Category,
+    category: NavigationCategory,
     modifier: Modifier = Modifier,
     compact: Boolean = false,
     onClick: () -> Unit
@@ -210,7 +188,7 @@ private fun CategoryCard(
 
 @Composable
 private fun StandardCategoryContent(
-    category: Category,
+    category: NavigationCategory,
     modifier: Modifier,
     compact: Boolean
 ) {
@@ -242,7 +220,7 @@ private fun StandardCategoryContent(
             )
         }
         Text(
-            category.description,
+            category.summary,
             modifier = Modifier.padding(top = 8.dp),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,

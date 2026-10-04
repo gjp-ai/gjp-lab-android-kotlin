@@ -45,7 +45,7 @@ Do not copy version numbers into this guide. Read the version catalog when exact
 
 | Service | Contract |
 | --- | --- |
-| Analytics | `app_started`, `firebase_feature_opened` |
+| Analytics | `app_started`, `feature_firebase_opened` |
 | Crashlytics | `app_version`, `firebase_demo` |
 | Remote Config | `gjp_lab_maintenance_enabled` |
 | Performance | `firebase_demo_trace` |
@@ -57,7 +57,7 @@ Renaming one of these values is an integration change. Coordinate dashboard conf
 
 ### Analytics
 
-Initialization logs `app_started`. Opening or using the Firebase lab logs `firebase_feature_opened`. Keep event names stable, add meaning through bounded parameters, and never include credentials or personal information.
+Initialization logs `app_started`. Opening or using the Firebase lab logs `feature_firebase_opened` (Firebase reserves the `firebase_`, `google_`, and `ga_` prefixes). Keep event names stable, add meaning through bounded parameters, and never include credentials or personal information.
 
 ### Remote Config
 
@@ -104,7 +104,7 @@ These actions are for learning and setup verification. They should not be copied
 ## Privacy and security notes
 
 - `google-services.json` contains client configuration, not server authority. Restrict the API key appropriately and protect Firebase data with service-specific controls.
-- The current lab logs complete FCM registration tokens at startup, fetch, and refresh. Treat this as demo-only behavior; production builds should not log registration tokens.
+- Logs record only the length of an FCM registration token, never the token itself, at startup, fetch, and refresh.
 - Copying a token places it on the system clipboard, where other software or users may observe it. Keep this action in developer/demo surfaces.
 - Notification title and body originate from the message payload. Do not send secrets or sensitive personal information in push payloads.
 - App Check debug tokens, OAuth secrets, service accounts, and server keys must remain outside version control.
@@ -146,7 +146,6 @@ When moving to another Firebase project or Android app:
 | --- | --- |
 | Remote Config callback exposes only a Boolean | Callers cannot distinguish fresh, cached, default, or failed outcomes |
 | Firebase SDK tasks are callback based | Activity timeout does not cancel the SDK operation |
-| Complete FCM tokens are logged | Acceptable only for this local lab; privacy risk in production |
 | Notification permission is requested when the Firebase feature opens | The request is not tied to an explicit notification action |
 | Notification tap opens `MainActivity` without maintenance context | Missing extra defaults to the dashboard |
 | No Firebase emulator-backed automated tests | Integration confidence depends on manual/device checks |
