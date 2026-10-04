@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.navigation
+package com.ganjianping.lab.ak.shell.navigation
 
 enum class FeatureRoute {
     DeviceInfo,

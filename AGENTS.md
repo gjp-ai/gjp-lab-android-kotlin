@@ -24,11 +24,11 @@ Activate the smallest set of skills that fully covers the request:
 - Package `com.ganjianping.lab.ak`; `minSdk 30`; `compileSdk 37`; Java 11 source compatibility; JDK 21 Gradle toolchain.
 - Compose Material 3 UI. `GJPLabTheme` in `common/theme/` provides dark theme and Android 12+ dynamic color.
 - Activity navigation: `SplashActivity` → `MainActivity` → feature activities. Use explicit `Intent`s and declare activities in `AndroidManifest.xml`.
-- Feature code belongs under `features/<feature>/`; reusable app code under `common/`; Firebase integration under `integration/firebase/`.
+- App shell (application, root Activity, startup, navigation) under `shell/`; feature code in one flat folder per feature under `features/<category>/<feature>/`; reusable app code under `common/`; Firebase integration under `features/integration/firebase/`.
 
 ## GJPLab adapter
 
-- Use Koin for application-wide dependencies. Register repositories in `di/AppModule.kt` and Firebase services in `integration/firebase/FirebaseModule.kt`; inject them into activities rather than constructing them in composables.
+- Use Koin for application-wide dependencies. Register repositories in `shell/AppModule.kt` and Firebase services in `features/integration/firebase/FirebaseModule.kt`; inject them into activities rather than constructing them in composables.
 - Preserve the current activity/screen state and callback pattern unless the task explicitly introduces another state holder. Do not add a ViewModel or navigation framework as incidental UI refactoring.
 - Keep platform and network work out of composables. `HttpURLConnectionRepository.execute` runs on `Dispatchers.IO`, has 15-second timeouts, preserves error bodies, formats JSON, and always disconnects.
 - Route Firebase SDK calls through `FirebaseIntegration`; put stable event names, keys, trace names, and Remote Config keys in `FirebaseConstants`.

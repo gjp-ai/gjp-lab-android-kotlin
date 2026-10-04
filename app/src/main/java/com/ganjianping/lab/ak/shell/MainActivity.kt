@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak
+package com.ganjianping.lab.ak.shell
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,16 +8,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.integration.firebase.FirebaseIntegration
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.BlockAppDuringCallsController
 import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
-import com.ganjianping.lab.ak.integration.firebase.FirebaseIntegration
-import com.ganjianping.lab.ak.navigation.catalog.FeatureCatalogActivity
-import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
+import com.ganjianping.lab.ak.shell.navigation.CategorySidebar
+import com.ganjianping.lab.ak.shell.navigation.FeatureCatalogActivity
+import com.ganjianping.lab.ak.shell.navigation.NavigationCategory
+import com.ganjianping.lab.ak.shell.startup.MaintenanceScreen
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     private val firebaseIntegration: FirebaseIntegration by inject()
-    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
+    private val callBlocker: BlockAppDuringCallsController by inject()
     private var maintenanceEnabled by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,10 +28,10 @@ class MainActivity : ComponentActivity() {
         maintenanceEnabled = intent.getBooleanExtra(EXTRA_MAINTENANCE_ENABLED, false)
         setContent {
             GJPLabTheme {
-                CallBlockingHost(callBlockingCoordinator) {
+                CallBlockingHost(callBlocker) {
                     when {
                         maintenanceEnabled -> MaintenanceScreen(onRetry = ::loadRemoteConfig)
-                        else -> MainScreen { category ->
+                        else -> CategorySidebar { category ->
                             startActivity(FeatureCatalogActivity.createIntent(this, category))
                         }
                     }
@@ -40,11 +42,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        callBlockingCoordinator.startMonitoring()
+        callBlocker.startMonitoring()
     }
 
     override fun onPause() {
-        callBlockingCoordinator.stopMonitoring()
+        callBlocker.stopMonitoring()
         super.onPause()
     }
 

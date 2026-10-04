@@ -74,11 +74,11 @@ Android status-bar notifications require a dedicated alpha-style small icon rath
 
 ## Splash alignment
 
-[`SplashScreen`](../../app/src/main/java/com/ganjianping/lab/ak/SplashScreen.kt) follows the active system mode: the surrounding screen uses semantic Material 3 background and text roles, and the brand tile inverts between black-on-light and white-on-dark. Both variants preserve the same flask mark. Light and dark previews verify the complete treatment.
+[`SplashScreen`](../../app/src/main/java/com/ganjianping/lab/ak/shell/startup/SplashScreen.kt) follows the active system mode: the surrounding screen uses semantic Material 3 background and text roles, and the brand tile inverts between black-on-light and white-on-dark. Both variants preserve the same flask mark. Light and dark previews verify the complete treatment.
 
 ## Adaptive dashboard
 
-[`MainScreen`](../../app/src/main/java/com/ganjianping/lab/ak/MainScreen.kt) adapts to the available window width, so the same category dashboard works on a phone, a foldable's larger window, and a tablet without relying on a device-name check. A category opens the table-style [`FeatureCatalogScreen`](../../app/src/main/java/com/ganjianping/lab/ak/navigation/catalog/FeatureCatalogScreen.kt), which constrains its readable content width on larger displays.
+[`CategorySidebar`](../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/CategorySidebar.kt) adapts to the available window width, so the same category dashboard works on a phone, a foldable's larger window, and a tablet without relying on a device-name check. A category opens the table-style [`FeatureCatalogScreen`](../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/FeatureCatalogScreen.kt), which constrains its readable content width on larger displays.
 
 | Window width | Layout | Purpose |
 | --- | --- | --- |

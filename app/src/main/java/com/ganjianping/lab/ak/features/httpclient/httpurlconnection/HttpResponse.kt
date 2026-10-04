@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.features.httpclient.httpurlconnection.model
+package com.ganjianping.lab.ak.features.httpclient.httpurlconnection
 
 data class HttpResponse(
     val statusCode: Int,

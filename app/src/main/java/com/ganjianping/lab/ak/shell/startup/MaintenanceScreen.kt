@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak
+package com.ganjianping.lab.ak.shell.startup
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

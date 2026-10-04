@@ -23,7 +23,7 @@ flowchart TD
     MessagingService[GJPLabFirebaseMessagingService] --> Messaging
 ```
 
-[`FirebaseModule`](../../app/src/main/java/com/ganjianping/lab/ak/integration/firebase/FirebaseModule.kt) registers SDK instances and [`FirebaseIntegration`](../../app/src/main/java/com/ganjianping/lab/ak/integration/firebase/FirebaseIntegration.kt) as Koin singletons. [`GJPLabApplication`](../../app/src/main/java/com/ganjianping/lab/ak/GJPLabApplication.kt) starts Koin, then calls `FirebaseIntegration.initialize()` once for the application process.
+[`FirebaseModule`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseModule.kt) registers SDK instances and [`FirebaseIntegration`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseIntegration.kt) as Koin singletons. [`GJPLabApplication`](../../app/src/main/java/com/ganjianping/lab/ak/shell/GJPLabApplication.kt) starts Koin, then calls `FirebaseIntegration.initialize()` once for the application process.
 
 ## Build configuration
 
@@ -41,7 +41,7 @@ Do not copy version numbers into this guide. Read the version catalog when exact
 
 ## Stable contracts
 
-[`FirebaseConstants`](../../app/src/main/java/com/ganjianping/lab/ak/integration/firebase/FirebaseConstants.kt) owns names that must remain stable across code and Firebase configuration:
+[`FirebaseConstants`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseConstants.kt) owns names that must remain stable across code and Firebase configuration:
 
 | Service | Contract |
 | --- | --- |
@@ -82,7 +82,7 @@ Keep custom trace names stable and bounded. Always stop traces on every completi
 
 ### Cloud Messaging
 
-The integration can retrieve the current registration token and subscribe to `gjp_lab_demo`. [`GJPLabFirebaseMessagingService`](../../app/src/main/java/com/ganjianping/lab/ak/integration/firebase/GJPLabFirebaseMessagingService.kt) handles token refresh and foreground messages, creates the notification channel, and opens `MainActivity` from an immutable `PendingIntent`.
+The integration can retrieve the current registration token and subscribe to `gjp_lab_demo`. [`GJPLabFirebaseMessagingService`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/GJPLabFirebaseMessagingService.kt) handles token refresh and foreground messages, creates the notification channel, and opens `MainActivity` from an immutable `PendingIntent`.
 
 [`FirebaseFeatureActivity`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseFeatureActivity.kt) requests `POST_NOTIFICATIONS` on Android 13 and newer. Token retrieval remains available after denial, although notifications are not shown without permission.
 

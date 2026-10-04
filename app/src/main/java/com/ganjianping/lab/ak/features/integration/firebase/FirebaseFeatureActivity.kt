@@ -14,15 +14,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.BlockAppDuringCallsController
 import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
-import com.ganjianping.lab.ak.integration.firebase.FirebaseConstants
-import com.ganjianping.lab.ak.integration.firebase.FirebaseIntegration
 import org.koin.android.ext.android.inject
 
 class FirebaseFeatureActivity : ComponentActivity() {
     private val firebaseIntegration: FirebaseIntegration by inject()
-    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
+    private val callBlocker: BlockAppDuringCallsController by inject()
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
@@ -45,7 +43,7 @@ class FirebaseFeatureActivity : ComponentActivity() {
         requestNotificationPermissionIfNeeded()
         setContent {
             GJPLabTheme {
-                CallBlockingHost(callBlockingCoordinator) {
+                CallBlockingHost(callBlocker) {
                     FirebaseFeatureScreen(
                         analyticsStatus = analyticsStatus,
                         crashlyticsStatus = crashlyticsStatus,
@@ -109,11 +107,11 @@ class FirebaseFeatureActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        callBlockingCoordinator.startMonitoring()
+        callBlocker.startMonitoring()
     }
 
     override fun onPause() {
-        callBlockingCoordinator.stopMonitoring()
+        callBlocker.stopMonitoring()
         super.onPause()
     }
 

@@ -12,13 +12,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.BlockAppDuringCallsController
 import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
 import org.koin.android.ext.android.inject
 
 class HttpURLConnectionActivity : ComponentActivity() {
     private val httpURLConnectionRepository: HttpURLConnectionRepository by inject()
-    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
+    private val callBlocker: BlockAppDuringCallsController by inject()
     private var activityErrorMessage by mutableStateOf<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +26,7 @@ class HttpURLConnectionActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GJPLabTheme {
-                CallBlockingHost(callBlockingCoordinator) {
+                CallBlockingHost(callBlocker) {
                     Box(modifier = Modifier.fillMaxSize()) {
                         HttpURLConnectionScreen(
                             repository = httpURLConnectionRepository,
@@ -55,11 +55,11 @@ class HttpURLConnectionActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        callBlockingCoordinator.startMonitoring()
+        callBlocker.startMonitoring()
     }
 
     override fun onPause() {
-        callBlockingCoordinator.stopMonitoring()
+        callBlocker.stopMonitoring()
         super.onPause()
     }
 

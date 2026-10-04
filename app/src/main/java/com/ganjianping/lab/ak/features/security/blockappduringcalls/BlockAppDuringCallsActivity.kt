@@ -13,25 +13,25 @@ import com.ganjianping.lab.ak.common.theme.GJPLabTheme
 import org.koin.android.ext.android.inject
 
 class BlockAppDuringCallsActivity : ComponentActivity() {
-    private val coordinator: CallBlockingCoordinator by inject()
+    private val controller: BlockAppDuringCallsController by inject()
     private val phoneStatePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {
-        coordinator.onPermissionResult()
+        controller.onPermissionResult()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val state by coordinator.state.collectAsState()
+            val state by controller.state.collectAsState()
             GJPLabTheme {
-                CallBlockingHost(coordinator) {
+                CallBlockingHost(controller) {
                     BlockAppDuringCallsScreen(
                         state = state,
                         onBack = ::finish,
                         onEnabledChange = ::setEnabled,
-                        onToggleTestCall = coordinator::toggleTestCall
+                        onToggleTestCall = controller::toggleTestCall
                     )
                 }
             }
@@ -40,16 +40,16 @@ class BlockAppDuringCallsActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        coordinator.startMonitoring()
+        controller.startMonitoring()
     }
 
     override fun onPause() {
-        coordinator.stopMonitoring()
+        controller.stopMonitoring()
         super.onPause()
     }
 
     private fun setEnabled(enabled: Boolean) {
-        coordinator.setEnabled(enabled)
+        controller.setEnabled(enabled)
         if (enabled && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             phoneStatePermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE)
         }

@@ -1,9 +1,9 @@
-package com.ganjianping.lab.ak.features.others.deviceinfo.data
+package com.ganjianping.lab.ak.features.others.deviceinfo
 
 import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
-import com.ganjianping.lab.ak.features.others.deviceinfo.model.InfoRow
+import com.ganjianping.lab.ak.features.others.deviceinfo.InfoRow
 
 class DeviceInfoRepository(private val context: Context) {
     fun read(): List<InfoRow> {

@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.integration.firebase
+package com.ganjianping.lab.ak.features.integration.firebase
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,8 +9,8 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.ganjianping.lab.ak.MainActivity
 import com.ganjianping.lab.ak.R
+import com.ganjianping.lab.ak.shell.MainActivity
 
 class GJPLabFirebaseMessagingService : FirebaseMessagingService() {
     override fun onCreate() {

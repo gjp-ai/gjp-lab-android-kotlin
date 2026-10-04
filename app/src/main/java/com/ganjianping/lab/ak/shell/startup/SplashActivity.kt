@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak
+package com.ganjianping.lab.ak.shell.startup
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,16 +9,17 @@ import androidx.lifecycle.lifecycleScope
 import com.ganjianping.lab.ak.common.config.AppConfig
 import com.ganjianping.lab.ak.common.network.NetworkConnectivity
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.integration.firebase.FirebaseIntegration
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.BlockAppDuringCallsController
 import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
-import com.ganjianping.lab.ak.integration.firebase.FirebaseIntegration
+import com.ganjianping.lab.ak.shell.MainActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class SplashActivity : ComponentActivity() {
     private val firebaseIntegration: FirebaseIntegration by inject()
-    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
+    private val callBlocker: BlockAppDuringCallsController by inject()
     private var remoteConfigLoaded = false
     private var minimumSplashTimeElapsed = false
     private var maintenanceEnabled = false
@@ -29,7 +30,7 @@ class SplashActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             GJPLabTheme {
-                CallBlockingHost(callBlockingCoordinator) {
+                CallBlockingHost(callBlocker) {
                     SplashScreen()
                 }
             }
@@ -45,11 +46,11 @@ class SplashActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        callBlockingCoordinator.startMonitoring()
+        callBlocker.startMonitoring()
     }
 
     override fun onPause() {
-        callBlockingCoordinator.stopMonitoring()
+        callBlocker.stopMonitoring()
         super.onPause()
     }
 

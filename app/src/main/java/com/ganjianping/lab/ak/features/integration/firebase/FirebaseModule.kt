@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.integration.firebase
+package com.ganjianping.lab.ak.features.integration.firebase
 
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics

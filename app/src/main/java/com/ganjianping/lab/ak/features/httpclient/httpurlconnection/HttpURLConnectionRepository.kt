@@ -1,8 +1,6 @@
 package com.ganjianping.lab.ak.features.httpclient.httpurlconnection
 
 import android.util.Log
-import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.model.HttpMethod
-import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.model.HttpResponse
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

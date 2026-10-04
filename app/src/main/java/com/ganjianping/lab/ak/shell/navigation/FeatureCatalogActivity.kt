@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.navigation.catalog
+package com.ganjianping.lab.ak.shell.navigation
 
 import android.content.Context
 import android.content.Intent
@@ -11,18 +11,16 @@ import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpURLConne
 import com.ganjianping.lab.ak.features.integration.firebase.FirebaseFeatureActivity
 import com.ganjianping.lab.ak.features.others.deviceinfo.DeviceInfoActivity
 import com.ganjianping.lab.ak.features.security.blockappduringcalls.BlockAppDuringCallsActivity
-import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingCoordinator
+import com.ganjianping.lab.ak.features.security.blockappduringcalls.BlockAppDuringCallsController
 import com.ganjianping.lab.ak.features.security.blockappduringcalls.CallBlockingHost
-import com.ganjianping.lab.ak.navigation.FeatureRoute
-import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
 import org.koin.android.ext.android.inject
 
 class FeatureCatalogActivity : ComponentActivity() {
-    private val callBlockingCoordinator: CallBlockingCoordinator by inject()
+    private val callBlocker: BlockAppDuringCallsController by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val category = intent.getStringExtra(EXTRA_CATEGORY)
-            ?.let { name -> DashboardCategory.entries.firstOrNull { it.name == name } }
+            ?.let { name -> NavigationCategory.entries.firstOrNull { it.name == name } }
             ?: run {
                 finish()
                 return
@@ -31,7 +29,7 @@ class FeatureCatalogActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GJPLabTheme {
-                CallBlockingHost(callBlockingCoordinator) {
+                CallBlockingHost(callBlocker) {
                     FeatureCatalogScreen(
                         category = category,
                         onBack = ::finish,
@@ -44,11 +42,11 @@ class FeatureCatalogActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        callBlockingCoordinator.startMonitoring()
+        callBlocker.startMonitoring()
     }
 
     override fun onPause() {
-        callBlockingCoordinator.stopMonitoring()
+        callBlocker.stopMonitoring()
         super.onPause()
     }
 
@@ -65,7 +63,7 @@ class FeatureCatalogActivity : ComponentActivity() {
     companion object {
         private const val EXTRA_CATEGORY = "com.ganjianping.lab.ak.extra.CATEGORY"
 
-        fun createIntent(context: Context, category: DashboardCategory): Intent =
+        fun createIntent(context: Context, category: NavigationCategory): Intent =
             Intent(context, FeatureCatalogActivity::class.java)
                 .putExtra(EXTRA_CATEGORY, category.name)
     }

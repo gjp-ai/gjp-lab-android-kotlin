@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak
+package com.ganjianping.lab.ak.shell.navigation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.background
@@ -39,7 +39,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
 
 private enum class DashboardLayout {
     Compact,
@@ -51,19 +50,19 @@ private data class Category(
     val title: String,
     val description: String,
     val icon: ImageVector,
-    val destination: DashboardCategory
+    val destination: NavigationCategory
 )
 
 private val categories = listOf(
-    Category("Android UI", "Modern Android UI.", Icons.Outlined.Code, DashboardCategory.JetpackCompose),
-    Category("HTTP Client", "Native and library networking.", Icons.Outlined.Http, DashboardCategory.HttpClient),
-    Category("Security", "Screen-capture protection.", Icons.Outlined.Security, DashboardCategory.Security),
-    Category("Integration", "External SDKs and services.", Icons.Outlined.Extension, DashboardCategory.Integration),
-    Category("Others", "Platform and device details.", Icons.Outlined.Tune, DashboardCategory.Others)
+    Category("Android UI", "Modern Android UI.", Icons.Outlined.Code, NavigationCategory.JetpackCompose),
+    Category("HTTP Client", "Native and library networking.", Icons.Outlined.Http, NavigationCategory.HttpClient),
+    Category("Security", "Screen-capture protection.", Icons.Outlined.Security, NavigationCategory.Security),
+    Category("Integration", "External SDKs and services.", Icons.Outlined.Extension, NavigationCategory.Integration),
+    Category("Others", "Platform and device details.", Icons.Outlined.Tune, NavigationCategory.Others)
 )
 
 @Composable
-fun MainScreen(onCategorySelected: (DashboardCategory) -> Unit) {
+fun CategorySidebar(onCategorySelected: (NavigationCategory) -> Unit) {
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val layout = when {
             maxWidth < MediumWindowWidth -> DashboardLayout.Compact
@@ -82,7 +81,7 @@ fun MainScreen(onCategorySelected: (DashboardCategory) -> Unit) {
 }
 
 @Composable
-private fun CompactDashboard(padding: PaddingValues, onCategorySelected: (DashboardCategory) -> Unit) {
+private fun CompactDashboard(padding: PaddingValues, onCategorySelected: (NavigationCategory) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -102,7 +101,7 @@ private fun CompactDashboard(padding: PaddingValues, onCategorySelected: (Dashbo
 }
 
 @Composable
-private fun MediumDashboard(padding: PaddingValues, onCategorySelected: (DashboardCategory) -> Unit) {
+private fun MediumDashboard(padding: PaddingValues, onCategorySelected: (NavigationCategory) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -123,7 +122,7 @@ private fun MediumDashboard(padding: PaddingValues, onCategorySelected: (Dashboa
 @Composable
 private fun TabletLandscapeDashboard(
     padding: PaddingValues,
-    onCategorySelected: (DashboardCategory) -> Unit
+    onCategorySelected: (NavigationCategory) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -159,7 +158,7 @@ private fun CategoryGrid(
     modifier: Modifier,
     cardAspectRatio: Float,
     compactCards: Boolean = false,
-    onCategorySelected: (DashboardCategory) -> Unit
+    onCategorySelected: (NavigationCategory) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(columns),
@@ -258,24 +257,24 @@ private val TabletLandscapeWindowWidth = 1100.dp
 
 @Preview(name = "Phone", showBackground = true, widthDp = 360, heightDp = 640)
 @Composable
-private fun MainScreenPhonePreview() {
-    GJPLabTheme { MainScreen(onCategorySelected = {}) }
+private fun CategorySidebarPhonePreview() {
+    GJPLabTheme { CategorySidebar(onCategorySelected = {}) }
 }
 
 @Preview(name = "Foldable", showBackground = true, widthDp = 673, heightDp = 841)
 @Composable
-private fun MainScreenFoldablePreview() {
-    GJPLabTheme { MainScreen(onCategorySelected = {}) }
+private fun CategorySidebarFoldablePreview() {
+    GJPLabTheme { CategorySidebar(onCategorySelected = {}) }
 }
 
 @Preview(name = "Tablet", showBackground = true, widthDp = 1280, heightDp = 800)
 @Composable
-private fun MainScreenTabletPreview() {
-    GJPLabTheme { MainScreen(onCategorySelected = {}) }
+private fun CategorySidebarTabletPreview() {
+    GJPLabTheme { CategorySidebar(onCategorySelected = {}) }
 }
 
 @Preview(name = "Phone - dark", showBackground = true, widthDp = 360, heightDp = 640, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun MainScreenPhoneDarkPreview() {
-    GJPLabTheme { MainScreen(onCategorySelected = {}) }
+private fun CategorySidebarPhoneDarkPreview() {
+    GJPLabTheme { CategorySidebar(onCategorySelected = {}) }
 }

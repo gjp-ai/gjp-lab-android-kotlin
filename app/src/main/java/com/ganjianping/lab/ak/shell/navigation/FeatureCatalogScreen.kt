@@ -1,5 +1,5 @@
 
-package com.ganjianping.lab.ak.navigation.catalog
+package com.ganjianping.lab.ak.shell.navigation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
@@ -36,17 +36,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.navigation.FeatureRoute
-import com.ganjianping.lab.ak.navigation.catalog.model.CatalogItem
-import com.ganjianping.lab.ak.navigation.catalog.model.DashboardCategory
 
 @Composable
 fun FeatureCatalogScreen(
-    category: DashboardCategory,
+    category: NavigationCategory,
     onBack: () -> Unit,
     onFeatureSelected: (FeatureRoute) -> Unit
 ) {
-    val items = catalogItems(category)
+    val items = navigationTopics(category)
     Scaffold(containerColor = MaterialTheme.colorScheme.background) { padding ->
         Box(
             modifier = Modifier
@@ -79,7 +76,7 @@ fun FeatureCatalogScreen(
 }
 
 @Composable
-private fun CatalogTable(items: List<CatalogItem>, onFeatureSelected: (FeatureRoute) -> Unit) {
+private fun CatalogTable(items: List<NavigationTopic>, onFeatureSelected: (FeatureRoute) -> Unit) {
     Card(
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
@@ -117,7 +114,7 @@ private fun CatalogTable(items: List<CatalogItem>, onFeatureSelected: (FeatureRo
 }
 
 @Composable
-private fun CatalogTableRow(item: CatalogItem, onFeatureSelected: (FeatureRoute) -> Unit) {
+private fun CatalogTableRow(item: NavigationTopic, onFeatureSelected: (FeatureRoute) -> Unit) {
     val rowModifier = if (item.route == null) {
         Modifier
     } else {
@@ -156,58 +153,58 @@ private fun CatalogTableRow(item: CatalogItem, onFeatureSelected: (FeatureRoute)
     }
 }
 
-private fun categoryTitle(category: DashboardCategory): String = when (category) {
-    DashboardCategory.JetpackCompose -> "Jetpack Compose"
-    DashboardCategory.HttpClient -> "HTTP client"
-    DashboardCategory.Security -> "Security"
-    DashboardCategory.Integration -> "Integration"
-    DashboardCategory.Others -> "Others"
+private fun categoryTitle(category: NavigationCategory): String = when (category) {
+    NavigationCategory.JetpackCompose -> "Jetpack Compose"
+    NavigationCategory.HttpClient -> "HTTP client"
+    NavigationCategory.Security -> "Security"
+    NavigationCategory.Integration -> "Integration"
+    NavigationCategory.Others -> "Others"
 }
 
-private fun categoryDescription(category: DashboardCategory): String = when (category) {
-    DashboardCategory.JetpackCompose -> "A practical index of the Compose building blocks used in Android UI."
-    DashboardCategory.HttpClient -> "Compare a native connection API with a popular HTTP client library."
-    DashboardCategory.Security -> "Screen-capture detection topics for protecting sensitive content."
-    DashboardCategory.Integration -> "External SDKs and services connected to the Android app."
-    DashboardCategory.Others -> "Android platform information available on the current device."
+private fun categoryDescription(category: NavigationCategory): String = when (category) {
+    NavigationCategory.JetpackCompose -> "A practical index of the Compose building blocks used in Android UI."
+    NavigationCategory.HttpClient -> "Compare a native connection API with a popular HTTP client library."
+    NavigationCategory.Security -> "Screen-capture detection topics for protecting sensitive content."
+    NavigationCategory.Integration -> "External SDKs and services connected to the Android app."
+    NavigationCategory.Others -> "Android platform information available on the current device."
 }
 
-private fun catalogItems(category: DashboardCategory): List<CatalogItem> = when (category) {
-    DashboardCategory.JetpackCompose -> listOf(
-        CatalogItem("Material 3", "Theme roles, surfaces, and component styling."),
-        CatalogItem("Layouts", "Rows, columns, boxes, and responsive arrangements."),
-        CatalogItem("Text & input", "Text, text fields, and user-input patterns."),
-        CatalogItem("Buttons & actions", "Buttons, FABs, and touch targets."),
-        CatalogItem("Selection", "Chips, switches, checkboxes, and radio buttons."),
-        CatalogItem("Lists & grids", "Lazy lists and grids for collections."),
-        CatalogItem("Navigation", "Navigation surfaces and destination patterns."),
-        CatalogItem("Animation", "State-driven transitions and motion."),
-        CatalogItem("Drawing & graphics", "Canvas, images, and custom visuals."),
-        CatalogItem("Accessibility & testing", "Semantics, scaling, and UI tests.")
+private fun navigationTopics(category: NavigationCategory): List<NavigationTopic> = when (category) {
+    NavigationCategory.JetpackCompose -> listOf(
+        NavigationTopic("Material 3", "Theme roles, surfaces, and component styling."),
+        NavigationTopic("Layouts", "Rows, columns, boxes, and responsive arrangements."),
+        NavigationTopic("Text & input", "Text, text fields, and user-input patterns."),
+        NavigationTopic("Buttons & actions", "Buttons, FABs, and touch targets."),
+        NavigationTopic("Selection", "Chips, switches, checkboxes, and radio buttons."),
+        NavigationTopic("Lists & grids", "Lazy lists and grids for collections."),
+        NavigationTopic("Navigation", "Navigation surfaces and destination patterns."),
+        NavigationTopic("Animation", "State-driven transitions and motion."),
+        NavigationTopic("Drawing & graphics", "Canvas, images, and custom visuals."),
+        NavigationTopic("Accessibility & testing", "Semantics, scaling, and UI tests.")
     )
 
-    DashboardCategory.HttpClient -> listOf(
-        CatalogItem("HttpsURLConnection", "Native HttpURLConnection request sample.", FeatureRoute.HttpURLConnection),
-        CatalogItem("Retrofit", "Type-safe HTTP client integration.")
+    NavigationCategory.HttpClient -> listOf(
+        NavigationTopic("HttpsURLConnection", "Native HttpURLConnection request sample.", FeatureRoute.HttpURLConnection),
+        NavigationTopic("Retrofit", "Type-safe HTTP client integration.")
     )
 
-    DashboardCategory.Security -> listOf(
-        CatalogItem(
+    NavigationCategory.Security -> listOf(
+        NavigationTopic(
             "Block App During Calls",
             "Block access while Android reports a supported active call.",
             FeatureRoute.BlockAppDuringCalls
         ),
-        CatalogItem("Screenshot Detection", "Detect screenshot events where supported."),
-        CatalogItem("Screen Sharing Detection", "Detect active screen sharing where supported."),
-        CatalogItem("Screen Recording Detection", "Detect active screen recording where supported.")
+        NavigationTopic("Screenshot Detection", "Detect screenshot events where supported."),
+        NavigationTopic("Screen Sharing Detection", "Detect active screen sharing where supported."),
+        NavigationTopic("Screen Recording Detection", "Detect active screen recording where supported.")
     )
 
-    DashboardCategory.Integration -> listOf(
-        CatalogItem("Firebase", "Analytics, Config, Crashlytics, Performance, and Messaging.", FeatureRoute.Firebase)
+    NavigationCategory.Integration -> listOf(
+        NavigationTopic("Firebase", "Analytics, Config, Crashlytics, Performance, and Messaging.", FeatureRoute.Firebase)
     )
 
-    DashboardCategory.Others -> listOf(
-        CatalogItem("OS & Hardware", "Inspect the Android OS and current device hardware.", FeatureRoute.DeviceInfo)
+    NavigationCategory.Others -> listOf(
+        NavigationTopic("OS & Hardware", "Inspect the Android OS and current device hardware.", FeatureRoute.DeviceInfo)
     )
 }
 
@@ -215,7 +212,7 @@ private fun catalogItems(category: DashboardCategory): List<CatalogItem> = when 
 @Composable
 private fun HttpClientCatalogPreview() {
     GJPLabTheme {
-        FeatureCatalogScreen(DashboardCategory.HttpClient, onBack = {}, onFeatureSelected = {})
+        FeatureCatalogScreen(NavigationCategory.HttpClient, onBack = {}, onFeatureSelected = {})
     }
 }
 
@@ -223,7 +220,7 @@ private fun HttpClientCatalogPreview() {
 @Composable
 private fun ComposeCatalogTabletPreview() {
     GJPLabTheme {
-        FeatureCatalogScreen(DashboardCategory.JetpackCompose, onBack = {}, onFeatureSelected = {})
+        FeatureCatalogScreen(NavigationCategory.JetpackCompose, onBack = {}, onFeatureSelected = {})
     }
 }
 
@@ -236,6 +233,6 @@ private fun ComposeCatalogTabletPreview() {
 @Composable
 private fun HttpClientCatalogDarkPreview() {
     GJPLabTheme {
-        FeatureCatalogScreen(DashboardCategory.HttpClient, onBack = {}, onFeatureSelected = {})
+        FeatureCatalogScreen(NavigationCategory.HttpClient, onBack = {}, onFeatureSelected = {})
     }
 }

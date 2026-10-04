@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".GJPLabApplication"
+        android:name=".shell.GJPLabApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GJPLab">
         <activity
-            android:name=".navigation.catalog.FeatureCatalogActivity"
+            android:name=".shell.navigation.FeatureCatalogActivity"
             android:exported="false"
             android:label="Feature catalogue"
             android:theme="@style/Theme.GJPLab" />
@@ -49,19 +49,19 @@
             android:label="Block App During Calls"
             android:theme="@style/Theme.GJPLab" />
         <service
-            android:name=".integration.firebase.GJPLabFirebaseMessagingService"
+            android:name=".features.integration.firebase.GJPLabFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <activity
-            android:name=".MainActivity"
+            android:name=".shell.MainActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.GJPLab" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".shell.startup.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.GJPLab">

@@ -1,8 +1,7 @@
-package com.ganjianping.lab.ak
+package com.ganjianping.lab.ak.shell
 
 import android.app.Application
-import com.ganjianping.lab.ak.di.appModule
-import com.ganjianping.lab.ak.integration.firebase.FirebaseIntegration
+import com.ganjianping.lab.ak.features.integration.firebase.FirebaseIntegration
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.component.KoinComponent

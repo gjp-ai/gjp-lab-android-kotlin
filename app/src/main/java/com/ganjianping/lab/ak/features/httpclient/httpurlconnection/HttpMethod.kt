@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.features.httpclient.httpurlconnection.model
+package com.ganjianping.lab.ak.features.httpclient.httpurlconnection
 
 enum class HttpMethod(val supportsPayload: Boolean) {
     GET(false),

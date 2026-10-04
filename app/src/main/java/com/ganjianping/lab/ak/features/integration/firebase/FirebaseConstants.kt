@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak.integration.firebase
+package com.ganjianping.lab.ak.features.integration.firebase
 
 object FirebaseConstants {
     const val EventAppStarted = "app_started"

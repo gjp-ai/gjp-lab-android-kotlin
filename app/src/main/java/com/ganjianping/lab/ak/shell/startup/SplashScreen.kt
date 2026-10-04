@@ -1,4 +1,4 @@
-package com.ganjianping.lab.ak
+package com.ganjianping.lab.ak.shell.startup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ganjianping.lab.ak.R
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
 
 @Composable

@@ -12,17 +12,17 @@ Prevent interaction with GJPLab while Android reports a system-exposed active ca
 
 | Source | Responsibility |
 | --- | --- |
-| [`CallBlockingCoordinator.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/features/security/blockappduringcalls/CallBlockingCoordinator.kt) | Persisted preference, permission-aware Telecom query, foreground mobile-call callback, and simulated state |
+| [`BlockAppDuringCallsController.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/features/security/blockappduringcalls/BlockAppDuringCallsController.kt) | Persisted preference, permission-aware Telecom query, foreground mobile-call callback, and simulated state |
 | [`CallBlockingHost.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/features/security/blockappduringcalls/CallBlockingHost.kt) | Shared state collection and app-owned blocking overlay |
 | [`BlockAppDuringCallsActivity.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/features/security/blockappduringcalls/BlockAppDuringCallsActivity.kt) | Settings route, explicit runtime permission, and foreground lifecycle ownership |
 | [`BlockAppDuringCallsScreen.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/features/security/blockappduringcalls/BlockAppDuringCallsScreen.kt) | Settings, status, test path, and platform limitation UI |
-| [`AppModule.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/di/AppModule.kt) | Application-scoped Koin coordinator registration |
-| [`FeatureCatalogActivity.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/navigation/catalog/FeatureCatalogActivity.kt) | Security catalogue route and Activity launch |
+| [`AppModule.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/shell/AppModule.kt) | Application-scoped Koin coordinator registration |
+| [`FeatureCatalogActivity.kt`](../../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/FeatureCatalogActivity.kt) | Security catalogue route and Activity launch |
 | [`AndroidManifest.xml`](../../../app/src/main/AndroidManifest.xml) | `READ_PHONE_STATE` declaration and non-exported settings Activity |
 
 ## Ownership and state
 
-`CallBlockingCoordinator` is a Koin singleton. It owns the `SharedPreferences` Boolean and a `StateFlow<CallBlockingState>`; each Activity starts monitoring on resume, stops the mobile callback on pause, and renders `CallBlockingHost` at its Compose root.
+`BlockAppDuringCallsController` is a Koin singleton. It owns the `SharedPreferences` Boolean and a `StateFlow<CallBlockingState>`; each Activity starts monitoring on resume, stops the mobile callback on pause, and renders `CallBlockingHost` at its Compose root.
 
 | State | Owner | Persistence | Meaning |
 | --- | --- | --- | --- |

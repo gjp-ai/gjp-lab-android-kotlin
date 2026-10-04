@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class CallBlockingCoordinator(private val context: Context) {
+class BlockAppDuringCallsController(private val context: Context) {
     private val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
     private val telecomManager = context.getSystemService(TelecomManager::class.java)
     private val telephonyManager = context.getSystemService(TelephonyManager::class.java)

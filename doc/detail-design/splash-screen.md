@@ -6,7 +6,7 @@ Requirements: [Splash screen requirements](../requirements/splash-screen.md)
 
 ## Current design
 
-[`SplashActivity`](../../app/src/main/java/com/ganjianping/lab/ak/SplashActivity.kt) is the launcher and owns startup coordination. It renders the stateless [`SplashScreen`](../../app/src/main/java/com/ganjianping/lab/ak/SplashScreen.kt), checks validated connectivity, starts Remote Config when online, waits for the configured minimum duration, and opens [`MainActivity`](../../app/src/main/java/com/ganjianping/lab/ak/MainActivity.kt) with a maintenance Boolean.
+[`SplashActivity`](../../app/src/main/java/com/ganjianping/lab/ak/shell/startup/SplashActivity.kt) is the launcher and owns startup coordination. It renders the stateless [`SplashScreen`](../../app/src/main/java/com/ganjianping/lab/ak/shell/startup/SplashScreen.kt), checks validated connectivity, starts Remote Config when online, waits for the configured minimum duration, and opens [`MainActivity`](../../app/src/main/java/com/ganjianping/lab/ak/shell/MainActivity.kt) with a maintenance Boolean.
 
 ```mermaid
 flowchart TD
@@ -30,12 +30,12 @@ flowchart TD
 
 | Source | Responsibility |
 | --- | --- |
-| [`SplashActivity.kt`](../../app/src/main/java/com/ganjianping/lab/ak/SplashActivity.kt) | Startup timers, connectivity, Remote Config callback, race guards, and navigation |
-| [`SplashScreen.kt`](../../app/src/main/java/com/ganjianping/lab/ak/SplashScreen.kt) | Brand presentation only |
+| [`SplashActivity.kt`](../../app/src/main/java/com/ganjianping/lab/ak/shell/startup/SplashActivity.kt) | Startup timers, connectivity, Remote Config callback, race guards, and navigation |
+| [`SplashScreen.kt`](../../app/src/main/java/com/ganjianping/lab/ak/shell/startup/SplashScreen.kt) | Brand presentation only |
 | [`AppConfig.kt`](../../app/src/main/java/com/ganjianping/lab/ak/common/config/AppConfig.kt) | 3-second minimum and 5-second timeout |
 | [`NetworkConnectivity.kt`](../../app/src/main/java/com/ganjianping/lab/ak/common/network/NetworkConnectivity.kt) | Requires Android `INTERNET` and `VALIDATED` capabilities |
-| [`FirebaseIntegration.kt`](../../app/src/main/java/com/ganjianping/lab/ak/integration/firebase/FirebaseIntegration.kt) | Fetches/activates Remote Config and returns the current maintenance value |
-| [`MainActivity.kt`](../../app/src/main/java/com/ganjianping/lab/ak/MainActivity.kt) | Selects dashboard or maintenance and owns maintenance retry |
+| [`FirebaseIntegration.kt`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseIntegration.kt) | Fetches/activates Remote Config and returns the current maintenance value |
+| [`MainActivity.kt`](../../app/src/main/java/com/ganjianping/lab/ak/shell/MainActivity.kt) | Selects dashboard or maintenance and owns maintenance retry |
 | [`AndroidManifest.xml`](../../app/src/main/AndroidManifest.xml) | Declares network permissions and the launcher Activity |
 
 ## Coordination model

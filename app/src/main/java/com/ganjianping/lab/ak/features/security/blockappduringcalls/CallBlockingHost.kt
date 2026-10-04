@@ -29,16 +29,16 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CallBlockingHost(
-    coordinator: CallBlockingCoordinator,
+    controller: BlockAppDuringCallsController,
     content: @Composable () -> Unit
 ) {
-    val state by coordinator.state.collectAsState()
+    val state by controller.state.collectAsState()
     Box(modifier = Modifier.fillMaxSize()) {
         content()
         if (state.isBlocking) {
             CallBlockingOverlay(
                 isTestCallActive = state.isTestCallActive,
-                onEndTestCall = coordinator::toggleTestCall
+                onEndTestCall = controller::toggleTestCall
             )
         }
     }

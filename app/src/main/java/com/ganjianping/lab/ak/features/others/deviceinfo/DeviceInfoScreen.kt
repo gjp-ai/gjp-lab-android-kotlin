@@ -23,8 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ganjianping.lab.ak.features.others.deviceinfo.data.DeviceInfoRepository
-import com.ganjianping.lab.ak.features.others.deviceinfo.model.InfoRow
 
 @Composable
 fun DeviceInfoScreen(repository: DeviceInfoRepository, onBack: () -> Unit) {

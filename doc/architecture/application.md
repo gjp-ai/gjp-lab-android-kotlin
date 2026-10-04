@@ -12,9 +12,9 @@ GJPLab is a single-module Android learning application. It favors small, readabl
 flowchart LR
     Launcher[Android launcher] --> SplashActivity
     SplashActivity -->|maintenance extra| MainActivity
-    MainActivity --> MainScreen
+    MainActivity --> CategorySidebar
     MainActivity --> MaintenanceScreen
-    MainScreen --> FeatureCatalogActivity
+    CategorySidebar --> FeatureCatalogActivity
     FeatureCatalogActivity --> DeviceInfoActivity
     FeatureCatalogActivity --> HttpURLConnectionActivity
     FeatureCatalogActivity --> FirebaseFeatureActivity
@@ -22,7 +22,7 @@ flowchart LR
     HttpURLConnectionActivity --> HttpResponseActivity
 ```
 
-[`SplashActivity`](../../app/src/main/java/com/ganjianping/lab/ak/SplashActivity.kt) is the exported launcher. Feature Activities and [`MainActivity`](../../app/src/main/java/com/ganjianping/lab/ak/MainActivity.kt) are internal components. The Firebase messaging service is internal and is invoked through the Firebase messaging intent action.
+[`SplashActivity`](../../app/src/main/java/com/ganjianping/lab/ak/shell/startup/SplashActivity.kt) is the exported launcher. Feature Activities and [`MainActivity`](../../app/src/main/java/com/ganjianping/lab/ak/shell/MainActivity.kt) are internal components. The Firebase messaging service is internal and is invoked through the Firebase messaging intent action.
 
 ## Code organization
 
@@ -31,11 +31,9 @@ flowchart LR
 | `common/config/` | Stable application behavior constants |
 | `common/network/` | Reusable Android connectivity checks |
 | `common/theme/` | Material 3 color, typography, and app theme |
-| `di/` | Application dependency graph |
-| `features/<feature>/` | Feature Activity, Compose screen, and feature-specific data code |
-| `features/catalog/` | Category catalogue Activity and its feature-list screen |
-| `integration/firebase/` | Firebase SDK construction, constants, operations, and messaging service |
-| Root package Activities/screens | Startup, dashboard, and maintenance flows shared by the application |
+| `shell/` | Application, root Activity, Koin `AppModule`; `startup/` (splash, maintenance) and `navigation/` (dashboard, catalogue, routes) |
+| `features/<category>/<feature>/` | One flat folder per feature: Activity, Compose screen, repository, and models |
+| `features/integration/firebase/` | Firebase SDK construction, constants, operations, and messaging service |
 
 New code should follow the nearest established feature unless the task explicitly changes the architecture. Reusable app code belongs in `common/`; SDK-specific behavior belongs in its integration package.
 
@@ -52,10 +50,10 @@ flowchart TD
     Composable -->|user event| Activity
 ```
 
-- [`GJPLabApplication`](../../app/src/main/java/com/ganjianping/lab/ak/GJPLabApplication.kt) starts Koin and initializes Firebase once per application process.
+- [`GJPLabApplication`](../../app/src/main/java/com/ganjianping/lab/ak/shell/GJPLabApplication.kt) starts Koin and initializes Firebase once per application process.
 - Activities own navigation, runtime-permission launchers, and current screen state.
 - Composables receive state and event callbacks. They do not construct repositories, start activities, or call Firebase directly.
-- [`AppModule`](../../app/src/main/java/com/ganjianping/lab/ak/di/AppModule.kt) composes application dependencies, including the Firebase module.
+- [`AppModule`](../../app/src/main/java/com/ganjianping/lab/ak/shell/AppModule.kt) composes application dependencies, including the Firebase module.
 
 ## State and lifecycle model
 
@@ -64,7 +62,7 @@ The project intentionally uses Activity fields and Compose `mutableStateOf` rath
 - Activity recreation resets transient fields unless they are reconstructed from the Intent or another source.
 - Long-running operations are owned by an Activity lifecycle or by an SDK callback.
 - Navigation is implemented with explicit Intents rather than a navigation graph.
-- The dashboard passes a `DashboardCategory` name to the catalogue Activity; the catalogue owns only the category-list UI and delegates implemented feature launches to explicit Intents.
+- The dashboard passes a `NavigationCategory` name to the catalogue Activity; the catalogue owns only the category-list UI and delegates implemented feature launches to explicit Intents.
 - Process-death restoration and multi-screen shared state are not general project guarantees.
 
 Do not introduce a ViewModel, navigation framework, domain layer, or module split as an incidental refactor. Introduce one only when a feature requirement demonstrates the need and include migration tests.
