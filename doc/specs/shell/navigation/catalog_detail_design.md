@@ -36,7 +36,7 @@ See the [sidebar detailed design](sidebar_detail_design.md#navigation-model) for
 
 | Category | Available | Planned |
 | --- | --- | --- |
-| Jetpack Compose | — | Material 3, layouts, text and input, buttons, selection, lists and grids, navigation, animation, drawing, accessibility |
+| Jetpack Compose | All 10 topics (Material 3, layouts, text and input, buttons, selection, lists and grids, navigation, animation, drawing, accessibility); see [`doc/specs/features/compose/`](../../features/compose/) | — |
 | HTTP Client | HttpURLConnection | Retrofit |
 | Security | Block App During Calls | Screenshot, screen sharing, and screen recording detection |
 | Integration | Firebase | — |
@@ -52,10 +52,11 @@ The category description is a plain first item, so it scrolls with the list. Eac
 | --- | --- | --- |
 | Category copy is out of date | Security's description mentions only screen capture, though it also lists call blocking | Update the `description` in `NavigationMenu` |
 | Planned rows give no feedback when tapped | Users may think the tap failed | Accepted by the requirement (CAT-AC-03); revisit if confusing |
-| No UI test | Topic selection is unguarded | Add a Compose UI test that opens each available topic |
+| UI test covers only the Compose category | Opening HTTP Client, Security, Integration, and Others topics is unguarded | Extend `ComposeTopicsTest` to every category |
 
 ## Verification
 
-- Previews in `FeatureCatalogScreen.kt`: HTTP client catalogue (available and planned topics) and Compose catalogue (planned only), each in light and dark.
+- Previews in `FeatureCatalogScreen.kt`: HTTP client catalogue (available and planned topics) and Compose catalogue (available only), each in light and dark.
 - Unit tests: `NavigationMenuTest` (unique IDs and titles, every `FeatureRoute` exactly once, category and topic lookup).
+- UI test: `ComposeTopicsTest.everyComposeTopicOpens` scrolls the catalogue, opens each Compose topic, and returns with Back.
 - Manual: CAT-AC-01 to CAT-AC-05 on a phone and at a large window width, with TalkBack and the largest font size.

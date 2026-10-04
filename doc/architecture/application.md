@@ -34,10 +34,12 @@ flowchart LR
 | `shell/startup/` | `SplashActivity`, `SplashScreen`, and `MaintenanceScreen` |
 | `shell/navigation/` | `NavigationMenu` (every category and topic), `FeatureRoute` and `DetailRoute`, `NavigationPane` (pane layout and top bar), `CategorySidebar`, and `FeatureCatalogScreen` |
 | `features/<category>/<feature>/` | One flat folder per feature: Compose screens, repositories, controllers, and models |
+| `features/compose/<topic>/` | One page of live samples per Jetpack Compose topic (`material3`, `layouts`, `textinput`, `buttons`, `selection`, `lists`, `navigation`, `animation`, `drawing`, `accessibility`), built from `LabDemoPage` and `LabDemoSection` |
 | `features/integration/firebase/` | All Firebase code: lab screen, `FirebaseIntegration`, constants, Koin module, and messaging service. Startup depends on it, so unlike other features it cannot be removed on its own |
 | `common/config/` | Stable application behavior constants |
+| `common/accessibility/` | `AccessibilitySettings`: TalkBack and Remove animations, observed while collected |
 | `common/network/` | Reusable Android connectivity checks |
-| `common/theme/` | Slate Material 3 color, typography, `GJPLabTheme`, and `LabListCard` |
+| `common/theme/` | Slate Material 3 color, typography, `GJPLabTheme`, `LabListCard`, and the demo page and card (`LabDemoPage`, `LabDemoSection`) |
 
 Paths are relative to the package root `app/src/main/java/com/ganjianping/lab/ak/`. The layout and type names mirror the iOS lab, with `shell/` in place of iOS `app/` ([decision 0001](../decisions/0001-flat-feature-folders.md)). Folder names are lowercase and do not repeat their parent (`httpclient/httpurlconnection`). New code should follow the nearest established feature. Reusable app code belongs in `common/`; SDK-specific behavior belongs in `features/integration/<sdk>/` ([decision 0002](../decisions/0002-sdk-code-in-integration-features.md)).
 
@@ -62,7 +64,7 @@ flowchart TD
     Main -->|FeatureDependencies| Content[ContentView]
     Content -->|selection| Destination[FeatureDestination]
     Destination -->|repository or integration| Screen[Feature screen]
-    Screen -->|onResponse| Content
+    Screen -->|onPush DetailRoute| Content
 ```
 
 - [`GJPLabApplication`](../../app/src/main/java/com/ganjianping/lab/ak/shell/GJPLabApplication.kt) starts Koin and initializes Firebase once per application process.
@@ -97,10 +99,10 @@ Use the smallest relevant checks first:
 ```bash
 ./gradlew test
 ./gradlew assembleDebug
-./gradlew connectedDebugAndroidTest
+ANDROID_SERIAL=emulator-5554 ./gradlew connectedDebugAndroidTest
 ```
 
-The connected test requires an emulator or device. Current checked-in tests are starter coverage only; feature work should add deterministic tests at the lowest layer that proves the behavior.
+The connected tests need a running emulator or device; set `ANDROID_SERIAL` so they run only on the device you mean. `ComposeTopicsTest` opens every Jetpack Compose topic from the catalogue and is written for a phone-width window. Unit tests cover the navigation menu and breakpoints, the call-blocking decision, and the pure helpers behind the Compose topics (`ComposeFeatureTest`). Feature work should add deterministic tests at the lowest layer that proves the behavior.
 
 ## Known architectural constraints
 
@@ -110,7 +112,7 @@ The connected test requires an emulator or device. Current checked-in tests are 
 | Compose-held screen state | Low ceremony; limited recreation guarantees | State must survive recreation or be shared |
 | Hand-built adaptive panes ([decision 0005](../decisions/0005-adaptive-pane-navigation.md)) | Readable and dependency-free; no pane animations, predictive-back previews, or saved pushed screens | Deep links, animated transitions, or deeper push stacks are needed |
 | SDK callbacks in integration layer | Small API surface; cancellation and rich errors are limited | Callers need structured concurrency or failure types |
-| Minimal automated tests | Fast experimentation; regression confidence is low | Any behavior becomes important to preserve |
+| Partial automated tests (navigation, call blocking, Compose topic helpers, and a phone-width UI suite for the Compose category) | Fast experimentation; startup, networking, Firebase, and tablet layouts are unguarded | Behavior becomes important to preserve |
 
 Feature-specific behavior belongs in the linked documents rather than this overview:
 

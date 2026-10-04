@@ -47,7 +47,7 @@ flowchart LR
 
 `BackHandler` is enabled while a category is selected and undoes one step: pop `detailPath`, else clear the topic, else clear the category. With nothing selected, Back reaches the Activity and leaves the app.
 
-A pushed `DetailRoute` is drawn in its own `NavigationPane` over the feature, so the feature stays composed and keeps its state. The HTTP response is pushed only if the HttpURLConnection topic is still selected when the request finishes.
+A pushed `DetailRoute` is drawn in its own `NavigationPane` over the feature, so the feature stays composed and keeps its state. A feature pushes through the `onPush` callback that `ContentView` passes to `featureContent`; the push is ignored if another topic has been selected meanwhile (for example a slow HTTP response). The Navigation topic pushes `DetailRoute.NavigationLevel`, drawn by `NavigationLevelScreen`, and Pop to root clears `detailPath`.
 
 ## Rows
 
@@ -65,7 +65,7 @@ This replaces the card-grid dashboard (2, 3, or 5 columns by width) in `MainActi
 | No pane transitions or predictive-back animation | Level changes on phones are instant | Add `AnimatedContent`, or adopt Material 3 adaptive with a new decision |
 | Scroll position of a pane is lost when it leaves the stack | Returning to the catalogue on a phone starts at the top | Hoist `LazyListState` per pane, or use a `SaveableStateHolder` |
 | No search across topics | Finding a topic means browsing categories | Add a search field over all available topics |
-| No UI test | Pane switching and Back are unguarded | Add Compose UI tests at phone and tablet widths |
+| UI tests run only at phone width | Two- and three-pane behavior is unguarded | Add Compose UI tests at tablet widths |
 
 ## Verification
 

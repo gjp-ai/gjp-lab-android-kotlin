@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
-import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpResponse
+import com.ganjianping.lab.ak.features.compose.navigation.NavigationLevelScreen
 import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpResponseScreen
 import com.ganjianping.lab.ak.shell.navigation.CatalogPaneWidth
 import com.ganjianping.lab.ak.shell.navigation.CategorySidebar
@@ -42,12 +42,12 @@ import com.ganjianping.lab.ak.shell.navigation.paneLayout
 /**
  * The app's navigation: categories, catalogue, and feature, driven by selection state. On wide windows
  * the panes sit side by side; on narrow ones they collapse into a stack with Back between levels.
- * [featureContent] draws the screen for a route; it reports a completed HTTP request through its
- * second argument so the response can be pushed on top of the feature.
+ * [featureContent] draws the screen for a route; a feature pushes a [DetailRoute] (for example an
+ * HTTP response) on top of itself through the second argument.
  */
 @Composable
 fun ContentView(
-    featureContent: @Composable (route: FeatureRoute, onResponse: (HttpResponse) -> Unit) -> Unit
+    featureContent: @Composable (route: FeatureRoute, onPush: (DetailRoute) -> Unit) -> Unit
 ) {
     var selectedCategoryId by rememberSaveable { mutableStateOf<String?>(null) }
     var selectedTopic by rememberSaveable { mutableStateOf<FeatureRoute?>(null) }
@@ -76,9 +76,8 @@ fun ContentView(
         }
     }
 
-    val onResponse: (HttpResponse) -> Unit = { response ->
-        // Ignore a late response if the user has already moved to another topic.
-        if (selectedTopic == FeatureRoute.HttpURLConnection) detailPath.add(DetailRoute.Response(response))
+    fun popToRoot() {
+        detailPath.clear()
     }
 
     // With nothing selected, Back leaves the app as usual.
@@ -101,13 +100,25 @@ fun ContentView(
     @Composable
     fun Feature(route: FeatureRoute, showBack: Boolean, modifier: Modifier = Modifier) {
         // The pushed screen is drawn on top, so the feature keeps its state (for example the request form).
+        val onPush: (DetailRoute) -> Unit = { detail ->
+            // Ignore a late push (for example a slow HTTP response) if the user has moved to another topic.
+            if (selectedTopic == route) detailPath.add(detail)
+        }
         Box(modifier) {
             NavigationPane(title = NavigationMenu.topic(route).title, onBack = if (showBack) ::goBack else null) {
-                featureContent(route, onResponse)
+                featureContent(route, onPush)
             }
             when (val detail = detailPath.lastOrNull()) {
                 is DetailRoute.Response -> NavigationPane(title = "Response", onBack = ::goBack) {
                     HttpResponseScreen(detail.response)
+                }
+                is DetailRoute.NavigationLevel -> NavigationPane(title = "Level ${detail.level}", onBack = ::goBack) {
+                    NavigationLevelScreen(
+                        level = detail.level,
+                        onPush = onPush,
+                        onBack = ::goBack,
+                        onPopToRoot = ::popToRoot
+                    )
                 }
                 null -> Unit
             }

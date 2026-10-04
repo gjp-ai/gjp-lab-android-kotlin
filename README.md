@@ -8,7 +8,7 @@ A sidebar lists the categories; each category's catalogue marks topics as availa
 
 | Category | Available | Planned |
 | --- | --- | --- |
-| Jetpack Compose | — | Material 3, layouts, text and input, buttons, selection, lists and grids, navigation, animation, drawing, accessibility |
+| Jetpack Compose | **10 topics**, each a page of live samples: Material 3, layouts, text and input, buttons and actions, selection, lists and grids, navigation, animation, drawing and graphics, accessibility and testing | — |
 | HTTP Client | **HttpURLConnection**: build and send a request, inspect status, JSON body, and headers | Retrofit |
 | Security | **Block App During Calls**: block the app while Android reports an active call | Screenshot, screen sharing, and screen recording detection |
 | Integration | **Firebase**: Analytics, Crashlytics, Remote Config, Performance Monitoring, and Cloud Messaging demos | — |
@@ -31,7 +31,7 @@ App-wide behavior: a branded splash screen, a Remote Config maintenance mode, an
    ```bash
    ./gradlew assembleDebug
    ./gradlew test
-   ./gradlew connectedDebugAndroidTest   # needs a running emulator or device
+   ANDROID_SERIAL=emulator-5554 ./gradlew connectedDebugAndroidTest   # needs a running emulator or device
    ```
 
 `app/google-services.json` is Firebase client configuration for the author's project. To send data to your own Firebase project, replace it with your own file. Call detection, notification permission, and push delivery are best checked on a physical device.
@@ -43,8 +43,8 @@ app/src/main/java/com/ganjianping/lab/ak/
 ├── shell/        application, MainActivity, Koin AppModule;
 │                 startup/ (splash, maintenance), navigation/ (NavigationMenu, panes, sidebar, catalogue);
 │                 ContentView (navigation state), FeatureDestination (route → screen)
-├── features/     <category>/<feature>/, one flat folder per feature (Firebase in integration/firebase/)
-└── common/       config/, network/, and theme/ (GJPLabTheme)
+├── features/     <category>/<feature>/, one flat folder per feature (Compose topics in compose/, Firebase in integration/firebase/)
+└── common/       accessibility/, config/, network/, and theme/ (GJPLabTheme, LabDemoPage)
 app/src/test/         JUnit unit tests
 app/src/androidTest/  instrumented and Compose UI tests
 doc/                  architecture/, decisions/, templates/, and specs/ (mirrors the package root)

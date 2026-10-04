@@ -1,5 +1,6 @@
 package com.ganjianping.lab.ak.shell
 
+import com.ganjianping.lab.ak.common.accessibility.AccessibilitySettings
 import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpURLConnectionRepository
 import com.ganjianping.lab.ak.features.integration.firebase.firebaseModule
 import com.ganjianping.lab.ak.features.others.deviceinfo.DeviceInfoRepository
@@ -12,4 +13,5 @@ val appModule = module {
     single { DeviceInfoRepository(androidContext()) }
     single { HttpURLConnectionRepository() }
     single { BlockAppDuringCallsController(androidContext()) }
+    single { AccessibilitySettings(androidContext()) }
 }

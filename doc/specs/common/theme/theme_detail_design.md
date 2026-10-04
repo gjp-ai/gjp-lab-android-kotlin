@@ -92,6 +92,10 @@ Sidebar and catalogue rows are each their own card through [`LabListCard`](../..
 
 In the catalogue, implemented topics end with a chevron; planned topics end with a clock and cannot be selected. They must not imply that a feature already exists. Maintain the phone and tablet `ContentView` previews in light and dark when changing navigation.
 
+## Demo pages
+
+The Jetpack Compose topics share [`LabDemoPage`](../../../../app/src/main/java/com/ganjianping/lab/ak/common/theme/LabDemoSection.kt), a scrolling column with an `onSurfaceVariant` introduction and 18dp between cards, and [`LabDemoSection`](../../../../app/src/main/java/com/ganjianping/lab/ak/common/theme/LabDemoSection.kt), an 18dp-corner `surface` card with a `titleMedium` semibold heading (a TalkBack heading), an `onSurfaceVariant` caption, and the live sample. The pane supplies the title and limits the width, so the page draws content only. A topic whose content scrolls on its own (Lists & grids) fills the pane instead.
+
 ## Accessibility and review checklist
 
 - Verify every foreground/background pair through its Material role pairing.

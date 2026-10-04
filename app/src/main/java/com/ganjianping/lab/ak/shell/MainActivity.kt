@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.ganjianping.lab.ak.common.accessibility.AccessibilitySettings
 import com.ganjianping.lab.ak.common.theme.GJPLabTheme
 import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpURLConnectionRepository
 import com.ganjianping.lab.ak.features.integration.firebase.FirebaseIntegration
@@ -22,8 +23,9 @@ class MainActivity : ComponentActivity() {
     private val callBlocker: BlockAppDuringCallsController by inject()
     private val deviceInfoRepository: DeviceInfoRepository by inject()
     private val httpURLConnectionRepository: HttpURLConnectionRepository by inject()
+    private val accessibilitySettings: AccessibilitySettings by inject()
     private val featureDependencies by lazy {
-        FeatureDependencies(deviceInfoRepository, httpURLConnectionRepository, firebaseIntegration, callBlocker)
+        FeatureDependencies(deviceInfoRepository, httpURLConnectionRepository, firebaseIntegration, callBlocker, accessibilitySettings)
     }
     private var maintenanceEnabled by mutableStateOf(false)
 
@@ -36,8 +38,8 @@ class MainActivity : ComponentActivity() {
                 CallBlockingHost(callBlocker) {
                     when {
                         maintenanceEnabled -> MaintenanceScreen(onRetry = ::loadRemoteConfig)
-                        else -> ContentView { route, onResponse ->
-                            FeatureDestination(route, featureDependencies, onResponse)
+                        else -> ContentView { route, onPush ->
+                            FeatureDestination(route, featureDependencies, onPush)
                         }
                     }
                 }

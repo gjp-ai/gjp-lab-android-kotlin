@@ -17,20 +17,20 @@ object NavigationMenu {
         NavigationCategory(
             id = "compose",
             title = "Jetpack Compose",
-            summary = "Modern Android UI.",
-            description = "A practical index of the Compose building blocks used in Android UI.",
+            summary = "Modern Android UI, built declaratively.",
+            description = "A practical index of the Compose building blocks used in Android UI. Each topic is a page of live samples.",
             icon = Icons.Outlined.Code,
             topics = listOf(
-                NavigationTopic("Material 3", "Theme roles, surfaces, and component styling."),
-                NavigationTopic("Layouts", "Rows, columns, boxes, and responsive arrangements."),
-                NavigationTopic("Text & input", "Text, text fields, and user-input patterns."),
-                NavigationTopic("Buttons & actions", "Buttons, FABs, and touch targets."),
-                NavigationTopic("Selection", "Chips, switches, checkboxes, and radio buttons."),
-                NavigationTopic("Lists & grids", "Lazy lists and grids for collections."),
-                NavigationTopic("Navigation", "Navigation surfaces and destination patterns."),
-                NavigationTopic("Animation", "State-driven transitions and motion."),
-                NavigationTopic("Drawing & graphics", "Canvas, images, and custom visuals."),
-                NavigationTopic("Accessibility & testing", "Semantics, scaling, and UI tests.")
+                NavigationTopic("Material 3", "Color roles, type scale, cards, and modifier order.", FeatureRoute.Material3),
+                NavigationTopic("Layouts", "Rows, columns, boxes, adaptive layouts, and a custom Layout.", FeatureRoute.Layouts),
+                NavigationTopic("Text & input", "Styled text, text fields, focus, and validation.", FeatureRoute.TextInput),
+                NavigationTopic("Buttons & actions", "Button styles, dialogs, menus, gestures, and touch targets.", FeatureRoute.ButtonsActions),
+                NavigationTopic("Selection", "Segmented buttons, switches, sliders, chips, and dates.", FeatureRoute.Selection),
+                NavigationTopic("Lists & grids", "Lazy lists and grids, search, swipe, and pull to refresh.", FeatureRoute.ListsGrids),
+                NavigationTopic("Navigation", "Pushed screens, bottom sheets, dialogs, and panes.", FeatureRoute.NavigationPatterns),
+                NavigationTopic("Animation", "State-driven animation, transitions, and motion settings.", FeatureRoute.Animation),
+                NavigationTopic("Drawing & graphics", "Shapes, brushes, Canvas, and touch drawing.", FeatureRoute.Drawing),
+                NavigationTopic("Accessibility & testing", "Font scale, semantics, TalkBack, and UI tests.", FeatureRoute.Accessibility)
             )
         ),
         NavigationCategory(

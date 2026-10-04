@@ -47,6 +47,16 @@ The folder structure and names follow the iOS lab (`gjp-lab-ios-swift`), with `s
 | Maintenance (startup) | [Maintenance requirement](specs/shell/startup/maintenance_requirement.md) | [Maintenance detailed design](specs/shell/startup/maintenance_detail_design.md) |
 | Category sidebar and panes | [Sidebar requirement](specs/shell/navigation/sidebar_requirement.md) | [Sidebar detailed design](specs/shell/navigation/sidebar_detail_design.md) |
 | Category catalogue | [Catalogue requirement](specs/shell/navigation/catalog_requirement.md) | [Catalogue detailed design](specs/shell/navigation/catalog_detail_design.md) |
+| Jetpack Compose → Material 3 | [Requirement](specs/features/compose/material3/material3_requirement.md) | [Detailed design](specs/features/compose/material3/material3_detail_design.md) |
+| Jetpack Compose → Layouts | [Requirement](specs/features/compose/layouts/layouts_requirement.md) | [Detailed design](specs/features/compose/layouts/layouts_detail_design.md) |
+| Jetpack Compose → Text & input | [Requirement](specs/features/compose/textinput/textinput_requirement.md) | [Detailed design](specs/features/compose/textinput/textinput_detail_design.md) |
+| Jetpack Compose → Buttons & actions | [Requirement](specs/features/compose/buttons/buttons_requirement.md) | [Detailed design](specs/features/compose/buttons/buttons_detail_design.md) |
+| Jetpack Compose → Selection | [Requirement](specs/features/compose/selection/selection_requirement.md) | [Detailed design](specs/features/compose/selection/selection_detail_design.md) |
+| Jetpack Compose → Lists & grids | [Requirement](specs/features/compose/lists/lists_requirement.md) | [Detailed design](specs/features/compose/lists/lists_detail_design.md) |
+| Jetpack Compose → Navigation | [Requirement](specs/features/compose/navigation/navigation_requirement.md) | [Detailed design](specs/features/compose/navigation/navigation_detail_design.md) |
+| Jetpack Compose → Animation | [Requirement](specs/features/compose/animation/animation_requirement.md) | [Detailed design](specs/features/compose/animation/animation_detail_design.md) |
+| Jetpack Compose → Drawing & graphics | [Requirement](specs/features/compose/drawing/drawing_requirement.md) | [Detailed design](specs/features/compose/drawing/drawing_detail_design.md) |
+| Jetpack Compose → Accessibility & testing | [Requirement](specs/features/compose/accessibility/accessibility_requirement.md) | [Detailed design](specs/features/compose/accessibility/accessibility_detail_design.md) |
 | HTTP Client → HttpURLConnection | [Requirement](specs/features/httpclient/httpurlconnection/httpurlconnection_requirement.md) | [Detailed design](specs/features/httpclient/httpurlconnection/httpurlconnection_detail_design.md) |
 | Security → Block App During Calls | [Requirement](specs/features/security/blockappduringcalls/blockappduringcalls_requirement.md) | [Detailed design](specs/features/security/blockappduringcalls/blockappduringcalls_detail_design.md) |
 | Integration → Firebase | [Firebase lab requirement](specs/features/integration/firebase/firebase_requirement.md) | [Firebase detailed design](specs/features/integration/firebase/firebase_detail_design.md) |
