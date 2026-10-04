@@ -47,11 +47,11 @@ Describe the user or product outcome in one or two sentences. State why the feat
 
 ## Technical implementation constraints
 
-- Name the required feature package and existing Activity, navigation, or lifecycle integration points.
+- Name the feature folder (`features/<category>/<feature>/`) and the existing integration points: its `FeatureRoute` case, the topic in `shell/navigation/NavigationMenu.kt`, the Activity launch in `FeatureCatalogActivity`, and the manifest entry.
 - State required separation of shared, platform, data, integration, and Compose UI concerns.
 - Forbid unrelated refactors and new dependencies unless the requirement approves them.
 
 ## Related documents
 
-- Detailed design: `<relative link>`
+- Detailed design: `<feature>_detail_design.md` in the same folder
 - Architecture or integration references: `<relative links>`

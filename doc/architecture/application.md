@@ -1,6 +1,6 @@
 # Application architecture
 
-Status: Implemented snapshot, 2026-08-30
+Status: Implemented snapshot, 2026-10-04
 
 ## Purpose
 
@@ -28,14 +28,25 @@ flowchart LR
 
 | Path | Responsibility |
 | --- | --- |
+| `shell/` | `GJPLabApplication`, `MainActivity` (dashboard or maintenance), and the Koin `AppModule` |
+| `shell/startup/` | `SplashActivity`, `SplashScreen`, and `MaintenanceScreen` |
+| `shell/navigation/` | `NavigationMenu` (every category and topic), `FeatureRoute`, the dashboard (`CategorySidebar`), and the catalogue (`FeatureCatalogActivity`, `FeatureCatalogScreen`) |
+| `features/<category>/<feature>/` | One flat folder per feature: Activities, Compose screens, repositories, and models |
+| `features/integration/firebase/` | All Firebase code: lab screen, `FirebaseIntegration`, constants, Koin module, and messaging service. Startup depends on it, so unlike other features it cannot be removed on its own |
 | `common/config/` | Stable application behavior constants |
 | `common/network/` | Reusable Android connectivity checks |
-| `common/theme/` | Material 3 color, typography, and app theme |
-| `shell/` | Application, root Activity, Koin `AppModule`; `startup/` (splash, maintenance) and `navigation/` (dashboard, catalogue, routes) |
-| `features/<category>/<feature>/` | One flat folder per feature: Activity, Compose screen, repository, and models |
-| `features/integration/firebase/` | Firebase SDK construction, constants, operations, and messaging service |
+| `common/theme/` | Slate Material 3 color, typography, and `GJPLabTheme` |
 
-New code should follow the nearest established feature unless the task explicitly changes the architecture. Reusable app code belongs in `common/`; SDK-specific behavior belongs in its integration package.
+Paths are relative to the package root `app/src/main/java/com/ganjianping/lab/ak/`. The layout and type names mirror the iOS lab, with `shell/` in place of iOS `app/` ([decision 0001](../decisions/0001-folder-structure-mirrors-ios.md)). Folder names are lowercase and do not repeat their parent (`httpclient/httpurlconnection`). New code should follow the nearest established feature. Reusable app code belongs in `common/`; SDK-specific behavior belongs in `features/integration/<sdk>/` ([decision 0002](../decisions/0002-sdk-code-in-integration-features.md)).
+
+### Adding a feature
+
+1. Write `doc/specs/features/<category>/<feature>/<feature>_requirement.md` from the [requirement template](../templates/requirement.md); add `<feature>_detail_design.md` beside it from the [detail design template](../templates/detail_design.md).
+2. Add the Activity and screen under `features/<category>/<feature>/`, and declare the Activity (non-exported) in `AndroidManifest.xml`.
+3. Add a `FeatureRoute` case and map it to the Activity in `FeatureCatalogActivity.openFeature`.
+4. In `shell/navigation/NavigationMenu.kt`, add the topic with `route = FeatureRoute.<Case>`, or give an existing planned topic the route. `NavigationMenuTest` fails if a route is missing or listed twice.
+5. Host `CallBlockingHost` at the Activity's Compose root and start/stop monitoring in `onResume`/`onPause`, like the existing feature Activities.
+6. Register any repository in `shell/AppModule.kt`, and add light and dark previews for each screen.
 
 ## Dependency and event flow
 
@@ -94,13 +105,17 @@ The connected test requires an emulator or device. Current checked-in tests are 
 | --- | --- | --- |
 | Single app module | Simple discovery; weak compile-time feature boundaries | Build time or ownership becomes a problem |
 | Activity-owned state | Low ceremony; limited recreation guarantees | State must survive recreation or be shared |
-| Explicit-Intent navigation | Clear small-app flow; contracts are string/class based | Routes, deep links, or back-stack behavior grow |
+| Explicit-Intent navigation ([decision 0003](../decisions/0003-activity-navigation.md)) | Clear small-app flow; contracts are string/class based; no side-by-side tablet panes | Routes, deep links, or back-stack behavior grow |
 | SDK callbacks in integration layer | Small API surface; cancellation and rich errors are limited | Callers need structured concurrency or failure types |
 | Minimal automated tests | Fast experimentation; regression confidence is low | Any behavior becomes important to preserve |
 
 Feature-specific behavior belongs in the linked documents rather than this overview:
 
-- [Slate design system](design-system.md)
-- [Splash detailed design](../detail-design/splash-screen.md)
-- [Block App During Calls detailed design](../detail-design/security/block_app_during_calls.md)
-- [Firebase integration](../integrations/firebase.md)
+- [Slate design system](../specs/common/theme/theme_detail_design.md)
+- [Splash detailed design](../specs/shell/startup/splash_detail_design.md)
+- [Block App During Calls detailed design](../specs/features/security/blockappduringcalls/blockappduringcalls_detail_design.md)
+- [Maintenance detailed design](../specs/shell/startup/maintenance_detail_design.md)
+- [Dashboard detailed design](../specs/shell/navigation/sidebar_detail_design.md) and [catalogue detailed design](../specs/shell/navigation/catalog_detail_design.md)
+- [HttpURLConnection detailed design](../specs/features/httpclient/httpurlconnection/httpurlconnection_detail_design.md)
+- [OS & hardware detailed design](../specs/features/others/deviceinfo/deviceinfo_detail_design.md)
+- [Firebase detailed design](../specs/features/integration/firebase/firebase_detail_design.md)

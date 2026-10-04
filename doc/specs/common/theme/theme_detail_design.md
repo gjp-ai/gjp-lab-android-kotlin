@@ -17,11 +17,11 @@ The result should feel direct and technical: strong hierarchy, neutral surfaces,
 | `SlateNeutral` | `#E8E8E8` | Containers, grouping, and neutral emphasis |
 | `SlateWarmCanvas` | `#FFFCF8` | Light-theme application background |
 
-Supporting grays in [`Color.kt`](../../app/src/main/java/com/ganjianping/lab/ak/common/theme/Color.kt) create distinguishable surface elevations, outlines, and secondary content without introducing another hue.
+Supporting grays in [`Color.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/common/theme/Color.kt) create distinguishable surface elevations, outlines, and secondary content without introducing another hue.
 
 ## Material 3 role strategy
 
-[`Theme.kt`](../../app/src/main/java/com/ganjianping/lab/ak/common/theme/Theme.kt) defines complete light and dark schemes.
+[`Theme.kt`](../../../../app/src/main/java/com/ganjianping/lab/ak/common/theme/Theme.kt) defines complete light and dark schemes.
 
 | Intent | Light scheme | Dark scheme |
 | --- | --- | --- |
@@ -61,24 +61,24 @@ The launcher icon is a native adaptive icon:
 
 Source resources:
 
-- [`ic_launcher_background.xml`](../../app/src/main/res/drawable/ic_launcher_background.xml)
-- [`ic_launcher_foreground.xml`](../../app/src/main/res/drawable/ic_launcher_foreground.xml)
-- [`ic_launcher_monochrome.xml`](../../app/src/main/res/drawable/ic_launcher_monochrome.xml)
-- [`mipmap-anydpi-v26`](../../app/src/main/res/mipmap-anydpi-v26/)
+- [`ic_launcher_background.xml`](../../../../app/src/main/res/drawable/ic_launcher_background.xml)
+- [`ic_launcher_foreground.xml`](../../../../app/src/main/res/drawable/ic_launcher_foreground.xml)
+- [`ic_launcher_monochrome.xml`](../../../../app/src/main/res/drawable/ic_launcher_monochrome.xml)
+- [`mipmap-anydpi-v26`](../../../../app/src/main/res/mipmap-anydpi-v26)
 
 The manifest references `@mipmap/ic_launcher` and `@mipmap/ic_launcher_round`. Do not restore fixed-shape PNG icons for supported devices; adaptive masking and monochrome theming are part of the icon contract.
 
 ## Notification icon
 
-Android status-bar notifications require a dedicated alpha-style small icon rather than the full launcher artwork. [`ic_notification.xml`](../../app/src/main/res/drawable/ic_notification.xml) uses the flask silhouette and lets Android apply the notification color treatment.
+Android status-bar notifications require a dedicated alpha-style small icon rather than the full launcher artwork. [`ic_notification.xml`](../../../../app/src/main/res/drawable/ic_notification.xml) uses the flask silhouette and lets Android apply the notification color treatment.
 
 ## Splash alignment
 
-[`SplashScreen`](../../app/src/main/java/com/ganjianping/lab/ak/shell/startup/SplashScreen.kt) follows the active system mode: the surrounding screen uses semantic Material 3 background and text roles, and the brand tile inverts between black-on-light and white-on-dark. Both variants preserve the same flask mark. Light and dark previews verify the complete treatment.
+[`SplashScreen`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/startup/SplashScreen.kt) follows the active system mode: the surrounding screen uses semantic Material 3 background and text roles, and the brand tile inverts between black-on-light and white-on-dark. Both variants preserve the same flask mark. Light and dark previews verify the complete treatment.
 
 ## Adaptive dashboard
 
-[`CategorySidebar`](../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/CategorySidebar.kt) adapts to the available window width, so the same category dashboard works on a phone, a foldable's larger window, and a tablet without relying on a device-name check. A category opens the table-style [`FeatureCatalogScreen`](../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/FeatureCatalogScreen.kt), which constrains its readable content width on larger displays.
+[`CategorySidebar`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/CategorySidebar.kt) adapts to the available window width, so the same category dashboard works on a phone, a foldable's larger window, and a tablet without relying on a device-name check. A category opens the table-style [`FeatureCatalogScreen`](../../../../app/src/main/java/com/ganjianping/lab/ak/shell/navigation/FeatureCatalogScreen.kt), which constrains its readable content width on larger displays.
 
 | Window width | Layout | Purpose |
 | --- | --- | --- |

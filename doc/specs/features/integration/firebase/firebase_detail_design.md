@@ -1,6 +1,8 @@
-# Firebase integration
+# Firebase detailed design
 
 Status: Implemented lab integration
+
+Requirements: [Firebase lab](firebase_requirement.md)
 
 ## Scope
 
@@ -23,17 +25,17 @@ flowchart TD
     MessagingService[GJPLabFirebaseMessagingService] --> Messaging
 ```
 
-[`FirebaseModule`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseModule.kt) registers SDK instances and [`FirebaseIntegration`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseIntegration.kt) as Koin singletons. [`GJPLabApplication`](../../app/src/main/java/com/ganjianping/lab/ak/shell/GJPLabApplication.kt) starts Koin, then calls `FirebaseIntegration.initialize()` once for the application process.
+[`FirebaseModule`](../../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseModule.kt) registers SDK instances and [`FirebaseIntegration`](../../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseIntegration.kt) as Koin singletons. [`GJPLabApplication`](../../../../../app/src/main/java/com/ganjianping/lab/ak/shell/GJPLabApplication.kt) starts Koin, then calls `FirebaseIntegration.initialize()` once for the application process.
 
 ## Build configuration
 
 | Concern | Source of truth |
 | --- | --- |
-| Firebase project/client configuration | [`app/google-services.json`](../../app/google-services.json) |
-| SDK and plugin versions | [`gradle/libs.versions.toml`](../../gradle/libs.versions.toml) |
-| App plugins and dependencies | [`app/build.gradle.kts`](../../app/build.gradle.kts) |
-| Project-level plugin declarations | [`build.gradle.kts`](../../build.gradle.kts) |
-| Manifest service and permissions | [`AndroidManifest.xml`](../../app/src/main/AndroidManifest.xml) |
+| Firebase project/client configuration | [`app/google-services.json`](../../../../../app/google-services.json) |
+| SDK and plugin versions | [`gradle/libs.versions.toml`](../../../../../gradle/libs.versions.toml) |
+| App plugins and dependencies | [`app/build.gradle.kts`](../../../../../app/build.gradle.kts) |
+| Project-level plugin declarations | [`build.gradle.kts`](../../../../../build.gradle.kts) |
+| Manifest service and permissions | [`AndroidManifest.xml`](../../../../../app/src/main/AndroidManifest.xml) |
 
 The app imports the Firebase Android BoM and therefore does not assign individual SDK versions. The Google Services plugin processes `google-services.json`; Crashlytics and Performance use their respective Gradle plugins.
 
@@ -41,7 +43,7 @@ Do not copy version numbers into this guide. Read the version catalog when exact
 
 ## Stable contracts
 
-[`FirebaseConstants`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseConstants.kt) owns names that must remain stable across code and Firebase configuration:
+[`FirebaseConstants`](../../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseConstants.kt) owns names that must remain stable across code and Firebase configuration:
 
 | Service | Contract |
 | --- | --- |
@@ -66,7 +68,7 @@ Initialization sets:
 - minimum fetch interval: zero in debug, one hour in non-debug builds;
 - local default: `gjp_lab_maintenance_enabled = false`.
 
-`fetchMaintenanceMode` calls `fetchAndActivate()` and then reads the current Boolean. It does not distinguish successful fetch, activation of a previously fetched value, failed fetch with an active value, or fallback to the default. The startup flow provides its own five-second waiting limit. See [the splash detailed design](../detail-design/splash-screen.md) for the resulting state and timeout behavior.
+`fetchMaintenanceMode` calls `fetchAndActivate()` and then reads the current Boolean. It does not distinguish successful fetch, activation of a previously fetched value, failed fetch with an active value, or fallback to the default. The startup flow provides its own five-second waiting limit. See [the splash detailed design](../../../shell/startup/splash_detail_design.md) for the resulting state and timeout behavior.
 
 ### Crashlytics
 
@@ -82,9 +84,9 @@ Keep custom trace names stable and bounded. Always stop traces on every completi
 
 ### Cloud Messaging
 
-The integration can retrieve the current registration token and subscribe to `gjp_lab_demo`. [`GJPLabFirebaseMessagingService`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/GJPLabFirebaseMessagingService.kt) handles token refresh and foreground messages, creates the notification channel, and opens `MainActivity` from an immutable `PendingIntent`.
+The integration can retrieve the current registration token and subscribe to `gjp_lab_demo`. [`GJPLabFirebaseMessagingService`](../../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/GJPLabFirebaseMessagingService.kt) handles token refresh and foreground messages, creates the notification channel, and opens `MainActivity` from an immutable `PendingIntent`.
 
-[`FirebaseFeatureActivity`](../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseFeatureActivity.kt) requests `POST_NOTIFICATIONS` on Android 13 and newer. Token retrieval remains available after denial, although notifications are not shown without permission.
+[`FirebaseFeatureActivity`](../../../../../app/src/main/java/com/ganjianping/lab/ak/features/integration/firebase/FirebaseFeatureActivity.kt) requests `POST_NOTIFICATIONS` on Android 13 and newer. Token retrieval remains available after denial, although notifications are not shown without permission.
 
 FCM sending credentials belong on a trusted server using Firebase Admin SDK or HTTP v1. Never place a service account or server key in the Android app.
 

@@ -119,7 +119,7 @@ The minimum-duration and maintenance-resolution timers are independent. Both gat
 
 ## Technical implementation constraints
 
-Verification requires controllable inputs for connectivity, enabled/disabled maintenance, success, failure, delayed response, no response, callback races, appearance, text scale, and reduced motion. The Android implementation status and concrete test seams are tracked in [the detailed design](../detail-design/splash-screen.md).
+Verification requires controllable inputs for connectivity, enabled/disabled maintenance, success, failure, delayed response, no response, callback races, appearance, text scale, and reduced motion. The Android implementation status and concrete test seams are tracked in [the detailed design](splash_detail_design.md).
 
 ## Open decisions
 
@@ -131,5 +131,5 @@ Verification requires controllable inputs for connectivity, enabled/disabled mai
 
 ## Related documents
 
-- [Detailed design](../detail-design/splash-screen.md)
-- [Application architecture](../architecture/application.md)
+- [Detailed design](splash_detail_design.md)
+- [Application architecture](../../../architecture/application.md)

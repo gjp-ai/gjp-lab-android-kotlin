@@ -100,8 +100,8 @@ Offer an optional, best-effort privacy control that prevents interaction with GJ
 
 ## Related documents
 
-- [Detailed design](../../detail-design/security/block_app_during_calls.md)
-- [Application architecture](../../architecture/application.md)
+- [Detailed design](blockappduringcalls_detail_design.md)
+- [Application architecture](../../../../architecture/application.md)
 - [Android platform call-state APIs](https://developer.android.com/reference/android/telecom/TelecomManager#isInCall())
 - [Telephony callback call-state API](https://developer.android.com/reference/android/telephony/TelephonyCallback.CallStateListener)
 - [Default phone application requirements](https://developer.android.com/develop/connectivity/telecom/dialer-app)
