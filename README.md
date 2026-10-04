@@ -49,7 +49,7 @@ app/src/androidTest/  instrumented and Compose UI tests
 doc/                  architecture/, decisions/, templates/, and specs/ (mirrors the package root)
 ```
 
-`shell/` corresponds to `app/` in the iOS lab; see [decision 0001](doc/decisions/0001-folder-structure-mirrors-ios.md).
+`shell/` corresponds to `app/` in the iOS lab; see [decision 0001](doc/decisions/0001-flat-feature-folders.md).
 
 ## Documentation
 

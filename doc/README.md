@@ -33,7 +33,7 @@ The `shell/` root files (`GJPLabApplication`, `MainActivity`, `AppModule`) are d
 
 `<feature>` is the code folder name (for example `httpurlconnection`, `blockappduringcalls`). Every screen has both a requirement and a detail design; add them together, starting from [`templates/`](templates/). Shared code with no user-facing behavior, such as `common/theme/`, has a detail design only.
 
-The folder structure and names follow the iOS lab (`gjp-lab-ios-swift`), with `shell/` in place of iOS `app/`; see [decision 0001](decisions/0001-folder-structure-mirrors-ios.md).
+The folder structure and names follow the iOS lab (`gjp-lab-ios-swift`), with `shell/` in place of iOS `app/`; see [decision 0001](decisions/0001-flat-feature-folders.md).
 
 ## Document map
 

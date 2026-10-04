@@ -37,7 +37,7 @@ flowchart LR
 | `common/network/` | Reusable Android connectivity checks |
 | `common/theme/` | Slate Material 3 color, typography, and `GJPLabTheme` |
 
-Paths are relative to the package root `app/src/main/java/com/ganjianping/lab/ak/`. The layout and type names mirror the iOS lab, with `shell/` in place of iOS `app/` ([decision 0001](../decisions/0001-folder-structure-mirrors-ios.md)). Folder names are lowercase and do not repeat their parent (`httpclient/httpurlconnection`). New code should follow the nearest established feature. Reusable app code belongs in `common/`; SDK-specific behavior belongs in `features/integration/<sdk>/` ([decision 0002](../decisions/0002-sdk-code-in-integration-features.md)).
+Paths are relative to the package root `app/src/main/java/com/ganjianping/lab/ak/`. The layout and type names mirror the iOS lab, with `shell/` in place of iOS `app/` ([decision 0001](../decisions/0001-flat-feature-folders.md)). Folder names are lowercase and do not repeat their parent (`httpclient/httpurlconnection`). New code should follow the nearest established feature. Reusable app code belongs in `common/`; SDK-specific behavior belongs in `features/integration/<sdk>/` ([decision 0002](../decisions/0002-sdk-code-in-integration-features.md)).
 
 ### Adding a feature
 
