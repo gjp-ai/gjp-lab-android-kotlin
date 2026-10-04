@@ -14,6 +14,16 @@ import com.ganjianping.lab.ak.features.compose.material3.Material3Screen
 import com.ganjianping.lab.ak.features.compose.navigation.NavigationPatternsScreen
 import com.ganjianping.lab.ak.features.compose.selection.SelectionScreen
 import com.ganjianping.lab.ak.features.compose.textinput.TextInputScreen
+import com.ganjianping.lab.ak.features.kotlin.basics.KotlinBasicsScreen
+import com.ganjianping.lab.ak.features.kotlin.nullsafety.NullSafetyScreen
+import com.ganjianping.lab.ak.features.kotlin.collections.CollectionsScreen
+import com.ganjianping.lab.ak.features.kotlin.functions.FunctionsScreen
+import com.ganjianping.lab.ak.features.kotlin.classes.ClassesScreen
+import com.ganjianping.lab.ak.features.kotlin.generics.GenericsScreen
+import com.ganjianping.lab.ak.features.kotlin.errors.ErrorHandlingScreen
+import com.ganjianping.lab.ak.features.kotlin.coroutines.CoroutinesScreen
+import com.ganjianping.lab.ak.features.kotlin.extensions.ExtensionsScreen
+import com.ganjianping.lab.ak.features.kotlin.strings.StringsRegexScreen
 import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpURLConnectionRepository
 import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpURLConnectionScreen
 import com.ganjianping.lab.ak.features.integration.firebase.FirebaseFeatureScreen
@@ -44,6 +54,16 @@ fun FeatureDestination(
     val accessibility by dependencies.accessibilitySettings.status
         .collectAsState(initial = dependencies.accessibilitySettings.current())
     when (route) {
+        FeatureRoute.KotlinBasics -> KotlinBasicsScreen()
+        FeatureRoute.NullSafety -> NullSafetyScreen()
+        FeatureRoute.Collections -> CollectionsScreen()
+        FeatureRoute.Functions -> FunctionsScreen()
+        FeatureRoute.Classes -> ClassesScreen()
+        FeatureRoute.Generics -> GenericsScreen()
+        FeatureRoute.ErrorHandling -> ErrorHandlingScreen()
+        FeatureRoute.Coroutines -> CoroutinesScreen()
+        FeatureRoute.Extensions -> ExtensionsScreen()
+        FeatureRoute.StringsRegex -> StringsRegexScreen()
         FeatureRoute.Material3 -> Material3Screen()
         FeatureRoute.Layouts -> LayoutsScreen()
         FeatureRoute.TextInput -> TextInputScreen()

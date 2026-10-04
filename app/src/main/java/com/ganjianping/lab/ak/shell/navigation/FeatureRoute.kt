@@ -4,6 +4,16 @@ import com.ganjianping.lab.ak.features.httpclient.httpurlconnection.HttpResponse
 
 /** A catalogue topic; the selected one is shown in the feature pane. */
 enum class FeatureRoute {
+    KotlinBasics,
+    NullSafety,
+    Collections,
+    Functions,
+    Classes,
+    Generics,
+    ErrorHandling,
+    Coroutines,
+    Extensions,
+    StringsRegex,
     Material3,
     Layouts,
     TextInput,

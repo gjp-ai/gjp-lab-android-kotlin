@@ -2,6 +2,7 @@ package com.ganjianping.lab.ak.shell.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.DataObject
 import androidx.compose.material.icons.outlined.Extension
 import androidx.compose.material.icons.outlined.Http
 import androidx.compose.material.icons.outlined.Security
@@ -14,6 +15,25 @@ import androidx.compose.ui.graphics.vector.ImageVector
  */
 object NavigationMenu {
     val categories: List<NavigationCategory> = listOf(
+        NavigationCategory(
+            id = "kotlin",
+            title = "Kotlin",
+            summary = "The Kotlin language: types, null safety, lambdas, coroutines.",
+            description = "Run small Kotlin samples and see what each language feature does.",
+            icon = Icons.Outlined.DataObject,
+            topics = listOf(
+                NavigationTopic("Values & types", "val, var, type inference, numbers, and when.", FeatureRoute.KotlinBasics),
+                NavigationTopic("Null safety", "Nullable types, smart casts, ?., ?:, and !!.", FeatureRoute.NullSafety),
+                NavigationTopic("Collections", "Lists, sets, maps, map, filter, fold, and sequences.", FeatureRoute.Collections),
+                NavigationTopic("Functions & lambdas", "Default and named arguments, lambdas, and captured values.", FeatureRoute.Functions),
+                NavigationTopic("Classes, data & sealed", "Classes, data classes, enums, and sealed types.", FeatureRoute.Classes),
+                NavigationTopic("Interfaces & generics", "Interfaces, generic functions and classes, variance, and reified.", FeatureRoute.Generics),
+                NavigationTopic("Error handling", "try as an expression, custom exceptions, Result, and use.", FeatureRoute.ErrorHandling),
+                NavigationTopic("Coroutines", "suspend, async, structured concurrency, cancellation, and Mutex.", FeatureRoute.Coroutines),
+                NavigationTopic("Extensions & scope functions", "Extensions, let, also, apply, run, with, and operators.", FeatureRoute.Extensions),
+                NavigationTopic("Strings & regex", "Unicode, raw strings, Regex, and string comparison.", FeatureRoute.StringsRegex)
+            )
+        ),
         NavigationCategory(
             id = "compose",
             title = "Jetpack Compose",

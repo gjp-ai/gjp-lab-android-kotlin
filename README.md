@@ -8,6 +8,7 @@ A sidebar lists the categories; each category's catalogue marks topics as availa
 
 | Category | Available | Planned |
 | --- | --- | --- |
+| Kotlin | **10 topics** of runnable samples that show real output: values and types, null safety, collections, functions and lambdas, classes, interfaces and generics, error handling, coroutines, extensions and scope functions, strings and regex | — |
 | Jetpack Compose | **10 topics**, each a page of live samples: Material 3, layouts, text and input, buttons and actions, selection, lists and grids, navigation, animation, drawing and graphics, accessibility and testing | — |
 | HTTP Client | **HttpURLConnection**: build and send a request, inspect status, JSON body, and headers | Retrofit |
 | Security | **Block App During Calls**: block the app while Android reports an active call | Screenshot, screen sharing, and screen recording detection |
@@ -43,8 +44,8 @@ app/src/main/java/com/ganjianping/lab/ak/
 ├── shell/        application, MainActivity, Koin AppModule;
 │                 startup/ (splash, maintenance), navigation/ (NavigationMenu, panes, sidebar, catalogue);
 │                 ContentView (navigation state), FeatureDestination (route → screen)
-├── features/     <category>/<feature>/, one flat folder per feature (Compose topics in compose/, Firebase in integration/firebase/)
-└── common/       accessibility/, config/, network/, and theme/ (GJPLabTheme, LabDemoPage)
+├── features/     <category>/<feature>/, one flat folder per feature (Kotlin topics in kotlin/, Compose topics in compose/, Firebase in integration/firebase/)
+└── common/       accessibility/, codesample/, config/, network/, and theme/ (GJPLabTheme, LabDemoPage)
 app/src/test/         JUnit unit tests
 app/src/androidTest/  instrumented and Compose UI tests
 doc/                  architecture/, decisions/, templates/, and specs/ (mirrors the package root)

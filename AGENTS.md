@@ -7,7 +7,7 @@
 
 ## Project Overview
 
-GJPLab is an Android lab for practising Android features and third-party libraries, grouped into sidebar categories (Jetpack Compose, HTTP Client, Security, Integration, Others). Its folder structure and type names mirror the iOS lab (`gjp-lab-ios-swift`); the implementation stays Android-native.
+GJPLab is an Android lab for practising Android features and third-party libraries, grouped into sidebar categories (Kotlin, Jetpack Compose, HTTP Client, Security, Integration, Others). Its folder structure and type names mirror the iOS lab (`gjp-lab-ios-swift`); the implementation stays Android-native.
 
 ## Tech Stack
 
@@ -22,7 +22,7 @@ GJPLab is an Android lab for practising Android features and third-party librari
 
 - Build: `./gradlew assembleDebug`
 - Unit tests: `./gradlew test`; one class: `./gradlew :app:testDebugUnitTest --tests 'com.ganjianping.lab.ak.shell.navigation.NavigationMenuTest'`
-- Instrumented tests (needs a running emulator or device): `ANDROID_SERIAL=<serial> ./gradlew connectedDebugAndroidTest`. Always set `ANDROID_SERIAL`, so tests never install on a personal phone that happens to be connected. `ComposeTopicsTest` expects a phone-width window.
+- Instrumented tests (needs a running emulator or device): `ANDROID_SERIAL=<serial> ./gradlew connectedDebugAndroidTest`. Always set `ANDROID_SERIAL`, so tests never install on a personal phone that happens to be connected. `KotlinTopicsTest` and `ComposeTopicsTest` expect a phone-width window.
 - Firebase config check: `./gradlew :app:processDebugGoogleServices`
 
 ## Directory Structure
@@ -35,8 +35,9 @@ Paths are relative to the package root `app/src/main/java/com/ganjianping/lab/ak
 | `shell/navigation/` | `NavigationMenu` (every category and topic), `FeatureRoute` and `DetailRoute`, `NavigationPane` (breakpoints, pane top bar, placeholder), `CategorySidebar`, and `FeatureCatalogScreen`, in one flat folder |
 | `features/integration/<sdk>/` | All code for one SDK: lab screen, service boundary, constants, Koin module, and Android components (`features/integration/firebase/`). The shell uses it, so it is not removable like other features |
 | `features/<category>/<feature>/` | Screens, controllers, repositories, and models in one flat folder (no `data/` or `model/` subfolders) |
+| `features/kotlin/<topic>/` | One page of runnable samples per Kotlin topic: a `<Topic>Samples` list and a screen that passes it to `CodeSamplePage` |
 | `features/compose/<topic>/` | One page of live samples per Jetpack Compose topic, built from `LabDemoPage` and `LabDemoSection` |
-| `common/` | Shared `accessibility/` (`AccessibilitySettings`), `config/`, `network/`, and `theme/` |
+| `common/` | Shared `accessibility/` (`AccessibilitySettings`), `codesample/` (runnable sample card), `config/`, `network/`, and `theme/` |
 | `app/src/main/res/` | Resources: launcher and notification icons, themes, `network_security_config.xml` |
 | `doc/` | `architecture/` for project-wide docs; `specs/` mirrors the package root (docs for `<package root>/<path>/` live in `doc/specs/<path>/`); `templates/` for new specs; `decisions/` for decision records (read before reversing a structural choice) |
 
@@ -56,6 +57,7 @@ Paths are relative to the package root `app/src/main/java/com/ganjianping/lab/ak
 - Types with an iOS counterpart use the iOS name (`CategorySidebar`, `NavigationCategory`, `BlockAppDuringCallsController`); Android-only types keep Android names.
 - Use the Slate palette through `MaterialTheme.colorScheme` roles from `GJPLabTheme`, always with the paired `on*` role; no raw colors in feature composables. Keep `dynamicColor` off for ordinary screens.
 - Every pane uses the `background` canvas; navigation rows use `LabListCard` (bordered `surface` card, `primary` border when selected).
+- Kotlin samples: the snippet text must equal the body of the private function that runs it (write `${'$'}` for `$` inside the raw string); `KotlinTopicTest` fails if they differ. Samples log with `log(…)`, never crash, and give the same output every run.
 - Demo topics use `LabDemoPage` with one `LabDemoSection` per technique. Keep testable logic (validation, formatting, geometry, filtering) in plain Kotlin next to the screen and unit-test it in `ComposeFeatureTest`.
 - Screens that react to TalkBack or Remove animations receive `AccessibilityStatus` (or `reduceMotion`) as a parameter from `FeatureDestination`; decorative motion stops when Remove animations is on.
 - Every public screen has previews, and every preview comes as a pair: `@Preview(name = "<name> - light")` and `@Preview(name = "<name> - dark", uiMode = Configuration.UI_MODE_NIGHT_YES)`. Preview each distinct state, and phone, foldable, and tablet widths where the layout adapts.

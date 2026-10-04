@@ -28,7 +28,7 @@ Give users one starting point that lists every lab category with a short summary
 - Changing the category clears the selected topic; changing the topic closes any screen pushed inside the feature.
 - System Back first closes a pushed screen, then clears the topic, then clears the category; with nothing selected it leaves the app.
 - Rotating or resizing the window keeps the selected category and topic.
-- Categories appear in this order: Jetpack Compose, HTTP Client, Security, Integration, Others.
+- Categories appear in this order: Kotlin, Jetpack Compose, HTTP Client, Security, Integration, Others.
 
 ## UI & navigation
 
@@ -52,7 +52,7 @@ Give users one starting point that lists every lab category with a short summary
 
 | ID | Scenario | Expected result |
 | --- | --- | --- |
-| SDB-AC-01 | Startup completes with maintenance off | The sidebar lists all five categories in order with icon, title, and summary. |
+| SDB-AC-01 | Startup completes with maintenance off | The sidebar lists all six categories in order with icon, title, and summary. |
 | SDB-AC-02 | Phone: tap a category, then an available topic | The catalogue, then the feature, replace the screen; Back returns step by step. |
 | SDB-AC-03 | Large window: select a category and a topic | Categories, catalogue, and feature are visible side by side; both selections are outlined. |
 | SDB-AC-04 | Large window: select a different category while a feature is shown | The catalogue changes and the feature pane returns to "Choose a topic". |

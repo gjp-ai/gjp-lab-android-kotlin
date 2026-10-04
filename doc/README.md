@@ -21,6 +21,8 @@ doc/
     ├── shell/navigation/                 ↔ shell/navigation/
     │   ├── sidebar_requirement.md / sidebar_detail_design.md   (sidebar and pane layout)
     │   └── catalog_requirement.md / catalog_detail_design.md
+    ├── common/codesample/                ↔ common/codesample/
+    │   └── codesample_detail_design.md
     ├── common/theme/                     ↔ common/theme/
     │   └── theme_detail_design.md        (Slate design system)
     └── features/                         ↔ features/
@@ -42,11 +44,22 @@ The folder structure and names follow the iOS lab (`gjp-lab-ios-swift`), with `s
 | Agent contract | [`AGENTS.md`](../AGENTS.md): project rules, commands, and skill routing | — |
 | Application structure | — | [Application architecture](architecture/application.md) |
 | Visual system | — | [Slate design system](specs/common/theme/theme_detail_design.md) |
+| Runnable code sample | — | [Code sample detailed design](specs/common/codesample/codesample_detail_design.md) (used by the Kotlin topics) |
 | Decisions | [Decision records](decisions/README.md): why the project is shaped the way it is | — |
 | Splash (startup) | [Splash requirement](specs/shell/startup/splash_requirement.md) | [Splash detailed design](specs/shell/startup/splash_detail_design.md) |
 | Maintenance (startup) | [Maintenance requirement](specs/shell/startup/maintenance_requirement.md) | [Maintenance detailed design](specs/shell/startup/maintenance_detail_design.md) |
 | Category sidebar and panes | [Sidebar requirement](specs/shell/navigation/sidebar_requirement.md) | [Sidebar detailed design](specs/shell/navigation/sidebar_detail_design.md) |
 | Category catalogue | [Catalogue requirement](specs/shell/navigation/catalog_requirement.md) | [Catalogue detailed design](specs/shell/navigation/catalog_detail_design.md) |
+| Kotlin → Values & types | [Requirement](specs/features/kotlin/basics/basics_requirement.md) | [Detailed design](specs/features/kotlin/basics/basics_detail_design.md) |
+| Kotlin → Null safety | [Requirement](specs/features/kotlin/nullsafety/nullsafety_requirement.md) | [Detailed design](specs/features/kotlin/nullsafety/nullsafety_detail_design.md) |
+| Kotlin → Collections | [Requirement](specs/features/kotlin/collections/collections_requirement.md) | [Detailed design](specs/features/kotlin/collections/collections_detail_design.md) |
+| Kotlin → Functions & lambdas | [Requirement](specs/features/kotlin/functions/functions_requirement.md) | [Detailed design](specs/features/kotlin/functions/functions_detail_design.md) |
+| Kotlin → Classes, data & sealed | [Requirement](specs/features/kotlin/classes/classes_requirement.md) | [Detailed design](specs/features/kotlin/classes/classes_detail_design.md) |
+| Kotlin → Interfaces & generics | [Requirement](specs/features/kotlin/generics/generics_requirement.md) | [Detailed design](specs/features/kotlin/generics/generics_detail_design.md) |
+| Kotlin → Error handling | [Requirement](specs/features/kotlin/errors/errors_requirement.md) | [Detailed design](specs/features/kotlin/errors/errors_detail_design.md) |
+| Kotlin → Coroutines | [Requirement](specs/features/kotlin/coroutines/coroutines_requirement.md) | [Detailed design](specs/features/kotlin/coroutines/coroutines_detail_design.md) |
+| Kotlin → Extensions & scope functions | [Requirement](specs/features/kotlin/extensions/extensions_requirement.md) | [Detailed design](specs/features/kotlin/extensions/extensions_detail_design.md) |
+| Kotlin → Strings & regex | [Requirement](specs/features/kotlin/strings/strings_requirement.md) | [Detailed design](specs/features/kotlin/strings/strings_detail_design.md) |
 | Jetpack Compose → Material 3 | [Requirement](specs/features/compose/material3/material3_requirement.md) | [Detailed design](specs/features/compose/material3/material3_detail_design.md) |
 | Jetpack Compose → Layouts | [Requirement](specs/features/compose/layouts/layouts_requirement.md) | [Detailed design](specs/features/compose/layouts/layouts_detail_design.md) |
 | Jetpack Compose → Text & input | [Requirement](specs/features/compose/textinput/textinput_requirement.md) | [Detailed design](specs/features/compose/textinput/textinput_detail_design.md) |
